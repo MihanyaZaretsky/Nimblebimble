@@ -13,12 +13,13 @@
     "postinstall": "npm run build"
   },
   "dependencies": {
+    "@telegram-apps/sdk-react": "^3.3.6",
+    "@twa-dev/sdk": "^7.0.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@twa-dev/sdk": "^7.0.0",
-    "vite": "^5.0.8",
     "typescript": "^5.2.2",
-    "@vitejs/plugin-react": "^4.2.1"
+    "vite": "^5.0.8"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
@@ -29,4 +30,4 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5"
   }
-} 
+}

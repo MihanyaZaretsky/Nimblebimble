@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { showAlert, hapticFeedback, showPopup } from '@telegram-apps/sdk-react'
 import './RouletteGame.css'
 
 interface User {
@@ -78,18 +79,14 @@ const RouletteGame: React.FC<RouletteGameProps> = ({ user }) => {
       setBalance(prev => prev + data.win_amount)
       
       // Показываем уведомление о выигрыше
-      if (window.Telegram?.WebApp) {
-        window.Telegram.WebApp.showAlert(`🎉 Выигрыш! +${data.win_amount} Stars`)
-        window.Telegram.WebApp.HapticFeedback.notificationOccurred('success')
-      }
+      showAlert(`🎉 Выигрыш! +${data.win_amount} Stars`)
+      hapticFeedback.notificationOccurred('success')
     } else {
       setLastWin(null)
       setBalance(prev => prev - currentBet)
       
-      if (window.Telegram?.WebApp) {
-        window.Telegram.WebApp.showAlert('😔 Попробуйте еще раз!')
-        window.Telegram.WebApp.HapticFeedback.notificationOccurred('error')
-      }
+      showAlert('😔 Попробуйте еще раз!')
+      hapticFeedback.notificationOccurred('error')
     }
   }
 
@@ -132,39 +129,35 @@ const RouletteGame: React.FC<RouletteGameProps> = ({ user }) => {
   }
 
   const buyStars = () => {
-    if (window.Telegram?.WebApp) {
-      window.Telegram.WebApp.showPopup({
-        title: '💎 Купить Stars',
-        message: 'Выберите количество Stars для покупки',
-        buttons: [
-          { text: '100 Stars - $1', type: 'default' },
-          { text: '500 Stars - $5', type: 'default' },
-          { text: '1000 Stars - $10', type: 'default' },
-          { text: 'Отмена', type: 'cancel' }
-        ]
-      }, (buttonId) => {
-        if (buttonId !== 'Отмена') {
-          window.Telegram.WebApp.showAlert('💎 Покупка Stars будет доступна в ближайшее время!')
-        }
-      })
-    }
+    showPopup({
+      title: '💎 Купить Stars',
+      message: 'Выберите количество Stars для покупки',
+      buttons: [
+        { text: '100 Stars - $1', type: 'default' },
+        { text: '500 Stars - $5', type: 'default' },
+        { text: '1000 Stars - $10', type: 'default' },
+        { text: 'Отмена', type: 'cancel' }
+      ]
+    }, (buttonId) => {
+      if (buttonId !== 'Отмена') {
+        showAlert('💎 Покупка Stars будет доступна в ближайшее время!')
+      }
+    })
   }
 
   const withdrawStars = () => {
-    if (window.Telegram?.WebApp) {
-      window.Telegram.WebApp.showPopup({
-        title: '💸 Вывести Stars',
-        message: `Доступно для вывода: ${balance} Stars`,
-        buttons: [
-          { text: 'Вывести все', type: 'default' },
-          { text: 'Отмена', type: 'cancel' }
-        ]
-      }, (buttonId) => {
-        if (buttonId !== 'Отмена') {
-          window.Telegram.WebApp.showAlert('💸 Вывод Stars будет доступен в ближайшее время!')
-        }
-      })
-    }
+    showPopup({
+      title: '💸 Вывести Stars',
+      message: `Доступно для вывода: ${balance} Stars`,
+      buttons: [
+        { text: 'Вывести все', type: 'default' },
+        { text: 'Отмена', type: 'cancel' }
+      ]
+    }, (buttonId) => {
+      if (buttonId !== 'Отмена') {
+        showAlert('💸 Вывод Stars будет доступен в ближайшее время!')
+      }
+    })
   }
 
   return (
