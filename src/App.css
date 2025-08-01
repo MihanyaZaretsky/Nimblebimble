@@ -119,7 +119,7 @@ body {
 
 .tab-container {
   display: flex;
-  width: 400%;
+  width: 500%;
   height: 100%;
   transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform: translateX(0);
@@ -130,23 +130,23 @@ body {
 }
 
 .tab-container.slide-cases {
-  transform: translateX(-25%);
+  transform: translateX(-20%);
 }
 
 .tab-container.slide-topup {
-  transform: translateX(-50%);
+  transform: translateX(-40%);
 }
 
 .tab-container.slide-upgrade {
-  transform: translateX(-75%);
+  transform: translateX(-60%);
 }
 
 .tab-container.slide-profile {
-  transform: translateX(-100%);
+  transform: translateX(-80%);
 }
 
 .tab-content {
-  width: 25%;
+  width: 20%;
   padding: 20px 16px;
   overflow-y: auto;
   max-width: 400px;
