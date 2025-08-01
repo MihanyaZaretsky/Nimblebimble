@@ -16,8 +16,11 @@ function App() {
     console.log('🔍 User Agent:', navigator.userAgent)
     
     try {
-      // Инициализируем Telegram Web App SDK
-      init()
+      // Инициализируем Telegram Web App SDK с правильными параметрами
+      init({
+        acceptCustomStyles: true,
+        launchParams: launchParams
+      })
       console.log('✅ Telegram Web App SDK инициализирован')
       
       // Настраиваем главную кнопку

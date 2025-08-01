@@ -103,15 +103,8 @@ const RouletteGame: React.FC<RouletteGameProps> = ({ user }) => {
     setWheelRotation(finalRotation)
     
     // Отправляем данные в бота через Telegram Web App
-    if (window.Telegram?.WebApp) {
-      window.Telegram.WebApp.sendData(JSON.stringify({
-        action: 'place_bet',
-        amount: currentBet,
-        user_id: user?.id
-      }))
-      
-      window.Telegram.WebApp.HapticFeedback.impactOccurred('medium')
-    }
+    // TODO: Добавить sendData из SDK когда будет доступно
+    hapticFeedback.impactOccurred('medium')
     
     // Симуляция результата (в реальном приложении это придет от бота)
     setTimeout(() => {
