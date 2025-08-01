@@ -272,6 +272,8 @@ function App() {
   const [activeTab, setActiveTab] = useState('home')
   const [balance, setBalance] = useState({ ton: 0, stars: 0 })
   const [language, setLanguage] = useState('ru')
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
   
   // Получаем переводы для текущего языка
   const t = getTranslations(language)
@@ -310,25 +312,79 @@ function App() {
     }, 500)
   }, [])
 
-  const renderTabContent = () => {
+  const getTabContainerClass = () => {
     switch (activeTab) {
       case 'home':
-        return <HomeTab user={user} t={t} />
+        return 'slide-home'
       case 'cases':
-        return <CasesTab t={t} />
+        return 'slide-cases'
       case 'topup':
-        return <TopUpTab t={t} />
+        return 'slide-topup'
       case 'upgrade':
-        return <UpgradeTab t={t} />
+        return 'slide-upgrade'
       case 'profile':
-        return <ProfileTab user={user} t={t} language={language} setLanguage={setLanguage} />
+        return 'slide-profile'
       default:
-        return <HomeTab user={user} t={t} />
+        return 'slide-home'
     }
   }
 
   const handleProfileClick = () => {
     setActiveTab('profile')
+  }
+
+  // Функции для свайпа
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > 50
+    const isRightSwipe = distance < -50
+
+    if (isLeftSwipe) {
+      // Свайп влево - следующая вкладка
+      switch (activeTab) {
+        case 'home':
+          setActiveTab('cases')
+          break
+        case 'cases':
+          setActiveTab('topup')
+          break
+        case 'topup':
+          setActiveTab('upgrade')
+          break
+        case 'upgrade':
+          setActiveTab('profile')
+          break
+      }
+    }
+    
+    if (isRightSwipe) {
+      // Свайп вправо - предыдущая вкладка
+      switch (activeTab) {
+        case 'cases':
+          setActiveTab('home')
+          break
+        case 'topup':
+          setActiveTab('cases')
+          break
+        case 'upgrade':
+          setActiveTab('topup')
+          break
+        case 'profile':
+          setActiveTab('upgrade')
+          break
+      }
+    }
   }
 
   return (
@@ -366,7 +422,18 @@ function App() {
 
       {/* Main Content */}
       <div className="main-content">
-        {renderTabContent()}
+        <div 
+          className={`tab-container ${getTabContainerClass()}`}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
+          <HomeTab user={user} t={t} />
+          <CasesTab t={t} />
+          <TopUpTab t={t} />
+          <UpgradeTab t={t} />
+          <ProfileTab user={user} t={t} language={language} setLanguage={setLanguage} />
+        </div>
       </div>
 
       {/* Bottom Navigation */}

@@ -110,16 +110,63 @@ body {
   font-size: 18px;
 }
 
-/* Main Content */
+/* Main Content с анимацией свайпа */
 .main-content {
   flex: 1;
-  overflow-y: auto;
-  padding: 20px 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.tab-container {
+  display: flex;
+  width: 400%;
+  height: 100%;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateX(0);
+}
+
+.tab-container.slide-home {
+  transform: translateX(0);
+}
+
+.tab-container.slide-cases {
+  transform: translateX(-25%);
+}
+
+.tab-container.slide-topup {
+  transform: translateX(-50%);
+}
+
+.tab-container.slide-upgrade {
+  transform: translateX(-75%);
+}
+
+.tab-container.slide-profile {
+  transform: translateX(-100%);
 }
 
 .tab-content {
+  width: 25%;
+  padding: 20px 16px;
+  overflow-y: auto;
   max-width: 400px;
   margin: 0 auto;
+}
+
+/* Анимация появления контента */
+.tab-content {
+  animation: fadeInSlide 0.4s ease-out;
+}
+
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* Home Tab */
