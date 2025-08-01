@@ -127,39 +127,58 @@ function App() {
   const [user, setUser] = useState<any>(null)
 
   useEffect(() => {
+    console.log('🚀 Инициализация приложения...')
+    console.log('📍 URL:', window.location.href)
+    console.log('🔍 User Agent:', navigator.userAgent)
+    
     // Инициализация Telegram Web App
     if (window.Telegram?.WebApp) {
+      console.log('✅ Telegram Web App SDK найден')
       const tg = window.Telegram.WebApp
       
-      // Готовим приложение
-      tg.ready()
-      tg.expand()
-      
-      // Получаем данные пользователя
-      if (tg.initDataUnsafe?.user) {
-        setUser(tg.initDataUnsafe.user)
+      try {
+        // Готовим приложение
+        tg.ready()
+        console.log('✅ tg.ready() выполнен')
+        
+        tg.expand()
+        console.log('✅ tg.expand() выполнен')
+        
+        // Получаем данные пользователя
+        if (tg.initDataUnsafe?.user) {
+          setUser(tg.initDataUnsafe.user)
+          console.log('✅ Данные пользователя получены:', tg.initDataUnsafe.user)
+        } else {
+          console.log('⚠️ Данные пользователя не найдены')
+        }
+        
+        // Настраиваем главную кнопку
+        tg.MainButton.setText('🎰 Играть в рулетку')
+        tg.MainButton.show()
+        console.log('✅ Главная кнопка настроена')
+        
+        // Обработчик нажатия главной кнопки
+        tg.MainButton.onClick(() => {
+          tg.HapticFeedback.impactOccurred('medium')
+          console.log('🎮 Нажата главная кнопка')
+        })
+        
+        setIsReady(true)
+        
+        console.log('🎉 Telegram Web App инициализирован:', {
+          user: tg.initDataUnsafe?.user,
+          platform: tg.platform,
+          version: tg.version,
+          colorScheme: tg.colorScheme,
+          initData: tg.initData
+        })
+      } catch (error) {
+        console.error('❌ Ошибка инициализации Telegram Web App:', error)
+        setIsReady(true) // Все равно показываем приложение
       }
-      
-      // Настраиваем главную кнопку
-      tg.MainButton.setText('🎰 Играть в рулетку')
-      tg.MainButton.show()
-      
-      // Обработчик нажатия главной кнопки
-      tg.MainButton.onClick(() => {
-        tg.HapticFeedback.impactOccurred('medium')
-        // Здесь будет логика запуска игры
-      })
-      
-      setIsReady(true)
-      
-      console.log('Telegram Web App инициализирован:', {
-        user: tg.initDataUnsafe?.user,
-        platform: tg.platform,
-        version: tg.version,
-        colorScheme: tg.colorScheme
-      })
     } else {
-      console.log('Telegram Web App не найден, запуск в режиме разработки')
+      console.log('⚠️ Telegram Web App не найден, запуск в режиме разработки')
+      console.log('🔍 window.Telegram:', window.Telegram)
       setIsReady(true)
     }
   }, [])
