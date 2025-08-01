@@ -79,7 +79,7 @@ async def start_command(message: types.Message):
     builder = InlineKeyboardBuilder()
     builder.add(InlineKeyboardButton(
         text="🎮 Открыть Nimble Roulette",
-        web_app=WebAppInfo(url=WEBAPP_URL)
+        web_app=WebAppInfo(url="https://nimblebimble.onrender.com")
     ))
     
     await message.answer(
