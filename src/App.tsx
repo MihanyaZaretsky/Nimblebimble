@@ -113,7 +113,7 @@ const HomeTab = ({ user }: { user: any }) => (
         </span>
         <span>Открыть кейс</span>
       </button>
-      <button className="action-btn">
+      <button className="action-btn topup-home-btn">
         <span className="btn-icon">
           <Icons.wallet />
         </span>
