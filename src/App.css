@@ -60,39 +60,9 @@ body {
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  animation: connectPulse 2s ease-in-out infinite, rainbowGradient 4s linear infinite;
-}
-
-@keyframes connectPulse {
-  0%, 100% {
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-    transform: scale(1.02);
-  }
-}
-
-@keyframes rainbowGradient {
-  0% {
-    background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
-  }
-  25% {
-    background: linear-gradient(135deg, #4ecdc4 0%, #45b7d1 50%, #96ceb4 100%);
-  }
-  50% {
-    background: linear-gradient(135deg, #45b7d1 0%, #96ceb4 50%, #feca57 100%);
-  }
-  75% {
-    background: linear-gradient(135deg, #96ceb4 0%, #feca57 50%, #ff9ff3 100%);
-  }
-  100% {
-    background: linear-gradient(135deg, #feca57 0%, #ff9ff3 50%, #ff6b6b 100%);
-  }
 }
 
 .connect-btn::before {
@@ -111,14 +81,14 @@ body {
 }
 
 .connect-btn:hover {
-  transform: translateY(-2px) scale(1.02);
+  transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 .user-avatar {
   margin-left: auto;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s ease;
 }
 
 .user-avatar:hover {
@@ -189,88 +159,32 @@ body {
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s ease;
 }
 
 .action-btn:hover {
   background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
-/* Специальная стилизация для кнопки "Пополнить" */
+/* Специальная стилизация для кнопки "Пополнить" - обычная без анимаций */
 .action-btn.topup-home-btn {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #ff9ff3 100%);
-  border-radius: 50px;
-  padding: 16px 24px;
-  font-weight: 600;
+  background: #667eea;
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-weight: 500;
   font-size: 16px;
   color: white;
   border: none;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-  animation: topupGlow 3s ease-in-out infinite, rainbowTopup 5s linear infinite;
-}
-
-@keyframes topupGlow {
-  0%, 100% {
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
-    transform: scale(1.02);
-  }
-}
-
-@keyframes rainbowTopup {
-  0% {
-    background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
-  }
-  20% {
-    background: linear-gradient(135deg, #4ecdc4 0%, #45b7d1 50%, #96ceb4 100%);
-  }
-  40% {
-    background: linear-gradient(135deg, #45b7d1 0%, #96ceb4 50%, #feca57 100%);
-  }
-  60% {
-    background: linear-gradient(135deg, #96ceb4 0%, #feca57 50%, #ff9ff3 100%);
-  }
-  80% {
-    background: linear-gradient(135deg, #feca57 0%, #ff9ff3 50%, #a55eea 100%);
-  }
-  100% {
-    background: linear-gradient(135deg, #ff9ff3 0%, #a55eea 50%, #ff6b6b 100%);
-  }
-}
-
-.action-btn.topup-home-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #ff9ff3 0%, #ff6b6b 50%, #ee5a24 100%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  border-radius: 50px;
-}
-
-.action-btn.topup-home-btn:hover::before {
-  opacity: 1;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .action-btn.topup-home-btn:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 12px 30px rgba(255, 107, 107, 0.5);
-}
-
-.action-btn.topup-home-btn .btn-icon,
-.action-btn.topup-home-btn span {
-  position: relative;
-  z-index: 1;
+  background: #5a6fd8;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 .btn-icon {
@@ -295,6 +209,12 @@ body {
   padding: 16px;
   border-radius: 12px;
   text-align: center;
+  transition: all 0.3s ease;
+}
+
+.case-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 .case-icon {
@@ -323,6 +243,12 @@ body {
   font-weight: 600;
   cursor: pointer;
   width: 100%;
+  transition: all 0.3s ease;
+}
+
+.open-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
 }
 
 /* TopUp Tab */
@@ -355,11 +281,12 @@ body {
   border-radius: 12px;
   text-align: center;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s ease;
 }
 
 .payment-card:hover {
   background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 .payment-icon {
@@ -390,6 +317,13 @@ body {
   border-radius: 12px;
   font-size: 16px;
   text-align: center;
+  transition: all 0.3s ease;
+}
+
+.amount-input input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
 }
 
 .amount-input input::placeholder {
@@ -410,11 +344,12 @@ body {
   font-weight: 600;
   cursor: pointer;
   width: 100%;
-  transition: transform 0.2s;
+  transition: all 0.3s ease;
 }
 
 .topup-btn:hover {
   transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 /* Upgrade Tab */
@@ -472,6 +407,12 @@ body {
   padding: 16px;
   border-radius: 12px;
   text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 .stat-card h3 {
@@ -507,7 +448,7 @@ body {
   border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s ease;
 }
 
 .lang-btn.active {
@@ -516,6 +457,7 @@ body {
 
 .lang-btn:hover:not(.active) {
   background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
 }
 
 /* Bottom Navigation */
@@ -540,13 +482,14 @@ body {
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
   min-width: 60px;
 }
 
 .nav-btn:hover {
   color: white;
   background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
 .nav-btn.active {
@@ -555,58 +498,23 @@ body {
 }
 
 .nav-btn.primary {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #ff9ff3 100%);
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
   color: white;
   border-radius: 50%;
   width: 60px;
   height: 60px;
   justify-content: center;
-  animation: navTopupPulse 2s ease-in-out infinite, rainbowNav 6s linear infinite;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
-}
-
-@keyframes navTopupPulse {
-  0%, 100% {
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.7);
-    transform: scale(1.05);
-  }
-}
-
-@keyframes rainbowNav {
-  0% {
-    background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
-  }
-  16.66% {
-    background: linear-gradient(135deg, #4ecdc4 0%, #45b7d1 50%, #96ceb4 100%);
-  }
-  33.33% {
-    background: linear-gradient(135deg, #45b7d1 0%, #96ceb4 50%, #feca57 100%);
-  }
-  50% {
-    background: linear-gradient(135deg, #96ceb4 0%, #feca57 50%, #ff9ff3 100%);
-  }
-  66.66% {
-    background: linear-gradient(135deg, #feca57 0%, #ff9ff3 50%, #a55eea 100%);
-  }
-  83.33% {
-    background: linear-gradient(135deg, #ff9ff3 0%, #a55eea 50%, #26de81 100%);
-  }
-  100% {
-    background: linear-gradient(135deg, #a55eea 0%, #26de81 50%, #ff6b6b 100%);
-  }
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  transition: all 0.3s ease;
 }
 
 .nav-btn.primary:hover {
   transform: scale(1.1);
-  animation: none;
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
 }
 
 .nav-btn.primary.active {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #ff9ff3 100%);
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
 }
 
 .nav-icon {
