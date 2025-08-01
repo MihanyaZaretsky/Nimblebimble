@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import { initGradientAnimations } from './gradientAnimations'
+import { getTranslations } from './translations'
 
 // Типы для Telegram Web App
 declare global {
@@ -100,11 +101,11 @@ const Icons = {
 }
 
 // Компоненты для разных вкладок
-const HomeTab = ({ user }: { user: any }) => (
+const HomeTab = ({ user, t }: { user: any, t: any }) => (
   <div className="tab-content">
     <div className="welcome-box">
-      <h2>Добро пожаловать!</h2>
-      <p>Выберите действие для начала игры</p>
+      <h2>{t.welcome}</h2>
+      <p>{t.welcomeSubtitle}</p>
     </div>
     
     <div className="action-buttons">
@@ -112,69 +113,69 @@ const HomeTab = ({ user }: { user: any }) => (
         <span className="btn-icon">
           <Icons.box />
         </span>
-        <span>Открыть кейс</span>
+        <span>{t.openCase}</span>
       </button>
       <button className="action-btn topup-home-btn">
         <span className="btn-icon">
           <Icons.wallet />
         </span>
-        <span>Пополнить</span>
+        <span>{t.topUp}</span>
       </button>
     </div>
   </div>
 )
 
-const CasesTab = () => (
+const CasesTab = ({ t }: { t: any }) => (
   <div className="tab-content">
-    <h2 className="section-title">Кейсы</h2>
+    <h2 className="section-title">{t.cases}</h2>
     
     <div className="cases-grid">
       <div className="case-card">
         <div className="case-icon">
           <Icons.box />
         </div>
-        <h3>Обычный кейс</h3>
-        <p>Цена: 100 <Icons.money /></p>
-        <button className="open-btn">Открыть</button>
+        <h3>{t.commonCase}</h3>
+        <p>{t.price}: 100 <Icons.money /></p>
+        <button className="open-btn">{t.open}</button>
       </div>
       
       <div className="case-card">
         <div className="case-icon">
           <Icons.box />
         </div>
-        <h3>Редкий кейс</h3>
-        <p>Цена: 500 <Icons.money /></p>
-        <button className="open-btn">Открыть</button>
+        <h3>{t.rareCase}</h3>
+        <p>{t.price}: 500 <Icons.money /></p>
+        <button className="open-btn">{t.open}</button>
       </div>
       
       <div className="case-card">
         <div className="case-icon">
           <Icons.box />
         </div>
-        <h3>Эпический кейс</h3>
-        <p>Цена: 1000 <Icons.money /></p>
-        <button className="open-btn">Открыть</button>
+        <h3>{t.epicCase}</h3>
+        <p>{t.price}: 1000 <Icons.money /></p>
+        <button className="open-btn">{t.open}</button>
       </div>
       
       <div className="case-card">
         <div className="case-icon">
           <Icons.box />
         </div>
-        <h3>Легендарный кейс</h3>
-        <p>Цена: 5000 <Icons.money /></p>
-        <button className="open-btn">Открыть</button>
+        <h3>{t.legendaryCase}</h3>
+        <p>{t.price}: 5000 <Icons.money /></p>
+        <button className="open-btn">{t.open}</button>
       </div>
     </div>
   </div>
 )
 
-const TopUpTab = () => (
+const TopUpTab = ({ t }: { t: any }) => (
   <div className="tab-content">
     <div className="topup-header">
       <span className="header-icon">
         <Icons.wallet />
       </span>
-      <span>Пополнить баланс</span>
+      <span>{t.topUpBalance}</span>
     </div>
     
     <div className="payment-methods">
@@ -183,7 +184,7 @@ const TopUpTab = () => (
           <Icons.diamond />
         </div>
         <h3>TON</h3>
-        <p>Быстро и безопасно</p>
+        <p>{t.fastAndSecure}</p>
       </div>
       
       <div className="payment-card">
@@ -191,7 +192,7 @@ const TopUpTab = () => (
           <Icons.star />
         </div>
         <h3>Звёзды</h3>
-        <p>Пополнение через Звёзды</p>
+        <p>{t.starsPayment}</p>
       </div>
     </div>
     
@@ -203,19 +204,19 @@ const TopUpTab = () => (
       <span className="btn-icon">
         <Icons.plus />
       </span>
-      <span>Пополнить</span>
+      <span>{t.topUp}</span>
     </button>
   </div>
 )
 
-const UpgradeTab = () => (
+const UpgradeTab = ({ t }: { t: any }) => (
   <div className="tab-content">
-    <h2 className="section-title">Улучшения</h2>
-    <p className="coming-soon">Скоро здесь будут доступны улучшения</p>
+    <h2 className="section-title">{t.upgrades}</h2>
+    <p className="coming-soon">{t.comingSoon}</p>
   </div>
 )
 
-const ProfileTab = ({ user }: { user: any }) => (
+const ProfileTab = ({ user, t, language, setLanguage }: { user: any, t: any, language: string, setLanguage: (lang: string) => void }) => (
   <div className="tab-content">
     <div className="profile-section">
       <div className="profile-avatar">
@@ -228,30 +229,36 @@ const ProfileTab = ({ user }: { user: any }) => (
         )}
       </div>
       
-      <h2 className="username">{user?.first_name || 'Пользователь'}</h2>
-      <p className="user-handle">@{user?.username || 'username'}</p>
+      <h2 className="username">{user?.first_name || t.user}</h2>
+      <p className="user-handle">@{user?.username || t.username}</p>
       <p className="user-id">ID: {user?.id || '0000000000'}</p>
     </div>
     
     <div className="stats-grid">
       <div className="stat-card">
-        <h3>Баланс</h3>
+        <h3>{t.balance}</h3>
         <p>0.00 <Icons.diamond /></p>
       </div>
       <div className="stat-card">
-        <h3>Открыто кейсов</h3>
+        <h3>{t.casesOpened}</h3>
         <p>0 <Icons.box /></p>
       </div>
     </div>
     
     <div className="language-section">
-      <h3>Язык</h3>
+      <h3>{t.language}</h3>
       <div className="language-buttons">
-        <button className="lang-btn active">
+        <button 
+          className={`lang-btn ${language === 'ru' ? 'active' : ''}`}
+          onClick={() => setLanguage('ru')}
+        >
           <Icons.globe />
           Русский
         </button>
-        <button className="lang-btn">
+        <button 
+          className={`lang-btn ${language === 'en' ? 'active' : ''}`}
+          onClick={() => setLanguage('en')}
+        >
           <Icons.globe />
           English
         </button>
@@ -264,6 +271,10 @@ function App() {
   const [user, setUser] = useState<any>(null)
   const [activeTab, setActiveTab] = useState('home')
   const [balance, setBalance] = useState({ ton: 0, stars: 0 })
+  const [language, setLanguage] = useState('ru')
+  
+  // Получаем переводы для текущего языка
+  const t = getTranslations(language)
 
   useEffect(() => {
     console.log('🚀 Запуск приложения...')
@@ -302,17 +313,17 @@ function App() {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'home':
-        return <HomeTab user={user} />
+        return <HomeTab user={user} t={t} />
       case 'cases':
-        return <CasesTab />
+        return <CasesTab t={t} />
       case 'topup':
-        return <TopUpTab />
+        return <TopUpTab t={t} />
       case 'upgrade':
-        return <UpgradeTab />
+        return <UpgradeTab t={t} />
       case 'profile':
-        return <ProfileTab user={user} />
+        return <ProfileTab user={user} t={t} language={language} setLanguage={setLanguage} />
       default:
-        return <HomeTab user={user} />
+        return <HomeTab user={user} t={t} />
     }
   }
 
@@ -340,7 +351,7 @@ function App() {
           <span className="btn-icon">
             <Icons.connect />
           </span>
-          <span>Подключить кошелек</span>
+          <span>{t.connectWallet}</span>
         </button>
         <div className="user-avatar" onClick={handleProfileClick}>
           {user?.photo_url ? (
@@ -367,7 +378,7 @@ function App() {
           <span className="nav-icon">
             <Icons.home />
           </span>
-          <span>Главная</span>
+          <span>{t.home}</span>
         </button>
         
         <button 
@@ -377,7 +388,7 @@ function App() {
           <span className="nav-icon">
             <Icons.cases />
           </span>
-          <span>Кейсы</span>
+          <span>{t.cases}</span>
         </button>
         
         <button 
@@ -387,7 +398,7 @@ function App() {
           <span className="nav-icon">
             <Icons.plus />
           </span>
-          <span>Пополнить</span>
+          <span>{t.topUp}</span>
         </button>
         
         <button 
@@ -397,7 +408,7 @@ function App() {
           <span className="nav-icon">
             <Icons.upgrade />
           </span>
-          <span>Улучшить</span>
+          <span>{t.upgrade}</span>
         </button>
         
         <button 
@@ -407,7 +418,7 @@ function App() {
           <span className="nav-icon">
             <Icons.profile />
           </span>
-          <span>Профиль</span>
+          <span>{t.profile}</span>
         </button>
       </div>
     </div>
