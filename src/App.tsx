@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { init, useLaunchParams, mainButton } from '@telegram-apps/sdk-react'
+import { init, useLaunchParams } from '@telegram-apps/sdk-react'
 import RouletteGame from './components/RouletteGame'
 import './App.css'
 
@@ -19,28 +19,6 @@ function App() {
       // Инициализируем Telegram Web App SDK
       init()
       console.log('✅ Telegram Web App SDK инициализирован')
-      
-      // Монтируем главную кнопку перед использованием
-      mainButton.mount()
-      console.log('✅ Главная кнопка смонтирована')
-      
-      // Настраиваем главную кнопку (проверяем доступность)
-      if (mainButton.setText && mainButton.setText.isAvailable()) {
-        mainButton.setText('🎰 Играть в рулетку')
-      }
-      
-      if (mainButton.show && mainButton.show.isAvailable()) {
-        mainButton.show()
-      }
-      console.log('✅ Главная кнопка настроена')
-      
-      // Обработчик нажатия главной кнопки
-      if (mainButton.onClick && mainButton.onClick.isAvailable()) {
-        mainButton.onClick(() => {
-          console.log('🎮 Нажата главная кнопка')
-          // Здесь будет логика запуска игры
-        })
-      }
       
       // Получаем данные пользователя из параметров запуска
       if (launchParams?.tgWebAppData?.user) {
