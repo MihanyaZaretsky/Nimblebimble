@@ -309,6 +309,10 @@ function App() {
     }
   }
 
+  const handleProfileClick = () => {
+    setActiveTab('profile')
+  }
+
   return (
     <div className="app">
       {/* Balance Bar */}
@@ -331,7 +335,7 @@ function App() {
           </span>
           <span>Подключить</span>
         </button>
-        <div className="user-avatar">
+        <div className="user-avatar" onClick={handleProfileClick}>
           {user?.photo_url ? (
             <img src={user.photo_url} alt="Avatar" />
           ) : (
