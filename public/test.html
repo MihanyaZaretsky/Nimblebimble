@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест Telegram Web App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            max-width: 400px;
+        }
+        .status {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎰 Тест Telegram Web App</h1>
+        
+        <div class="status">
+            <h3>Статус инициализации:</h3>
+            <div id="status">Проверяем...</div>
+        </div>
+        
+        <div class="status">
+            <h3>Информация о пользователе:</h3>
+            <div id="user-info">Загрузка...</div>
+        </div>
+        
+        <div class="status">
+            <h3>Параметры запуска:</h3>
+            <div id="launch-params">Загрузка...</div>
+        </div>
+        
+        <button onclick="testMainButton()" style="background: #4CAF50; color: white; border: none; padding: 15px 30px; border-radius: 5px; font-size: 16px; cursor: pointer;">
+            🎮 Тест главной кнопки
+        </button>
+    </div>
+
+    <script>
+        console.log('🚀 Запуск тестовой страницы...');
+        
+        // Проверяем доступность Telegram Web App
+        if (window.Telegram && window.Telegram.WebApp) {
+            document.getElementById('status').innerHTML = '<span class="success">✅ Telegram Web App доступен</span>';
+            console.log('✅ Telegram Web App доступен');
+            
+            try {
+                // Инициализируем Web App
+                window.Telegram.WebApp.ready();
+                console.log('✅ Web App готов');
+                
+                // Получаем информацию о пользователе
+                const user = window.Telegram.WebApp.initDataUnsafe?.user;
+                if (user) {
+                    document.getElementById('user-info').innerHTML = `
+                        <strong>Имя:</strong> ${user.first_name}<br>
+                        <strong>ID:</strong> ${user.id}<br>
+                        <strong>Username:</strong> ${user.username || 'Не указан'}
+                    `;
+                    console.log('✅ Данные пользователя:', user);
+                } else {
+                    document.getElementById('user-info').innerHTML = '<span class="error">❌ Данные пользователя не найдены</span>';
+                    console.log('❌ Данные пользователя не найдены');
+                }
+                
+                // Получаем параметры запуска
+                const initData = window.Telegram.WebApp.initData;
+                document.getElementById('launch-params').innerHTML = `
+                    <strong>Init Data:</strong> ${initData || 'Пусто'}<br>
+                    <strong>Platform:</strong> ${window.Telegram.WebApp.platform}<br>
+                    <strong>Version:</strong> ${window.Telegram.WebApp.version}
+                `;
+                console.log('✅ Параметры запуска:', {
+                    initData,
+                    platform: window.Telegram.WebApp.platform,
+                    version: window.Telegram.WebApp.version
+                });
+                
+            } catch (error) {
+                document.getElementById('status').innerHTML = `<span class="error">❌ Ошибка инициализации: ${error.message}</span>`;
+                console.error('❌ Ошибка инициализации:', error);
+            }
+        } else {
+            document.getElementById('status').innerHTML = '<span class="error">❌ Telegram Web App недоступен</span>';
+            document.getElementById('user-info').innerHTML = '<span class="error">❌ Запущено не в Telegram</span>';
+            document.getElementById('launch-params').innerHTML = '<span class="error">❌ Запущено не в Telegram</span>';
+            console.log('❌ Telegram Web App недоступен - запущено в браузере');
+        }
+        
+        function testMainButton() {
+            if (window.Telegram && window.Telegram.WebApp) {
+                try {
+                    window.Telegram.WebApp.MainButton.setText('🎰 Тест кнопки');
+                    window.Telegram.WebApp.MainButton.show();
+                    window.Telegram.WebApp.MainButton.onClick(() => {
+                        alert('🎉 Главная кнопка работает!');
+                    });
+                    alert('✅ Главная кнопка настроена!');
+                } catch (error) {
+                    alert(`❌ Ошибка настройки кнопки: ${error.message}`);
+                }
+            } else {
+                alert('❌ Telegram Web App недоступен');
+            }
+        }
+    </script>
+</body>
+</html> 
