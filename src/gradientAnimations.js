@@ -1,4 +1,4 @@
-// Плавные анимации градиентов для кнопок
+// Голографические анимации переливания цветов
 class GradientAnimator {
   constructor() {
     this.animationId = null;
@@ -6,42 +6,28 @@ class GradientAnimator {
     this.isAnimating = false;
   }
 
-  // Плавная анимация градиента для кнопки "Подключить кошелек"
+  // Голографическая анимация для кнопки "Подключить кошелек"
   animateConnectButton(element) {
     if (!element) return;
     
-    const colors = [
-      { r: 102, g: 126, b: 234 }, // #667eea
-      { r: 118, g: 75, b: 162 },  // #764ba2
-      { r: 240, g: 147, b: 251 }, // #f093fb
-      { r: 245, g: 87, b: 108 },  // #f5576c
-      { r: 79, g: 172, b: 254 },  // #4facfe
-      { r: 0, g: 242, b: 254 },   // #00f2fe
-      { r: 102, g: 126, b: 234 }  // #667eea (повторяем первый цвет для плавности)
-    ];
-
-    this.animateGradient(element, colors, 3000); // 3 секунды
+    this.animateHolographicGradient(element, [
+      '#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe',
+      '#26de81', '#20bf6b', '#a55eea', '#ff9ff3', '#ff6b6b', '#ee5a24'
+    ], 4000);
   }
 
-  // Плавная анимация градиента для круглой кнопки "Пополнить"
+  // Голографическая анимация для круглой кнопки "Пополнить"
   animatePrimaryButton(element) {
     if (!element) return;
     
-    const colors = [
-      { r: 255, g: 107, b: 107 }, // #ff6b6b
-      { r: 238, g: 90, b: 36 },   // #ee5a24
-      { r: 255, g: 159, b: 243 }, // #ff9ff3
-      { r: 165, g: 94, b: 234 },  // #a55eea
-      { r: 38, g: 222, b: 129 },  // #26de81
-      { r: 32, g: 191, b: 107 },  // #20bf6b
-      { r: 255, g: 107, b: 107 }  // #ff6b6b (повторяем первый цвет для плавности)
-    ];
-
-    this.animateGradient(element, colors, 4000); // 4 секунды
+    this.animateHolographicGradient(element, [
+      '#ff6b6b', '#ee5a24', '#ff9ff3', '#a55eea', '#26de81', '#20bf6b',
+      '#4facfe', '#00f2fe', '#667eea', '#764ba2', '#f093fb', '#f5576c'
+    ], 5000);
   }
 
-  // Основная функция анимации градиента
-  animateGradient(element, colors, duration) {
+  // Основная функция голографической анимации
+  animateHolographicGradient(element, colors, duration) {
     if (this.isAnimating) {
       cancelAnimationFrame(this.animationId);
     }
@@ -55,31 +41,46 @@ class GradientAnimator {
       const elapsed = currentTime - this.startTime;
       const progress = (elapsed % duration) / duration;
       
-      // Создаем плавный переход между цветами
-      const totalColors = colors.length - 1; // Исключаем последний повторяющийся цвет
-      const colorIndex = progress * totalColors;
-      const colorProgress = colorIndex % 1;
+      // Создаем волнообразное движение
+      const wave1 = Math.sin(progress * Math.PI * 2) * 0.5 + 0.5;
+      const wave2 = Math.sin(progress * Math.PI * 4 + Math.PI / 3) * 0.3 + 0.5;
+      const wave3 = Math.cos(progress * Math.PI * 3 + Math.PI / 6) * 0.4 + 0.5;
       
-      const currentIndex = Math.floor(colorIndex);
-      const nextIndex = (currentIndex + 1) % totalColors;
+      // Создаем плавные переходы между цветами с волновым эффектом
+      const colorIndex1 = (progress * colors.length + wave1 * 0.5) % colors.length;
+      const colorIndex2 = (progress * colors.length + wave2 * 0.3 + 2) % colors.length;
+      const colorIndex3 = (progress * colors.length + wave3 * 0.4 + 4) % colors.length;
       
-      const currentColor = colors[currentIndex];
-      const nextColor = colors[nextIndex];
+      const color1 = this.getColorAt(colors, colorIndex1);
+      const color2 = this.getColorAt(colors, colorIndex2);
+      const color3 = this.getColorAt(colors, colorIndex3);
       
-      // Интерполяция цветов для плавного перехода
-      const r = Math.round(this.lerp(currentColor.r, nextColor.r, colorProgress));
-      const g = Math.round(this.lerp(currentColor.g, nextColor.g, colorProgress));
-      const b = Math.round(this.lerp(currentColor.b, nextColor.b, colorProgress));
-      
-      // Создаем более выраженный градиент с несколькими точками остановки
-      const gradient = `linear-gradient(135deg, 
-        rgb(${r}, ${g}, ${b}) 0%, 
-        rgb(${Math.round(r * 0.9)}, ${Math.round(g * 0.9)}, ${Math.round(b * 0.9)}) 25%,
-        rgb(${Math.round(r * 0.7)}, ${Math.round(g * 0.7)}, ${Math.round(b * 0.7)}) 50%,
-        rgb(${Math.round(r * 0.9)}, ${Math.round(g * 0.9)}, ${Math.round(b * 0.9)}) 75%,
-        rgb(${r}, ${g}, ${b}) 100%)`;
+      // Создаем сложный голографический градиент с завитками
+      const gradient = `
+        conic-gradient(
+          from ${progress * 360}deg,
+          ${color1} 0deg,
+          ${color2} ${120 + wave1 * 60}deg,
+          ${color3} ${240 + wave2 * 60}deg,
+          ${color1} 360deg
+        ),
+        radial-gradient(
+          circle at ${30 + wave1 * 40}% ${30 + wave2 * 40}%,
+          ${color2} 0%,
+          transparent 50%
+        ),
+        linear-gradient(
+          ${135 + wave3 * 90}deg,
+          ${color1} 0%,
+          ${color3} 25%,
+          ${color2} 50%,
+          ${color1} 75%,
+          ${color3} 100%
+        )
+      `;
       
       element.style.background = gradient;
+      element.style.backgroundBlendMode = 'overlay, soft-light, normal';
       
       this.animationId = requestAnimationFrame(animate);
     };
@@ -87,9 +88,36 @@ class GradientAnimator {
     this.animationId = requestAnimationFrame(animate);
   }
 
-  // Линейная интерполяция для плавных переходов
-  lerp(start, end, factor) {
-    return start + (end - start) * factor;
+  // Получение цвета с плавной интерполяцией
+  getColorAt(colors, index) {
+    const i = Math.floor(index);
+    const f = index - i;
+    const color1 = colors[i % colors.length];
+    const color2 = colors[(i + 1) % colors.length];
+    
+    return this.interpolateColor(color1, color2, f);
+  }
+
+  // Интерполяция цветов
+  interpolateColor(color1, color2, factor) {
+    const rgb1 = this.hexToRgb(color1);
+    const rgb2 = this.hexToRgb(color2);
+    
+    const r = Math.round(rgb1.r + (rgb2.r - rgb1.r) * factor);
+    const g = Math.round(rgb1.g + (rgb2.g - rgb1.g) * factor);
+    const b = Math.round(rgb1.b + (rgb2.b - rgb1.b) * factor);
+    
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  // Конвертация hex в RGB
+  hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : { r: 0, g: 0, b: 0 };
   }
 
   // Остановка анимации
@@ -106,7 +134,7 @@ window.gradientAnimator = new GradientAnimator();
 
 // Функция для инициализации анимаций
 export function initGradientAnimations() {
-  console.log('🎨 Инициализация анимаций градиентов...');
+  console.log('🌈 Инициализация голографических анимаций...');
   
   // Анимация для кнопки "Подключить кошелек"
   const connectBtn = document.querySelector('.connect-btn');
