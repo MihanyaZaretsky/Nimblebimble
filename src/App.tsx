@@ -333,7 +333,7 @@ function App() {
           <span className="btn-icon">
             <Icons.connect />
           </span>
-          <span>Подключить</span>
+          <span>Подключить кошелек</span>
         </button>
         <div className="user-avatar" onClick={handleProfileClick}>
           {user?.photo_url ? (
