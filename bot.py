@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 # Получаем токен бота
 BOT_TOKEN = os.getenv('BOT_TOKEN', '8312865169:AAHmI2FODLlt4Qcf2rr6MtRbUcB8fGtlLoU')
-WEBAPP_URL = os.getenv('WEBAPP_URL', 'https://your-vite-app.onrender.com')
+WEBAPP_URL = os.getenv('WEBAPP_URL', 'https://nimblebimble.onrender.com')
 
 if not BOT_TOKEN:
     logger.error("❌ BOT_TOKEN не найден!")
