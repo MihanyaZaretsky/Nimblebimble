@@ -205,19 +205,6 @@ function App() {
 
   return (
     <div className="app">
-      {/* Header */}
-      <div className="header">
-        <div className="header-left">
-          <button className="close-btn">✕</button>
-        </div>
-        <div className="header-center">
-          <h1>Nimble Roulette</h1>
-        </div>
-        <div className="header-right">
-          <button className="menu-btn">⋮</button>
-        </div>
-      </div>
-
       {/* Balance Bar */}
       <div className="balance-bar">
         <div className="balance-item">
