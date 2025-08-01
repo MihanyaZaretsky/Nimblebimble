@@ -189,23 +189,23 @@ const TopUpTab = ({ t }: { t: any }) => (
       <span>{t.topUpBalance}</span>
     </div>
     
-    <div className="payment-methods">
-             <div className="payment-card">
-         <div className="payment-icon">
-           <Icons.diamondLarge />
-         </div>
-         <h3>TON</h3>
-         <p>{t.fastAndSecure}</p>
-       </div>
-       
-       <div className="payment-card">
-         <div className="payment-icon">
-           <Icons.starLarge />
-         </div>
-         <h3>Звёзды</h3>
-         <p>{t.starsPayment}</p>
-       </div>
-    </div>
+         <div className="payment-methods">
+              <div className="payment-card ton-card">
+          <div className="payment-icon">
+            <Icons.diamondLarge />
+          </div>
+          <h3>TON</h3>
+          <p>{t.fastAndSecure}</p>
+        </div>
+        
+        <div className="payment-card stars-card">
+          <div className="payment-icon">
+            <Icons.starLarge />
+          </div>
+          <h3>Звёзды</h3>
+          <p>{t.starsPayment}</p>
+        </div>
+     </div>
     
     <div className="amount-input">
       <input type="number" placeholder="1" defaultValue="1" />
