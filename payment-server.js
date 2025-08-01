@@ -1,33 +1,28 @@
-import express from 'express'
-import { fileURLToPath } from 'url'
-import { dirname, join } from 'path'
-import { createServer as createViteServer } from 'vite'
-import TelegramBot from 'node-telegram-bot-api'
-import cors from 'cors'
-import dotenv from 'dotenv'
+const express = require("express");
+const TelegramBot = require("node-telegram-bot-api");
+const cors = require("cors");
+const app = express();
+const port = process.env.PAYMENT_PORT || 3001;
 
-dotenv.config()
+require("dotenv").config();
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-
-const app = express()
-const PORT = process.env.PORT || 3000
-
-// --- Платёжный функционал ---
 const TELEGRAM_BOT_TOKEN = process.env.BOT_TOKEN || '8312865169:AAHmI2FODLlt4Qcf2rr6MtRbUcB8fGtlLoU';
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN);
+
+// Map для отслеживания платежей
 const paidUsers = new Map();
 
 app.use(express.json());
 app.use(cors());
 
+// Обработка pre-checkout запросов
 bot.on("pre_checkout_query", (query) => {
   bot.answerPreCheckoutQuery(query.id, true).catch(() => {
     console.error("answerPreCheckoutQuery failed");
   });
 });
 
+// Обработка успешных платежей
 bot.on("message", (msg) => {
   if (msg.successful_payment) {
     const userId = msg.from.id;
@@ -36,6 +31,7 @@ bot.on("message", (msg) => {
   }
 });
 
+// Команда /status для проверки статуса платежа
 bot.onText(/\/status/, (msg) => {
   const chatId = msg.chat.id;
   const userId = msg.from.id;
@@ -43,6 +39,7 @@ bot.onText(/\/status/, (msg) => {
   bot.sendMessage(chatId, message);
 });
 
+// Команда /refund для возврата Stars
 bot.onText(/\/refund/, async (msg) => {
   const userId = msg.from.id;
   if (!paidUsers.has(userId)) {
@@ -51,13 +48,16 @@ bot.onText(/\/refund/, async (msg) => {
       "Вы еще не оплатили, нечего возвращать."
     );
   }
+  
   const chargeId = paidUsers.get(userId);
   try {
     const form = {
       user_id: userId,
       telegram_payment_charge_id: chargeId,
     };
+    
     const refundResponse = await bot._request("refundStarPayment", { form });
+    
     if (refundResponse) {
       paidUsers.delete(userId);
       bot.sendMessage(msg.chat.id, "Ваш платеж был возвращен.");
@@ -70,21 +70,31 @@ bot.onText(/\/refund/, async (msg) => {
   }
 });
 
+// API для создания ссылки на инвойс
 app.post("/api/createInvoiceLink", async (req, res) => {
   const { payload, currency, prices } = req.body;
+  
+  // Проверка обязательных полей
   if (!payload || !currency || !prices || !(prices[0] && prices[0].amount)) {
     return res
       .status(400)
       .json({ success: false, error: "Отсутствуют обязательные параметры." });
   }
+  
   const price = prices[0].amount;
+  
+  // Валидация цены
   if (typeof price !== "number" || price <= 0) {
     return res.status(400).json({ success: false, error: "Неверная цена." });
   }
+  
+  // Динамически устанавливаем заголовок, описание и метку на основе цены
   const title = `Пополнение баланса на ${price} Stars`;
   const description = `Покупка Stars для пополнения баланса на ${price} единиц.`;
   const label = `Пополнение на ${price} ${currency}`;
+  
   try {
+    // Создаем ссылку на инвойс используя Telegram Bot API
     const invoiceLink = await bot.createInvoiceLink(
       title,
       description,
@@ -93,6 +103,7 @@ app.post("/api/createInvoiceLink", async (req, res) => {
       currency,
       [{ label, amount: price }]
     );
+    
     res.json({ success: true, invoiceLink });
   } catch (error) {
     console.error("Ошибка создания ссылки на инвойс:", error);
@@ -100,9 +111,11 @@ app.post("/api/createInvoiceLink", async (req, res) => {
   }
 });
 
+// API для проверки статуса платежа пользователя
 app.get("/api/paymentStatus/:userId", (req, res) => {
   const userId = parseInt(req.params.userId);
   const hasPaid = paidUsers.has(userId);
+  
   res.json({ 
     success: true, 
     hasPaid,
@@ -110,9 +123,12 @@ app.get("/api/paymentStatus/:userId", (req, res) => {
   });
 });
 
+// API для получения баланса пользователя (заглушка)
 app.get("/api/balance/:userId", (req, res) => {
   const userId = parseInt(req.params.userId);
+  // Здесь можно добавить логику получения баланса из базы данных
   const balance = paidUsers.has(userId) ? 1000 : 0; // Пример
+  
   res.json({ 
     success: true, 
     balance,
@@ -120,25 +136,11 @@ app.get("/api/balance/:userId", (req, res) => {
   });
 });
 
+// Запуск бота
 bot.startPolling();
-// --- Конец платёжного функционала ---
 
-// В продакшене обслуживаем статические файлы
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(join(__dirname, 'dist')))
-  app.get('*', (req, res) => {
-    res.sendFile(join(__dirname, 'dist', 'index.html'))
-  })
-} else {
-  // В разработке используем Vite dev server
-  const vite = await createViteServer({
-    server: { middlewareMode: true },
-    appType: 'spa'
-  })
-  app.use(vite.middlewares)
-}
-
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Сервер запущен на порту ${PORT}`)
-  console.log(`📱 URL: http://localhost:${PORT}`)
-}) 
+// Запуск сервера
+app.listen(port, () => {
+  console.log(`💳 Платежный сервер запущен на порту ${port}`);
+  console.log(`🔗 URL: http://localhost:${port}`);
+}); 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './App.css'
 import { initGradientAnimations } from './gradientAnimations'
 import { getTranslations } from './translations'
+import { PaymentService } from './services/paymentService'
 
 // Типы для Telegram Web App
 declare global {
@@ -180,17 +181,56 @@ const CasesTab = ({ t }: { t: any }) => (
   </div>
 )
 
-const TopUpTab = ({ t }: { t: any }) => (
-  <div className="tab-content">
-    <div className="topup-header">
-      <span className="header-icon">
-        <Icons.wallet />
-      </span>
-      <span>{t.topUpBalance}</span>
-    </div>
-    
-         <div className="payment-methods">
-              <div className="payment-card ton-card">
+const TopUpTab = ({ t, user }: { t: any, user: any }) => {
+  const [amount, setAmount] = useState(1)
+  const [selectedMethod, setSelectedMethod] = useState<'ton' | 'stars'>('stars')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const handlePayment = async () => {
+    if (!user?.id) {
+      setError('Пользователь не найден')
+      return
+    }
+
+    setIsLoading(true)
+    setError('')
+
+    try {
+      if (selectedMethod === 'stars') {
+        const response = await PaymentService.processStarsPayment(amount, user.id)
+        
+        if (response.success && response.invoiceLink) {
+          // Просто открываем ссылку на инвойс
+          window.open(response.invoiceLink, '_blank')
+        } else {
+          setError(response.error || 'Ошибка создания платежа')
+        }
+      } else {
+        setError('TON платежи пока не поддерживаются')
+      }
+    } catch (err) {
+      setError('Ошибка сети')
+      console.error('Ошибка платежа:', err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <div className="tab-content">
+      <div className="topup-header">
+        <span className="header-icon">
+          <Icons.wallet />
+        </span>
+        <span>{t.topUpBalance}</span>
+      </div>
+      
+      <div className="payment-methods">
+        <div 
+          className={`payment-card ton-card ${selectedMethod === 'ton' ? 'selected' : ''}`}
+          onClick={() => setSelectedMethod('ton')}
+        >
           <div className="payment-icon">
             <Icons.diamondLarge />
           </div>
@@ -198,27 +238,47 @@ const TopUpTab = ({ t }: { t: any }) => (
           <p>{t.fastAndSecure}</p>
         </div>
         
-        <div className="payment-card stars-card">
+        <div 
+          className={`payment-card stars-card ${selectedMethod === 'stars' ? 'selected' : ''}`}
+          onClick={() => setSelectedMethod('stars')}
+        >
           <div className="payment-icon">
             <Icons.starLarge />
           </div>
           <h3>Звёзды</h3>
           <p>{t.starsPayment}</p>
         </div>
-     </div>
-    
-    <div className="amount-input">
-      <input type="number" placeholder="1" defaultValue="1" />
+      </div>
+      
+      <div className="amount-input">
+        <input 
+          type="number" 
+          placeholder="1" 
+          value={amount}
+          onChange={(e) => setAmount(Math.max(1, parseInt(e.target.value) || 1))}
+          min="1"
+        />
+      </div>
+      
+      {error && <div className="error-message">{error}</div>}
+      
+      <button 
+        className={`topup-btn ${isLoading ? 'loading' : ''}`}
+        onClick={handlePayment}
+        disabled={isLoading}
+      >
+        <span className="btn-icon">
+          {isLoading ? (
+            <div className="loading-spinner"></div>
+          ) : (
+            <Icons.plus />
+          )}
+        </span>
+        <span>{isLoading ? 'Обработка...' : t.topUp}</span>
+      </button>
     </div>
-    
-    <button className="topup-btn">
-      <span className="btn-icon">
-        <Icons.plus />
-      </span>
-      <span>{t.topUp}</span>
-    </button>
-  </div>
-)
+  )
+}
 
 const UpgradeTab = ({ t }: { t: any }) => (
   <div className="tab-content">
@@ -441,7 +501,7 @@ function App() {
         >
           <HomeTab user={user} t={t} />
           <CasesTab t={t} />
-          <TopUpTab t={t} />
+          <TopUpTab t={t} user={user} />
           <UpgradeTab t={t} />
           <ProfileTab user={user} t={t} language={language} setLanguage={setLanguage} />
         </div>
