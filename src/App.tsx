@@ -1,48 +1,62 @@
 import React, { useEffect, useState } from 'react'
-import { init, useLaunchParams } from '@telegram-apps/sdk-react'
 import RouletteGame from './components/RouletteGame'
 import './App.css'
 
+// Типы для Telegram Web App
+declare global {
+  interface Window {
+    Telegram?: {
+      WebApp: {
+        ready: () => void
+        initDataUnsafe?: {
+          user?: {
+            id: number
+            first_name: string
+            username?: string
+          }
+        }
+      }
+    }
+  }
+}
+
 function App() {
-  const [isReady, setIsReady] = useState(false)
   const [user, setUser] = useState<any>(null)
-  
-  // Получаем параметры запуска согласно документации
-  const launchParams = useLaunchParams()
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    console.log('🚀 Инициализация приложения...')
+    console.log('🚀 Запуск приложения...')
     console.log('📍 URL:', window.location.href)
     console.log('🔍 User Agent:', navigator.userAgent)
     
-    try {
-      // Инициализируем SDK согласно документации
-      init()
-      console.log('✅ Telegram Web App SDK инициализирован')
-      
-      // Получаем данные пользователя из параметров запуска
-      if (launchParams?.tgWebAppData?.user) {
-        setUser(launchParams.tgWebAppData.user)
-        console.log('✅ Данные пользователя получены:', launchParams.tgWebAppData.user)
-      } else {
-        console.log('⚠️ Данные пользователя не найдены')
+    // Проверяем, запущено ли в Telegram
+    const isTelegram = window.Telegram && window.Telegram.WebApp
+    console.log('📱 Запущено в Telegram:', !!isTelegram)
+    
+    if (isTelegram) {
+      try {
+        // Инициализируем Telegram Web App
+        window.Telegram.WebApp.ready()
+        console.log('✅ Telegram Web App готов')
+        
+        // Получаем данные пользователя
+        const tgUser = window.Telegram.WebApp.initDataUnsafe?.user
+        if (tgUser) {
+          setUser(tgUser)
+          console.log('✅ Пользователь Telegram:', tgUser)
+        }
+        
+      } catch (error) {
+        console.error('❌ Ошибка инициализации Telegram:', error)
       }
-      
-      setIsReady(true)
-      console.log('🎉 Приложение инициализировано:', {
-        launchParams,
-        user: launchParams?.tgWebAppData?.user,
-        platform: launchParams?.tgWebAppPlatform,
-        version: launchParams?.tgWebAppVersion
-      })
-      
-    } catch (error) {
-      console.error('❌ Ошибка инициализации:', error)
-      setIsReady(true) // Все равно показываем приложение
+    } else {
+      console.log('🌐 Запущено в браузере')
     }
-  }, [launchParams])
+    
+    setIsLoaded(true)
+  }, [])
 
-  if (!isReady) {
+  if (!isLoaded) {
     return (
       <div className="loading">
         <div className="spinner"></div>

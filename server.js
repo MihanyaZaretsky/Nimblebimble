@@ -12,12 +12,6 @@ const PORT = process.env.PORT || 3000
 // В продакшене обслуживаем статические файлы
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(join(__dirname, 'dist')))
-  app.use('/public', express.static(join(__dirname, 'public')))
-  
-  // Тестовая страница
-  app.get('/test', (req, res) => {
-    res.sendFile(join(__dirname, 'public', 'test.html'))
-  })
   
   app.get('*', (req, res) => {
     res.sendFile(join(__dirname, 'dist', 'index.html'))
@@ -35,5 +29,4 @@ if (process.env.NODE_ENV === 'production') {
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Сервер запущен на порту ${PORT}`)
   console.log(`📱 URL: http://localhost:${PORT}`)
-  console.log(`🧪 Тестовая страница: http://localhost:${PORT}/test`)
 }) 
