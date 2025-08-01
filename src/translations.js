@@ -54,7 +54,7 @@ export const translations = {
     welcome: 'Welcome!',
     welcomeSubtitle: 'Choose an action to start the game',
     openCase: 'Open Case',
-    topUp: 'Top Up',
+    topUp: 'Deposit',
     
     // Cases Tab
     cases: 'Cases',
@@ -66,7 +66,7 @@ export const translations = {
     open: 'Open',
     
     // TopUp Tab
-    topUpBalance: 'Top Up Balance',
+    topUpBalance: 'Deposit Balance',
     fastAndSecure: 'Fast and Secure',
     starsPayment: 'Payment via Stars',
     amount: 'Amount',
@@ -83,7 +83,7 @@ export const translations = {
     // Navigation
     home: 'Home',
     cases: 'Cases',
-    topUp: 'Top Up',
+    topUp: 'Deposit',
     upgrade: 'Upgrade',
     profile: 'Profile',
     
