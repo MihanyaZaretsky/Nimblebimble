@@ -25,17 +25,17 @@ function App() {
       console.log('✅ Главная кнопка смонтирована')
       
       // Настраиваем главную кнопку (проверяем доступность)
-      if (mainButton.setText.isAvailable()) {
+      if (mainButton.setText && mainButton.setText.isAvailable()) {
         mainButton.setText('🎰 Играть в рулетку')
       }
       
-      if (mainButton.show.isAvailable()) {
+      if (mainButton.show && mainButton.show.isAvailable()) {
         mainButton.show()
       }
       console.log('✅ Главная кнопка настроена')
       
       // Обработчик нажатия главной кнопки
-      if (mainButton.onClick.isAvailable()) {
+      if (mainButton.onClick && mainButton.onClick.isAvailable()) {
         mainButton.onClick(() => {
           console.log('🎮 Нажата главная кнопка')
           // Здесь будет логика запуска игры

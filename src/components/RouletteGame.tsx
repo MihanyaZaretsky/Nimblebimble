@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { showAlert, hapticFeedback, showPopup } from '@telegram-apps/sdk-react'
 import './RouletteGame.css'
 
 interface User {
@@ -79,14 +78,12 @@ const RouletteGame: React.FC<RouletteGameProps> = ({ user }) => {
       setBalance(prev => prev + data.win_amount)
       
       // Показываем уведомление о выигрыше
-      showAlert(`🎉 Выигрыш! +${data.win_amount} Stars`)
-      hapticFeedback.notificationOccurred('success')
+      alert(`🎉 Выигрыш! +${data.win_amount} Stars`)
     } else {
       setLastWin(null)
       setBalance(prev => prev - currentBet)
       
-      showAlert('😔 Попробуйте еще раз!')
-      hapticFeedback.notificationOccurred('error')
+      alert('😔 Попробуйте еще раз!')
     }
   }
 
@@ -102,9 +99,8 @@ const RouletteGame: React.FC<RouletteGameProps> = ({ user }) => {
     const finalRotation = wheelRotation + (spins * 360) + Math.random() * 360
     setWheelRotation(finalRotation)
     
-    // Отправляем данные в бота через Telegram Web App
     // TODO: Добавить sendData из SDK когда будет доступно
-    hapticFeedback.impactOccurred('medium')
+    console.log('🎰 Крутим рулетку...')
     
     // Симуляция результата (в реальном приложении это придет от бота)
     setTimeout(() => {
@@ -122,35 +118,11 @@ const RouletteGame: React.FC<RouletteGameProps> = ({ user }) => {
   }
 
   const buyStars = () => {
-    showPopup({
-      title: '💎 Купить Stars',
-      message: 'Выберите количество Stars для покупки',
-      buttons: [
-        { text: '100 Stars - $1', type: 'default' },
-        { text: '500 Stars - $5', type: 'default' },
-        { text: '1000 Stars - $10', type: 'default' },
-        { text: 'Отмена', type: 'cancel' }
-      ]
-    }, (buttonId) => {
-      if (buttonId !== 'Отмена') {
-        showAlert('💎 Покупка Stars будет доступна в ближайшее время!')
-      }
-    })
+    alert('💎 Покупка Stars будет доступна в ближайшее время!')
   }
 
   const withdrawStars = () => {
-    showPopup({
-      title: '💸 Вывести Stars',
-      message: `Доступно для вывода: ${balance} Stars`,
-      buttons: [
-        { text: 'Вывести все', type: 'default' },
-        { text: 'Отмена', type: 'cancel' }
-      ]
-    }, (buttonId) => {
-      if (buttonId !== 'Отмена') {
-        showAlert('💸 Вывод Stars будет доступен в ближайшее время!')
-      }
-    })
+    alert('💸 Вывод Stars будет доступен в ближайшее время!')
   }
 
   return (
