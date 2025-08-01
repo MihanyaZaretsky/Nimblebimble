@@ -63,25 +63,6 @@ body {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  animation: gradientFlow 3s ease-in-out infinite;
-}
-
-@keyframes gradientFlow {
-  0% {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  }
-  25% {
-    background: linear-gradient(135deg, #764ba2 0%, #f093fb 50%, #f5576c 100%);
-  }
-  50% {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%);
-  }
-  75% {
-    background: linear-gradient(135deg, #f5576c 0%, #4facfe 50%, #00f2fe 100%);
-  }
-  100% {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #667eea 100%);
-  }
 }
 
 .connect-btn::before {
@@ -525,28 +506,6 @@ body {
   justify-content: center;
   box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
   transition: all 0.3s ease;
-  animation: primaryGradientFlow 4s ease-in-out infinite;
-}
-
-@keyframes primaryGradientFlow {
-  0% {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #ff9ff3 100%);
-  }
-  20% {
-    background: linear-gradient(135deg, #ee5a24 0%, #ff9ff3 50%, #a55eea 100%);
-  }
-  40% {
-    background: linear-gradient(135deg, #ff9ff3 0%, #a55eea 50%, #26de81 100%);
-  }
-  60% {
-    background: linear-gradient(135deg, #a55eea 0%, #26de81 50%, #20bf6b 100%);
-  }
-  80% {
-    background: linear-gradient(135deg, #26de81 0%, #20bf6b 50%, #ff6b6b 100%);
-  }
-  100% {
-    background: linear-gradient(135deg, #20bf6b 0%, #ff6b6b 50%, #ee5a24 100%);
-  }
 }
 
 .nav-btn.primary:hover {

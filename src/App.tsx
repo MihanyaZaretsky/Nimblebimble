@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
+import { initGradientAnimations } from './gradientAnimations'
 
 // Типы для Telegram Web App
 declare global {
@@ -290,6 +291,11 @@ function App() {
     } else {
       console.log('🌐 Запущено в браузере')
     }
+
+    // Инициализируем плавные анимации градиентов
+    setTimeout(() => {
+      initGradientAnimations()
+    }, 100)
   }, [])
 
   const renderTabContent = () => {
