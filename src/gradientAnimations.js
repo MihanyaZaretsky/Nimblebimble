@@ -39,17 +39,21 @@ class GradientAnimator {
       if (!this.startTime) this.startTime = currentTime;
       
       const elapsed = currentTime - this.startTime;
-      const progress = (elapsed % duration) / duration;
       
-      // Создаем волнообразное движение
-      const wave1 = Math.sin(progress * Math.PI * 2) * 0.5 + 0.5;
-      const wave2 = Math.sin(progress * Math.PI * 4 + Math.PI / 3) * 0.3 + 0.5;
-      const wave3 = Math.cos(progress * Math.PI * 3 + Math.PI / 6) * 0.4 + 0.5;
+      // Используем непрерывное время вместо прогресса от 0 до 1
+      const time1 = elapsed / duration;
+      const time2 = elapsed / (duration * 0.7);
+      const time3 = elapsed / (duration * 1.3);
+      
+      // Создаем волнообразное движение без сбросов
+      const wave1 = Math.sin(time1 * Math.PI * 2) * 0.5 + 0.5;
+      const wave2 = Math.sin(time2 * Math.PI * 4 + Math.PI / 3) * 0.3 + 0.5;
+      const wave3 = Math.cos(time3 * Math.PI * 3 + Math.PI / 6) * 0.4 + 0.5;
       
       // Создаем плавные переходы между цветами с волновым эффектом
-      const colorIndex1 = (progress * colors.length + wave1 * 0.5) % colors.length;
-      const colorIndex2 = (progress * colors.length + wave2 * 0.3 + 2) % colors.length;
-      const colorIndex3 = (progress * colors.length + wave3 * 0.4 + 4) % colors.length;
+      const colorIndex1 = (time1 * colors.length + wave1 * 0.5);
+      const colorIndex2 = (time2 * colors.length + wave2 * 0.3 + 2);
+      const colorIndex3 = (time3 * colors.length + wave3 * 0.4 + 4);
       
       const color1 = this.getColorAt(colors, colorIndex1);
       const color2 = this.getColorAt(colors, colorIndex2);
@@ -58,7 +62,7 @@ class GradientAnimator {
       // Создаем сложный голографический градиент с завитками
       const gradient = `
         conic-gradient(
-          from ${progress * 360}deg,
+          from ${time1 * 360}deg,
           ${color1} 0deg,
           ${color2} ${120 + wave1 * 60}deg,
           ${color3} ${240 + wave2 * 60}deg,
