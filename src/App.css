@@ -66,6 +66,7 @@ body {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  outline: none;
 }
 
 .connect-btn::before {
@@ -199,7 +200,7 @@ body {
 
 /* Секция канала */
 .channel-section {
-  margin: 20px 0;
+  margin: 40px 0 20px 0;
   padding: 0 16px;
 }
 
@@ -215,11 +216,12 @@ body {
   background: url('/channel-logo.png') center center;
   background-size: cover;
   border-radius: 12px;
-  height: 120px;
+  height: 160px;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  outline: none;
 }
 
 .channel-card:hover {
@@ -242,6 +244,7 @@ body {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  outline: none;
 }
 
 .action-btn:hover {
@@ -295,6 +298,7 @@ body {
   border-radius: 12px;
   text-align: center;
   transition: all 0.3s ease;
+  outline: none;
 }
 
 .case-card:hover {
@@ -329,6 +333,7 @@ body {
   cursor: pointer;
   width: 100%;
   transition: all 0.3s ease;
+  outline: none;
 }
 
 .open-btn:hover {
@@ -372,6 +377,7 @@ body {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  outline: none;
 }
 
 .payment-card::before {
@@ -483,6 +489,7 @@ body {
   cursor: pointer;
   width: 100%;
   transition: all 0.3s ease;
+  outline: none;
 }
 
 .topup-btn:hover {
@@ -622,6 +629,7 @@ body {
   font-size: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
+  outline: none;
 }
 
 .lang-btn.active {
@@ -657,6 +665,7 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   min-width: 60px;
+  outline: none;
 }
 
 .nav-btn:hover {
