@@ -11,6 +11,7 @@ declare global {
       WebApp: {
         ready: () => void
         sendData: (data: string) => void
+        openInvoice?: (url: string) => void
         initDataUnsafe?: {
           user?: {
             id: number
@@ -205,8 +206,8 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
         const response = await PaymentService.processStarsPayment(amount, user.id)
         console.log('🔵 Ответ от PaymentService:', response)
         
-        if (response.success && response.invoiceLink) {
-          console.log('🔵 Открываем ссылку:', response.invoiceLink)
+        if (response.success && response.invoice_url) {
+          console.log('🔵 Открываем инвойс:', response.invoice_url)
           // Отправляем данные в Telegram Web App
           if (window.Telegram?.WebApp) {
             window.Telegram.WebApp.sendData(JSON.stringify({
@@ -216,8 +217,13 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
               userId: user.id
             }))
           }
-          // Открываем ссылку на оплату
-          window.open(response.invoiceLink, '_blank')
+          // Открываем инвойс через Telegram API
+          if (window.Telegram?.WebApp?.openInvoice) {
+            window.Telegram.WebApp.openInvoice(response.invoice_url)
+          } else {
+            // Fallback для старых версий
+            window.open(response.invoice_url, '_blank')
+          }
         } else {
           console.error('🔴 Ошибка в ответе:', response.error)
           setError(response.error || 'Ошибка создания платежа')

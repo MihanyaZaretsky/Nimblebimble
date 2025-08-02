@@ -6,7 +6,7 @@ interface PaymentRequest {
 
 interface PaymentResponse {
   success: boolean;
-  invoiceLink?: string;
+  invoice_url?: string;
   error?: string;
 }
 
