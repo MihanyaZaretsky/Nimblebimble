@@ -42,6 +42,9 @@ body {
 
 .balance-icon {
   font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .balance-amount {
@@ -236,6 +239,9 @@ body {
 
 .btn-icon {
   font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Cases Tab */
@@ -313,6 +319,9 @@ body {
 
 .header-icon {
   font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .payment-methods {
@@ -651,6 +660,9 @@ body {
 
 .nav-icon {
   font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-btn span:last-child {
