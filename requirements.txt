@@ -1,5 +1,5 @@
-aiogram==2.19
+aiogram==3.4.1
 python-dotenv==1.0.0
-fastapi==0.68.0
-uvicorn==0.14.0
-pydantic==1.8.0 
+fastapi==0.104.1
+uvicorn==0.24.0
+pydantic==2.5.0 
