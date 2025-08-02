@@ -22,10 +22,10 @@ interface BalanceResponse {
   userId: number;
 }
 
-// Используем URL Render деплоя
+// API бота на VDS
 const PAYMENT_API_URL = typeof window !== 'undefined' && window.location.hostname === 'localhost'
-  ? 'http://localhost:3000'
-  : 'https://nimblebimble.onrender.com';
+  ? 'http://localhost:3001'
+  : 'http://YOUR_VDS_IP:3001'; // Замените на IP вашего VDS
 
 export class PaymentService {
   static async createInvoiceLink(request: PaymentRequest): Promise<PaymentResponse> {
