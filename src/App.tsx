@@ -115,7 +115,7 @@ const Icons = {
 }
 
 // Компоненты для разных вкладок
-const HomeTab = ({ user, t }: { user: any, t: any }) => (
+const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (tab: string) => void }) => (
   <div className="tab-content">
     <div className="welcome-box">
       <h2>{t.welcome}</h2>
@@ -123,15 +123,15 @@ const HomeTab = ({ user, t }: { user: any, t: any }) => (
     </div>
     
     <div className="action-buttons">
-      <button className="action-btn">
+      <button className="action-btn" onClick={() => setActiveTab('cases')}>
         <span className="btn-icon">
           <Icons.box />
         </span>
         <span>{t.openCase}</span>
       </button>
-      <button className="action-btn topup-home-btn">
+      <button className="action-btn topup-home-btn" onClick={() => setActiveTab('topup')}>
         <span className="btn-icon">
-          <Icons.wallet />
+          <Icons.plus />
         </span>
         <span>{t.topUp}</span>
       </button>
@@ -530,7 +530,7 @@ function App() {
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
-          <HomeTab user={user} t={t} />
+          <HomeTab user={user} t={t} setActiveTab={setActiveTab} />
           <CasesTab t={t} />
           <TopUpTab t={t} user={user} />
           <UpgradeTab t={t} />
