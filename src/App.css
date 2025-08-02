@@ -216,7 +216,7 @@ body {
   background: url('/channel-logo.png') center center;
   background-size: cover;
   border-radius: 0;
-  height: 200px;
+  height: 100px;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
