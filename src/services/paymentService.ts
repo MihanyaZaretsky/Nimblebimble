@@ -23,9 +23,7 @@ interface BalanceResponse {
 }
 
 // API бота (локально на 3001, на VDS - замените IP)
-const PAYMENT_API_URL = typeof window !== 'undefined' && window.location.hostname === 'localhost'
-  ? 'http://localhost:3001'
-  : 'http://YOUR_VDS_IP:3001'; // Замените на IP вашего VDS
+const PAYMENT_API_URL = 'http://localhost:3001'; // Временно для локального тестирования
 
 export class PaymentService {
   static async createInvoiceLink(request: PaymentRequest): Promise<PaymentResponse> {

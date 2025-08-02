@@ -14,6 +14,7 @@ const paidUsers = new Map();
 
 // --- Упрощенный polling ---
 let isPolling = false;
+let restartTimeout = null;
 
 function startBot() {
   if (isPolling) {
@@ -23,6 +24,12 @@ function startBot() {
   
   console.log('🚀 Запуск бота...');
   isPolling = true;
+  
+  // Очищаем предыдущий timeout
+  if (restartTimeout) {
+    clearTimeout(restartTimeout);
+    restartTimeout = null;
+  }
   
   // Простой polling без сложных параметров
   bot.startPolling();
@@ -42,13 +49,18 @@ bot.on('polling_error', (error) => {
   console.log('🔄 Ошибка polling:', error.message);
   isPolling = false;
   
-  // Простой перезапуск через 5 секунд
-  setTimeout(() => {
+  // Очищаем предыдущий timeout
+  if (restartTimeout) {
+    clearTimeout(restartTimeout);
+  }
+  
+  // Перезапуск через 10 секунд (увеличили время)
+  restartTimeout = setTimeout(() => {
     if (!isPolling) {
       console.log('🔄 Перезапуск бота...');
       startBot();
     }
-  }, 5000);
+  }, 10000);
 });
 
 // --- Обработчики команд ---
