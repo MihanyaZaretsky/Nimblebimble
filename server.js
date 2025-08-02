@@ -159,8 +159,38 @@ app.get("/api/balance/:userId", (req, res) => {
   });
 });
 
-// Запуск бота
-bot.startPolling();
+// Запуск бота с правильной обработкой ошибок
+bot.startPolling({ 
+  polling: true,
+  interval: 300,
+  autoStart: true,
+  params: {
+    timeout: 10
+  }
+});
+
+// Обработка ошибок polling
+bot.on('polling_error', (error) => {
+  console.log('🔄 Ошибка polling, перезапуск через 5 секунд...', error.message);
+  setTimeout(() => {
+    try {
+      bot.stopPolling();
+      setTimeout(() => {
+        bot.startPolling({ 
+          polling: true,
+          interval: 300,
+          autoStart: true,
+          params: {
+            timeout: 10
+          }
+        });
+      }, 1000);
+    } catch (e) {
+      console.error('❌ Ошибка перезапуска бота:', e);
+    }
+  }, 5000);
+});
+
 console.log("🤖 Telegram бот запущен");
 
 // --- Конец платёжного функционала ---
@@ -180,9 +210,28 @@ if (process.env.NODE_ENV === 'production') {
   app.use(vite.middlewares)
 }
 
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Сервер запущен на порту ${PORT}`)
   console.log(`📱 URL: http://localhost:${PORT}`)
   console.log(`🤖 Бот токен: ${TELEGRAM_BOT_TOKEN ? '✅ Настроен' : '❌ Не настроен'}`)
   console.log(`💳 Telegram Stars: ✅ Встроенная система`)
-}) 
+})
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('🛑 Получен SIGTERM, останавливаем сервер...');
+  bot.stopPolling();
+  server.close(() => {
+    console.log('✅ Сервер остановлен');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('🛑 Получен SIGINT, останавливаем сервер...');
+  bot.stopPolling();
+  server.close(() => {
+    console.log('✅ Сервер остановлен');
+    process.exit(0);
+  });
+}); 
