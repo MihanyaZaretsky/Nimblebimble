@@ -22,6 +22,7 @@
     "node-telegram-bot-api": "^0.64.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "telegraf": "^4.16.3",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
   },
@@ -34,5 +35,18 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5"
-  }
+  },
+  "description": "Telegram бот для игры в рулетку с интеграцией платежей через Telegram Stars и TON.",
+  "main": "bot.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MihanyaZaretsky/Nimblebimble.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MihanyaZaretsky/Nimblebimble/issues"
+  },
+  "homepage": "https://github.com/MihanyaZaretsky/Nimblebimble#readme"
 }

@@ -22,8 +22,10 @@ interface BalanceResponse {
   userId: number;
 }
 
-// API бота (локально на 3001, на VDS - замените IP)
-const PAYMENT_API_URL = 'http://localhost:3001'; // Временно для локального тестирования
+// API бота (FastAPI сервер на Render)
+const PAYMENT_API_URL = typeof window !== 'undefined' && window.location.hostname === 'localhost'
+  ? 'http://localhost:8000'
+  : 'https://nimble-bot-api.onrender.com'; // FastAPI сервер на Render
 
 export class PaymentService {
   static async createInvoiceLink(request: PaymentRequest): Promise<PaymentResponse> {
@@ -84,13 +86,35 @@ export class PaymentService {
   static async processStarsPayment(amount: number, userId: number): Promise<PaymentResponse> {
     console.log('🔵 PaymentService.processStarsPayment:', { amount, userId })
     
-    const request: PaymentRequest = {
-      payload: `stars_payment_${userId}_${Date.now()}`,
-      currency: 'XTR',
-      prices: [{ amount, label: `Пополнение на ${amount} Stars` }]
+    // Новый формат для FastAPI
+    const request = {
+      user_id: userId,
+      amount: amount,
+      currency: 'Stars',
+      description: `Пополнение на ${amount} Stars`
     };
 
     console.log('🔵 Созданный request:', request)
-    return this.createInvoiceLink(request);
+    
+    try {
+      const response = await fetch(`${PAYMENT_API_URL}/api/createInvoiceLink`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(request),
+      });
+
+      console.log('🔵 Response status:', response.status)
+      const data = await response.json();
+      console.log('🔵 Response data:', data)
+      return data;
+    } catch (error) {
+      console.error('🔴 Ошибка создания ссылки на инвойс:', error);
+      return {
+        success: false,
+        error: 'Ошибка сети'
+      };
+    }
   }
 } 
