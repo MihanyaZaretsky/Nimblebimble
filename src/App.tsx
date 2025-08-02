@@ -127,16 +127,16 @@ const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (
         <p>{t.welcomeSubtitle}</p>
       </div>
       
-      {/* Секция канала */}
-      <div className="channel-section">
-        <h3 className="channel-title">{t.subscribeChannel}</h3>
-        <div className="channel-card-bg" onClick={handleChannelClick}>
-          <div className="channel-overlay">
-            <h4>@nimble_roulette</h4>
-            <p>Новости, обновления и эксклюзивы</p>
-          </div>
-        </div>
-      </div>
+                        {/* Секция канала */}
+                  <div className="channel-section">
+                    <h3 className="channel-title">{t.subscribeChannel}</h3>
+                    <div className="channel-card" onClick={handleChannelClick}>
+                      <div className="channel-content">
+                        <h4>@nimble_roulette</h4>
+                        <p>Новости, обновления и эксклюзивы</p>
+                      </div>
+                    </div>
+                  </div>
       
       <div className="action-buttons">
         <button className="action-btn" onClick={() => setActiveTab('cases')}>
