@@ -39,8 +39,9 @@ async def create_invoice_link(user_id: int, amount: int, currency: str = "Stars"
         
         print(f"🔵 Создаем инвойс: {data}")
         
-        # Создаем инвойс через Telegram API
-        invoice = await bot.create_invoice(
+        # Создаем инвойс через Telegram API (aiogram 3.x)
+        invoice = await bot.send_invoice(
+            chat_id=user_id,
             title=data["title"],
             description=data["description"],
             payload=data["payload"],
