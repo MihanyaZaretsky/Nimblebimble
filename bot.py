@@ -34,14 +34,13 @@ async def create_invoice_link(user_id: int, amount: int, currency: str = "Stars"
             "description": f"Пополнение на {amount} {currency}",
             "payload": payload,
             "currency": "XTR",  # Telegram Stars используют XTR
-            "prices": [{"label": f"{amount} {currency}", "amount": int(amount * 100)}]
+            "prices": [{"label": f"{amount} {currency}", "amount": int(amount)}]
         }
         
         print(f"🔵 Создаем инвойс: {data}")
         
         # Создаем инвойс через Telegram API (aiogram 3.x)
-        invoice = await bot.send_invoice(
-            chat_id=user_id,
+        invoice = await bot.create_invoice_link(
             title=data["title"],
             description=data["description"],
             payload=data["payload"],
@@ -50,8 +49,8 @@ async def create_invoice_link(user_id: int, amount: int, currency: str = "Stars"
             prices=data["prices"]
         )
         
-        print(f"✅ Инвойс создан: {invoice.invoice_url}")
-        return invoice.invoice_url
+        print(f"✅ Инвойс создан: {invoice}")
+        return invoice
         
     except Exception as e:
         print(f"❌ Ошибка создания инвойса: {e}")
