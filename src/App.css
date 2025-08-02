@@ -201,7 +201,7 @@ body {
 /* Секция канала */
 .channel-section {
   margin: 40px 0 20px 0;
-  padding: 0 16px;
+  padding: 0;
 }
 
 .channel-title {
@@ -215,13 +215,14 @@ body {
 .channel-card {
   background: url('/channel-logo.png') center center;
   background-size: cover;
-  border-radius: 12px;
-  height: 160px;
+  border-radius: 0;
+  height: 200px;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
   outline: none;
+  margin: 0 16px;
 }
 
 .channel-card:hover {
