@@ -25,7 +25,7 @@ interface BalanceResponse {
 // API бота (теперь встроен в bot.py на Railway)
 const PAYMENT_API_URL = typeof window !== 'undefined' && window.location.hostname === 'localhost'
   ? 'http://localhost:8000'
-  : 'https://nimble-bot-mirg.onrender.com'; // Бот с API на Railway
+  : 'https://nimble-bot-mirg.up.railway.app'; // Бот с API на Railway
 
 export class PaymentService {
   static async createInvoiceLink(request: PaymentRequest): Promise<PaymentResponse> {
