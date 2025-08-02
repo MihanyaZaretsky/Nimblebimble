@@ -226,12 +226,22 @@ async def main():
                     "error": str(e)
                 }
         
-        # Запускаем только HTTP сервер для Railway
-        print("🌐 Запуск HTTP сервера для Railway...")
+        # Запускаем бота и сервер одновременно
+        print("🌐 Запуск бота и HTTP сервера...")
         
-        config = uvicorn.Config(app, host="0.0.0.0", port=8000)
-        server = uvicorn.Server(config)
-        await server.serve()
+        async def run_bot():
+            await dp.start_polling(bot)
+        
+        async def run_server():
+            config = uvicorn.Config(app, host="0.0.0.0", port=8000)
+            server = uvicorn.Server(config)
+            await server.serve()
+        
+        # Запускаем оба процесса
+        await asyncio.gather(
+            run_bot(),
+            run_server()
+        )
         
     except Exception as e:
         print(f"❌ Ошибка запуска бота: {e}")
