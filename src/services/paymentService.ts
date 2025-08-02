@@ -23,9 +23,9 @@ interface BalanceResponse {
 }
 
 // Используем URL Render деплоя
-const PAYMENT_API_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://nimblebimble.onrender.com'  // Ваш Render URL
-  : 'http://localhost:3000';
+const PAYMENT_API_URL = typeof window !== 'undefined' && window.location.hostname === 'localhost'
+  ? 'http://localhost:3000'
+  : 'https://nimblebimble.onrender.com';
 
 export class PaymentService {
   static async createInvoiceLink(request: PaymentRequest): Promise<PaymentResponse> {

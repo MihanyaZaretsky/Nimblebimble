@@ -10,6 +10,7 @@ declare global {
     Telegram?: {
       WebApp: {
         ready: () => void
+        sendData: (data: string) => void
         initDataUnsafe?: {
           user?: {
             id: number
@@ -185,6 +186,7 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
   const [amount, setAmount] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'ton' | 'stars'>('stars')
 
   const handlePayment = async () => {
     console.log('🔵 Начинаем платеж:', { user: user?.id, amount, selectedMethod: selectedPaymentMethod })
@@ -368,8 +370,6 @@ function App() {
   const [language, setLanguage] = useState('ru')
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
-  // Добавляем состояние для сохранения выбора метода оплаты
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'ton' | 'stars'>('stars')
   
   // Получаем переводы для текущего языка
   const t = getTranslations(language)
