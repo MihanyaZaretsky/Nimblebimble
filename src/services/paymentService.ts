@@ -22,12 +22,15 @@ interface BalanceResponse {
   userId: number;
 }
 
+// Используем URL Render деплоя
 const PAYMENT_API_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://your-payment-domain.com' 
-  : 'http://localhost:3001';
+  ? 'https://nimblebimble.onrender.com'  // Ваш Render URL
+  : 'http://localhost:3000';
 
 export class PaymentService {
   static async createInvoiceLink(request: PaymentRequest): Promise<PaymentResponse> {
+    console.log('🔵 PaymentService.createInvoiceLink:', { PAYMENT_API_URL, request })
+    
     try {
       const response = await fetch(`${PAYMENT_API_URL}/api/createInvoiceLink`, {
         method: 'POST',
@@ -37,10 +40,12 @@ export class PaymentService {
         body: JSON.stringify(request),
       });
 
+      console.log('🔵 Response status:', response.status)
       const data = await response.json();
+      console.log('🔵 Response data:', data)
       return data;
     } catch (error) {
-      console.error('Ошибка создания ссылки на инвойс:', error);
+      console.error('🔴 Ошибка создания ссылки на инвойс:', error);
       return {
         success: false,
         error: 'Ошибка сети'
@@ -79,12 +84,15 @@ export class PaymentService {
   }
 
   static async processStarsPayment(amount: number, userId: number): Promise<PaymentResponse> {
+    console.log('🔵 PaymentService.processStarsPayment:', { amount, userId })
+    
     const request: PaymentRequest = {
       payload: `stars_payment_${userId}_${Date.now()}`,
       currency: 'XTR',
       prices: [{ amount, label: `Пополнение на ${amount} Stars` }]
     };
 
+    console.log('🔵 Созданный request:', request)
     return this.createInvoiceLink(request);
   }
 } 

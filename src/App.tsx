@@ -183,11 +183,12 @@ const CasesTab = ({ t }: { t: any }) => (
 
 const TopUpTab = ({ t, user }: { t: any, user: any }) => {
   const [amount, setAmount] = useState(1)
-  const [selectedMethod, setSelectedMethod] = useState<'ton' | 'stars'>('stars')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
   const handlePayment = async () => {
+    console.log('🔵 Начинаем платеж:', { user: user?.id, amount, selectedMethod: selectedPaymentMethod })
+    
     if (!user?.id) {
       setError('Пользователь не найден')
       return
@@ -197,21 +198,43 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
     setError('')
 
     try {
-      if (selectedMethod === 'stars') {
+      if (selectedPaymentMethod === 'stars') {
+        console.log('🔵 Вызываем PaymentService.processStarsPayment...')
         const response = await PaymentService.processStarsPayment(amount, user.id)
+        console.log('🔵 Ответ от PaymentService:', response)
         
         if (response.success && response.invoiceLink) {
-          // Просто открываем ссылку на инвойс
+          console.log('🔵 Открываем ссылку:', response.invoiceLink)
+          // Отправляем данные в Telegram Web App
+          if (window.Telegram?.WebApp) {
+            window.Telegram.WebApp.sendData(JSON.stringify({
+              action: 'payment_initiated',
+              method: 'stars',
+              amount: amount,
+              userId: user.id
+            }))
+          }
+          // Открываем ссылку на оплату
           window.open(response.invoiceLink, '_blank')
         } else {
+          console.error('🔴 Ошибка в ответе:', response.error)
           setError(response.error || 'Ошибка создания платежа')
         }
       } else {
+        // Для TON платежей
+        if (window.Telegram?.WebApp) {
+          window.Telegram.WebApp.sendData(JSON.stringify({
+            action: 'payment_initiated',
+            method: 'ton',
+            amount: amount,
+            userId: user.id
+          }))
+        }
         setError('TON платежи пока не поддерживаются')
       }
     } catch (err) {
+      console.error('🔴 Ошибка в handlePayment:', err)
       setError('Ошибка сети')
-      console.error('Ошибка платежа:', err)
     } finally {
       setIsLoading(false)
     }
@@ -228,8 +251,8 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
       
       <div className="payment-methods">
         <div 
-          className={`payment-card ton-card ${selectedMethod === 'ton' ? 'selected' : ''}`}
-          onClick={() => setSelectedMethod('ton')}
+          className={`payment-card ton-card ${selectedPaymentMethod === 'ton' ? 'selected' : ''}`}
+          onClick={() => setSelectedPaymentMethod('ton')}
         >
           <div className="payment-icon">
             <Icons.diamondLarge />
@@ -239,8 +262,8 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
         </div>
         
         <div 
-          className={`payment-card stars-card ${selectedMethod === 'stars' ? 'selected' : ''}`}
-          onClick={() => setSelectedMethod('stars')}
+          className={`payment-card stars-card ${selectedPaymentMethod === 'stars' ? 'selected' : ''}`}
+          onClick={() => setSelectedPaymentMethod('stars')}
         >
           <div className="payment-icon">
             <Icons.starLarge />
@@ -345,6 +368,8 @@ function App() {
   const [language, setLanguage] = useState('ru')
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  // Добавляем состояние для сохранения выбора метода оплаты
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'ton' | 'stars'>('stars')
   
   // Получаем переводы для текущего языка
   const t = getTranslations(language)
