@@ -170,9 +170,36 @@ async def main():
         bot_info = await bot.get_me()
         print(f"✅ Бот подключен: @{bot_info.username}")
         
-        # Запускаем polling
-        print("🔄 Запуск polling...")
-        await dp.start_polling(bot)
+        # Запускаем HTTP сервер для Render
+        import uvicorn
+        from fastapi import FastAPI
+        
+        app = FastAPI()
+        
+        @app.get("/")
+        async def root():
+            return {"status": "Bot is running", "bot": bot_info.username}
+        
+        @app.get("/health")
+        async def health():
+            return {"status": "healthy"}
+        
+        # Запускаем бота и сервер одновременно
+        import asyncio
+        
+        async def run_bot():
+            await dp.start_polling(bot)
+        
+        async def run_server():
+            config = uvicorn.Config(app, host="0.0.0.0", port=8000)
+            server = uvicorn.Server(config)
+            await server.serve()
+        
+        # Запускаем оба процесса
+        await asyncio.gather(
+            run_bot(),
+            run_server()
+        )
         
     except Exception as e:
         print(f"❌ Ошибка запуска бота: {e}")
