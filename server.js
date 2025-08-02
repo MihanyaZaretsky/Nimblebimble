@@ -15,7 +15,7 @@ const app = express()
 const PORT = process.env.PORT || 3000
 
 // --- Платёжный функционал ---
-const TELEGRAM_BOT_TOKEN = process.env.BOT_TOKEN;
+const TELEGRAM_BOT_TOKEN = process.env.BOT_TOKEN || '8312865169:AAHmI2FODLlt4Qcf2rr6MtRbUcB8fGtlLoU';
 
 if (!TELEGRAM_BOT_TOKEN) {
   console.error('❌ BOT_TOKEN не найден в переменных окружения!');
