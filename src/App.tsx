@@ -127,14 +127,6 @@ const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (
         <p>{t.welcomeSubtitle}</p>
       </div>
       
-                        {/* Секция канала */}
-                  <div className="channel-section">
-                    <h3 className="channel-title">{t.subscribeChannel}</h3>
-                    <div className="channel-card" onClick={handleChannelClick}>
-                      {/* Текст внутри плашки удален по запросу пользователя */}
-                    </div>
-                  </div>
-      
       <div className="action-buttons">
         <button className="action-btn" onClick={() => setActiveTab('cases')}>
           <span className="btn-icon">
@@ -148,6 +140,14 @@ const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (
           </span>
           <span>{t.topUp}</span>
         </button>
+      </div>
+      
+      {/* Секция канала */}
+      <div className="channel-section">
+        <h3 className="channel-title">{t.subscribeChannel}</h3>
+        <div className="channel-card" onClick={handleChannelClick}>
+          {/* Текст внутри плашки удален по запросу пользователя */}
+        </div>
       </div>
     </div>
   )
