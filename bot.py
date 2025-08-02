@@ -20,37 +20,43 @@ dp = Dispatcher()
 
 # Функция создания инвойса для Telegram Stars
 async def create_invoice_link(user_id: int, amount: int, currency: str = "Stars", description: str = "Пополнение баланса"):
-    """Создание инвойса для Telegram Stars (по примеру Django)"""
+    """Создание инвойса для Telegram Stars через Telegram API"""
     try:
+        import aiohttp
+        
         # Генерируем уникальный order_id
         order_id = f"{user_id}_{int(asyncio.get_event_loop().time())}"
         
         # Создаем payload как в примере Django
         payload = f"{order_id}&&&{amount}"
         
-        # Данные для создания инвойса (как в примере)
+        # Данные для создания инвойса
         data = {
             "title": "Пополнение баланса",
             "description": f"Пополнение на {amount} {currency}",
             "payload": payload,
+            "provider_token": "",  # Для Stars не нужен provider token
             "currency": "XTR",  # Telegram Stars используют XTR
             "prices": [{"label": f"{amount} {currency}", "amount": int(amount)}]
         }
         
         print(f"🔵 Создаем инвойс: {data}")
         
-        # Создаем инвойс через Telegram API (aiogram 3.x)
-        invoice = await bot.create_invoice_link(
-            title=data["title"],
-            description=data["description"],
-            payload=data["payload"],
-            provider_token="",  # Для Stars не нужен provider token
-            currency=data["currency"],
-            prices=data["prices"]
-        )
+        # Вызываем Telegram API напрямую
+        url = f"https://api.telegram.org/bot{BOT_TOKEN}/createInvoiceLink"
         
-        print(f"✅ Инвойс создан: {invoice}")
-        return invoice
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, json=data) as resp:
+                result = await resp.json()
+                
+                if result.get("ok"):
+                    invoice_link = result["result"]
+                    print(f"✅ Инвойс создан: {invoice_link}")
+                    return invoice_link
+                else:
+                    error_msg = result.get("description", "Unknown error")
+                    print(f"❌ Ошибка Telegram API: {error_msg}")
+                    raise Exception(f"Telegram API error: {error_msg}")
         
     except Exception as e:
         print(f"❌ Ошибка создания инвойса: {e}")
