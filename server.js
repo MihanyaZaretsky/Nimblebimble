@@ -159,37 +159,48 @@ app.get("/api/balance/:userId", (req, res) => {
   });
 });
 
-// Запуск бота с правильной обработкой ошибок
-bot.startPolling({ 
-  polling: true,
-  interval: 300,
-  autoStart: true,
-  params: {
-    timeout: 10
+// Запуск бота с исправленными параметрами
+let isPolling = false;
+
+function startBot() {
+  if (isPolling) {
+    console.log('🔄 Бот уже запущен, пропускаем...');
+    return;
   }
-});
+  
+  isPolling = true;
+  bot.startPolling({ 
+    polling: true,
+    interval: 1000,
+    autoStart: false,
+    params: {
+      timeout: 30
+    }
+  });
+}
 
 // Обработка ошибок polling
 bot.on('polling_error', (error) => {
-  console.log('🔄 Ошибка polling, перезапуск через 5 секунд...', error.message);
+  console.log('🔄 Ошибка polling:', error.message);
+  isPolling = false;
+  
+  // Не перезапускаем автоматически при конфликте
+  if (error.message.includes('409 Conflict')) {
+    console.log('⚠️ Обнаружен конфликт, останавливаем polling');
+    return;
+  }
+  
+  // Перезапускаем только при других ошибках
   setTimeout(() => {
-    try {
-      bot.stopPolling();
-      setTimeout(() => {
-        bot.startPolling({ 
-          polling: true,
-          interval: 300,
-          autoStart: true,
-          params: {
-            timeout: 10
-          }
-        });
-      }, 1000);
-    } catch (e) {
-      console.error('❌ Ошибка перезапуска бота:', e);
+    if (!isPolling) {
+      console.log('🔄 Перезапуск бота...');
+      startBot();
     }
-  }, 5000);
+  }, 10000);
 });
+
+// Запускаем бота
+startBot();
 
 console.log("🤖 Telegram бот запущен");
 
