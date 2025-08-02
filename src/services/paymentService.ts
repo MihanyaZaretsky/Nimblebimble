@@ -22,10 +22,10 @@ interface BalanceResponse {
   userId: number;
 }
 
-// API бота (FastAPI сервер на Render)
+// API бота (теперь встроен в bot.py на Render)
 const PAYMENT_API_URL = typeof window !== 'undefined' && window.location.hostname === 'localhost'
   ? 'http://localhost:8000'
-  : 'https://nimble-bot-api.onrender.com'; // FastAPI сервер на Render
+  : 'https://nimble-bot.onrender.com'; // Бот с API на Render
 
 export class PaymentService {
   static async createInvoiceLink(request: PaymentRequest): Promise<PaymentResponse> {
