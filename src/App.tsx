@@ -130,13 +130,8 @@ const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (
       {/* Секция канала */}
       <div className="channel-section">
         <h3 className="channel-title">{t.subscribeChannel}</h3>
-        <div className="channel-card" onClick={handleChannelClick}>
-          <img 
-            src="/channel-logo.png" 
-            alt="Nimble Roulette Channel" 
-            className="channel-logo"
-          />
-          <div className="channel-info">
+        <div className="channel-card-bg" onClick={handleChannelClick}>
+          <div className="channel-overlay">
             <h4>@nimble_roulette</h4>
             <p>Новости, обновления и эксклюзивы</p>
           </div>
