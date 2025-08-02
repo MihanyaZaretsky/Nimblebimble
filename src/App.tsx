@@ -115,29 +115,51 @@ const Icons = {
 }
 
 // Компоненты для разных вкладок
-const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (tab: string) => void }) => (
-  <div className="tab-content">
-    <div className="welcome-box">
-      <h2>{t.welcome}</h2>
-      <p>{t.welcomeSubtitle}</p>
+const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (tab: string) => void }) => {
+  const handleChannelClick = () => {
+    window.open('https://t.me/nimble_roulette', '_blank')
+  }
+
+  return (
+    <div className="tab-content">
+      <div className="welcome-box">
+        <h2>{t.welcome}</h2>
+        <p>{t.welcomeSubtitle}</p>
+      </div>
+      
+      {/* Секция канала */}
+      <div className="channel-section">
+        <h3 className="channel-title">{t.subscribeChannel}</h3>
+        <div className="channel-card" onClick={handleChannelClick}>
+          <img 
+            src="/channel-logo.png" 
+            alt="Nimble Roulette Channel" 
+            className="channel-logo"
+          />
+          <div className="channel-info">
+            <h4>@nimble_roulette</h4>
+            <p>Новости, обновления и эксклюзивы</p>
+          </div>
+        </div>
+      </div>
+      
+      <div className="action-buttons">
+        <button className="action-btn" onClick={() => setActiveTab('cases')}>
+          <span className="btn-icon">
+            <Icons.box />
+          </span>
+          <span>{t.openCase}</span>
+        </button>
+        <button className="action-btn topup-home-btn" onClick={() => setActiveTab('topup')}>
+          <span className="btn-icon">
+            <Icons.plus />
+          </span>
+          <span>{t.topUp}</span>
+        </button>
+      </div>
     </div>
-    
-    <div className="action-buttons">
-      <button className="action-btn" onClick={() => setActiveTab('cases')}>
-        <span className="btn-icon">
-          <Icons.box />
-        </span>
-        <span>{t.openCase}</span>
-      </button>
-      <button className="action-btn topup-home-btn" onClick={() => setActiveTab('topup')}>
-        <span className="btn-icon">
-          <Icons.plus />
-        </span>
-        <span>{t.topUp}</span>
-      </button>
-    </div>
-  </div>
-)
+  )
+}
 
 const CasesTab = ({ t }: { t: any }) => (
   <div className="tab-content">

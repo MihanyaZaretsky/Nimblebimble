@@ -9,6 +9,7 @@ export const translations = {
     welcomeSubtitle: 'Выберите действие для начала игры',
     openCase: 'Открыть кейс',
     topUp: 'Пополнить',
+    subscribeChannel: 'Подпишитесь на наш канал',
     
     // Cases Tab
     cases: 'Кейсы',
@@ -55,6 +56,7 @@ export const translations = {
     welcomeSubtitle: 'Choose an action to start the game',
     openCase: 'Open Case',
     topUp: 'Deposit',
+    subscribeChannel: 'Subscribe to our channel',
     
     // Cases Tab
     cases: 'Cases',
