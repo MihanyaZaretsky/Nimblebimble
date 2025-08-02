@@ -8,8 +8,8 @@ from dotenv import load_dotenv
 # Загружаем переменные окружения
 load_dotenv()
 
-# Получаем токен бота
-BOT_TOKEN = os.getenv('BOT_TOKEN') or "7771822556:AAHWZD6D_AMH0bT51ygacsoEEwQmPzJn4xI"
+# Получаем токен бота (хардкодим для Railway)
+BOT_TOKEN = "7771822556:AAHWZD6D_AMH0bT51ygacsoEEwQmPzJn4xI"
 
 # URL вашего Web App на Render
 WEBAPP_URL = "https://nimblebimble.onrender.com"
