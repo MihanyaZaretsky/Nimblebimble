@@ -15,7 +15,13 @@ const app = express()
 const PORT = process.env.PORT || 3000
 
 // --- Платёжный функционал ---
-const TELEGRAM_BOT_TOKEN = process.env.BOT_TOKEN || '8312865169:AAHmI2FODLlt4Qcf2rr6MtRbUcB8fGtlLoU';
+const TELEGRAM_BOT_TOKEN = process.env.BOT_TOKEN;
+
+if (!TELEGRAM_BOT_TOKEN) {
+  console.error('❌ BOT_TOKEN не найден в переменных окружения!');
+  process.exit(1);
+}
+
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN);
 const paidUsers = new Map();
 
@@ -30,8 +36,35 @@ bot.on("pre_checkout_query", (query) => {
   });
 });
 
-// Обработчик успешных платежей
+// Обработчик команд
 bot.on("message", (msg) => {
+  // Обработка команды /start
+  if (msg.text === '/start') {
+    console.log(`🎯 Команда /start от пользователя: ${msg.from.first_name} (ID: ${msg.from.id})`);
+    
+    const welcomeMessage = `🎰 Добро пожаловать в Nimble Roulette!\n\n` +
+      `🎮 Нажмите кнопку ниже, чтобы начать игру:\n\n` +
+      `💰 Пополняйте баланс Stars и выигрывайте!`;
+    
+    const keyboard = {
+      inline_keyboard: [[
+        {
+          text: '🎮 Открыть игру',
+          web_app: { url: 'https://nimblebimble.onrender.com' }
+        }
+      ]]
+    };
+    
+    bot.sendMessage(msg.chat.id, welcomeMessage, { reply_markup: keyboard })
+      .then(() => {
+        console.log(`✅ Приветственное сообщение отправлено пользователю ${msg.from.first_name}`);
+      })
+      .catch(error => {
+        console.error("❌ Ошибка отправки приветственного сообщения:", error);
+      });
+  }
+  
+  // Обработка успешных платежей
   if (msg.successful_payment) {
     const userId = msg.from.id;
     const payment = msg.successful_payment;

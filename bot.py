@@ -4,7 +4,7 @@ import json
 import websockets
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, LabeledPrice
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 import os
 from dotenv import load_dotenv
@@ -80,7 +80,7 @@ async def start_command(message: types.Message):
     builder = InlineKeyboardBuilder()
     builder.add(InlineKeyboardButton(
         text="🎮 Открыть Nimble Roulette",
-        web_app=WebAppInfo(url="https://nimblebimble.onrender.com")
+        web_app=WebAppInfo(url=WEBAPP_URL)
     ))
     
     await message.answer(
@@ -110,61 +110,6 @@ async def web_app_data_handler(message: types.Message):
         if action == 'connect_websocket':
             # Пользователь подключается к WebSocket
             await message.answer("🔗 Подключение к игре установлено! Теперь вы можете играть в реальном времени.")
-            
-        elif action == 'payment_initiated':
-            # Обработка инициированного платежа
-            method = data.get('method', 'stars')
-            amount = data.get('amount', 0)
-            user_id = data.get('userId', user.id)
-            
-            logger.info(f"💳 Инициирован платеж: {method} на сумму {amount} от пользователя {user_id}")
-            
-            if method == 'stars':
-                # Создаем ссылку на оплату Stars
-                try:
-                    from telegram import LabeledPrice
-                    
-                    # Создаем инвойс для Stars
-                    title = f"Пополнение баланса на {amount} Stars"
-                    description = f"Покупка Stars для пополнения баланса на {amount} единиц."
-                    payload = f"stars_payment_{user_id}_{int(time.time())}"
-                    currency = "XTR"  # Код валюты для Stars
-                    
-                    # Создаем цены
-                    prices = [LabeledPrice(f"Пополнение на {amount} Stars", amount)]
-                    
-                    # Создаем инвойс
-                    invoice = await bot.create_invoice(
-                        title=title,
-                        description=description,
-                        payload=payload,
-                        provider_token=os.getenv('PAYMENT_PROVIDER_TOKEN', ''),
-                        currency=currency,
-                        prices=prices,
-                        start_parameter=f"stars_{user_id}_{amount}"
-                    )
-                    
-                    await message.answer(
-                        f"💳 Счет на оплату {amount} Stars создан!\n\n"
-                        f"Нажмите кнопку ниже для оплаты:",
-                        reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[
-                            [types.InlineKeyboardButton(
-                                text="💳 Оплатить Stars",
-                                url=invoice.invoice_url
-                            )]
-                        ])
-                    )
-                    
-                except Exception as e:
-                    logger.error(f"❌ Ошибка создания инвойса Stars: {e}")
-                    await message.answer("❌ Ошибка создания счета на оплату. Попробуйте позже.")
-                    
-            elif method == 'ton':
-                # Для TON платежей (пока заглушка)
-                await message.answer(
-                    f"💎 TON платежи пока в разработке.\n"
-                    f"Запрошенная сумма: {amount} TON"
-                )
             
         elif action == 'place_bet':
             # Обработка ставки
@@ -197,61 +142,6 @@ async def web_app_data_handler(message: types.Message):
     except Exception as e:
         await message.answer("❌ Произошла ошибка при обработке данных")
         logger.error(f"❌ Ошибка обработки Web App данных: {e}")
-
-# Обработчик успешных платежей
-@dp.pre_checkout_query()
-async def process_pre_checkout_query(pre_checkout_query: types.PreCheckoutQuery):
-    """Обработчик предварительной проверки платежа"""
-    logger.info(f"🔍 Предварительная проверка платежа: {pre_checkout_query.id}")
-    await bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True)
-
-@dp.message(lambda message: message.successful_payment is not None)
-async def successful_payment(message: types.Message):
-    """Обработчик успешного платежа"""
-    user = message.from_user
-    payment = message.successful_payment
-    
-    logger.info(f"✅ Успешный платеж от пользователя {user.first_name}: {payment}")
-    
-    # Извлекаем информацию о платеже
-    amount = payment.total_amount / 100  # Сумма в копейках
-    currency = payment.currency
-    
-    if currency == "XTR":  # Stars
-        # Обновляем баланс пользователя
-        await update_user_stars_balance(user.id, amount)
-        
-        await message.answer(
-            f"🎉 Платеж успешно завершен!\n\n"
-            f"💎 Получено: {amount} Stars\n"
-            f"💰 Сумма: {payment.total_amount / 100} {currency}\n\n"
-            f"Ваш баланс Stars обновлен! Можете продолжать игру."
-        )
-    else:
-        await message.answer(
-            f"🎉 Платеж успешно завершен!\n\n"
-            f"💰 Сумма: {amount} {currency}\n"
-            f"Обратитесь к администратору для зачисления средств."
-        )
-
-# Функция обновления баланса Stars
-async def update_user_stars_balance(user_id: int, amount: float):
-    """Обновление баланса Stars пользователя"""
-    try:
-        # Здесь должна быть логика работы с базой данных
-        # Пока используем простую заглушку
-        logger.info(f"💎 Обновление баланса Stars для пользователя {user_id}: +{amount}")
-        
-        # Отправляем обновление в WebSocket
-        await ws_server.send_to_user(user_id, {
-            'action': 'balance_updated',
-            'currency': 'stars',
-            'amount': amount,
-            'new_balance': 100 + amount  # Заглушка
-        })
-        
-    except Exception as e:
-        logger.error(f"❌ Ошибка обновления баланса Stars: {e}")
 
 # Обработчик callback_query
 @dp.callback_query()
