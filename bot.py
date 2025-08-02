@@ -176,6 +176,16 @@ async def main():
         
         app = FastAPI()
         
+        # Добавляем CORS для Web App
+        from fastapi.middleware.cors import CORSMiddleware
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=["https://nimblebimble.onrender.com", "http://localhost:3000"],
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
+        
         @app.get("/")
         async def root():
             return {"status": "Bot is running", "bot": bot_info.username}
@@ -183,6 +193,42 @@ async def main():
         @app.get("/health")
         async def health():
             return {"status": "healthy"}
+        
+        # API эндпоинт для создания инвойсов
+        from pydantic import BaseModel
+        
+        class InvoiceRequest(BaseModel):
+            user_id: int
+            amount: int
+            currency: str = "TON"
+            description: str = "Пополнение баланса"
+        
+        @app.post("/api/createInvoiceLink")
+        async def create_invoice(request: InvoiceRequest):
+            """Создание ссылки на оплату через Telegram Stars"""
+            try:
+                print(f"🔵 Запрос на создание инвойса: {request}")
+                
+                # Создаем инвойс через бота
+                invoice_link = await create_invoice_link(
+                    user_id=request.user_id,
+                    amount=request.amount,
+                    currency="Stars",
+                    description=request.description
+                )
+                
+                return {
+                    "success": True,
+                    "invoice_url": invoice_link,
+                    "user_id": request.user_id
+                }
+                
+            except Exception as e:
+                print(f"❌ Ошибка создания инвойса: {e}")
+                return {
+                    "success": False,
+                    "error": str(e)
+                }
         
         # Запускаем бота и сервер одновременно
         import asyncio
