@@ -3,10 +3,6 @@ import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from dotenv import load_dotenv
-
-# Загружаем переменные окружения
-load_dotenv()
 
 # Получаем токен бота (хардкодим для Railway)
 BOT_TOKEN = "7771822556:AAHWZD6D_AMH0bT51ygacsoEEwQmPzJn4xI"
