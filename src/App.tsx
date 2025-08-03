@@ -170,7 +170,7 @@ const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (
         </button>
         <button className="action-btn topup-home-btn" onClick={() => setActiveTab('topup')}>
           <span className="btn-icon">
-            <Icons.plus />
+            <Icons.money />
           </span>
           <span>{t.topUp}</span>
         </button>
@@ -826,7 +826,7 @@ function AppContent() {
           onClick={() => setActiveTab('topup')}
         >
           <span className="nav-icon">
-            <Icons.plus />
+            <Icons.money />
           </span>
           <span>{t.topUp}</span>
         </button>
