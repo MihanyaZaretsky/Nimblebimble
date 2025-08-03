@@ -256,11 +256,20 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
       return
     }
 
-    // Проверка минимальной суммы для TON
-    if (selectedPaymentMethod === 'ton' && amount < 0.01) {
-      setError('Минимальная сумма для TON платежа: 0.01')
-      return
-    }
+         // Проверка минимальной суммы для TON
+     if (selectedPaymentMethod === 'ton' && amount < 0.01) {
+       setError('Минимальная сумма для TON платежа: 0.01')
+       return
+     }
+     
+     // Округляем сумму для TON до 2 знаков после запятой
+     let finalAmount = amount
+     if (selectedPaymentMethod === 'ton') {
+       finalAmount = Math.round(amount * 100) / 100
+       if (finalAmount !== amount) {
+         setAmount(finalAmount)
+       }
+     }
 
     setIsLoading(true)
     setError('')
@@ -349,8 +358,8 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
           // Генерируем уникальное мемо для идентификации платежа
           const memo = `nimble_${user.id}_${Date.now()}`
           
-                     // Проверяем минимальную сумму в nanotons (0.01 TON = 10,000,000 nanotons)
-           const amountInNano = Math.max(10000000, Math.floor(amount * 1000000000))
+                                // Проверяем минимальную сумму в nanotons (0.01 TON = 10,000,000 nanotons)
+            const amountInNano = Math.max(10000000, Math.floor(finalAmount * 1000000000))
            
            // Создаем транзакцию для пополнения баланса
            const transaction = {
@@ -378,11 +387,11 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
           // Для простоты пока просто обновляем баланс
           // В будущем здесь будет проверка через TON Center API
           try {
-            const balanceResponse = await BalanceService.updateBalance({
-              user_id: user.id,
-              currency: 'TON',
-              amount: amount
-            })
+                         const balanceResponse = await BalanceService.updateBalance({
+               user_id: user.id,
+               currency: 'TON',
+               amount: finalAmount
+             })
             
             if (balanceResponse.success) {
               console.log('✅ Баланс обновлен:', balanceResponse.balance)
@@ -400,14 +409,14 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
             setError('Ошибка обновления баланса')
           }
           
-          if (window.Telegram?.WebApp) {
-            window.Telegram.WebApp.sendData(JSON.stringify({
-              action: 'payment_initiated',
-              method: 'ton',
-              amount: amount,
-              userId: user.id
-            }))
-          }
+                     if (window.Telegram?.WebApp) {
+             window.Telegram.WebApp.sendData(JSON.stringify({
+               action: 'payment_initiated',
+               method: 'ton',
+               amount: finalAmount,
+               userId: user.id
+             }))
+           }
         } catch (err) {
           console.error('❌ Ошибка TON транзакции:', err)
           
@@ -473,18 +482,19 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
            type="number" 
                        placeholder="" 
             value={amount}
-            onChange={(e) => {
-              const value = parseFloat(e.target.value) || 0
-              if (selectedPaymentMethod === 'stars') {
-                // Для звезд только целые числа, минимум 1
-                setAmount(Math.max(1, Math.floor(value)))
-              } else {
-                // Для TON можно дробные числа, без ограничений в поле
-                setAmount(value)
-              }
-            }}
-            min={selectedPaymentMethod === 'stars' ? '1' : ''}
-            step={selectedPaymentMethod === 'stars' ? '1' : '0.001'}
+                         onChange={(e) => {
+               const value = parseFloat(e.target.value) || 0
+               if (selectedPaymentMethod === 'stars') {
+                 // Для звезд только целые числа, минимум 1
+                 setAmount(Math.max(1, Math.floor(value)))
+               } else {
+                 // Для TON ограничиваем до 2 знаков после запятой
+                 const roundedValue = Math.round(value * 100) / 100
+                 setAmount(roundedValue)
+               }
+             }}
+                         min={selectedPaymentMethod === 'stars' ? '1' : '0.01'}
+             step={selectedPaymentMethod === 'stars' ? '1' : '0.01'}
          />
        </div>
       
