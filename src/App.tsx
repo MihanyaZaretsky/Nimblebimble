@@ -115,27 +115,22 @@ const Icons = {
   )
 }
 
-// Компонент для подключения TON кошелька
-const WalletConnectButton = ({ t }: { t: any }) => {
-  const [tonConnectUI] = useTonConnectUI()
+// Компонент для кнопки кошелька в верхней плашке
+const WalletButton = ({ t, setActiveTab }: { t: any, setActiveTab: (tab: string) => void }) => {
   const address = useTonAddress()
 
-  const handleConnect = () => {
-    if (address) {
-      // Если кошелек уже подключен, отключаем
-      tonConnectUI.disconnect()
-    } else {
-      // Если не подключен, открываем модальное окно
-      tonConnectUI.openModal()
-    }
+  const handleClick = () => {
+    setActiveTab('profile')
   }
 
   return (
-    <button className="connect-btn" onClick={handleConnect}>
+    <button className="connect-btn" onClick={handleClick}>
       <span className="btn-icon">
         <Icons.connect />
       </span>
-      <span>{address ? 'Отключить' : t.connectWallet}</span>
+      <span>
+        {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : t.connectWallet}
+      </span>
     </button>
   )
 }
@@ -382,7 +377,21 @@ const UpgradeTab = ({ t }: { t: any }) => (
   </div>
 )
 
-const ProfileTab = ({ user, t, language, setLanguage }: { user: any, t: any, language: string, setLanguage: (lang: string) => void }) => (
+const ProfileTab = ({ user, t, language, setLanguage }: { user: any, t: any, language: string, setLanguage: (lang: string) => void }) => {
+  const [tonConnectUI] = useTonConnectUI()
+  const address = useTonAddress()
+
+  const handleConnectWallet = () => {
+    if (address) {
+      // Если кошелек уже подключен, отключаем
+      tonConnectUI.disconnect()
+    } else {
+      // Если не подключен, открываем модальное окно
+      tonConnectUI.openModal()
+    }
+  }
+
+  return (
   <div className="tab-content">
     <div className="profile-section">
       <div className="profile-avatar">
@@ -428,6 +437,30 @@ const ProfileTab = ({ user, t, language, setLanguage }: { user: any, t: any, lan
           <Icons.globe />
           English
         </button>
+      </div>
+    </div>
+    
+    {/* Секция кошелька */}
+    <div className="wallet-section">
+      <h3>{t.connectWallet}</h3>
+      <div className="wallet-info">
+        {address ? (
+          <div className="connected-wallet">
+            <div className="wallet-address">
+              <span className="address-label">Адрес кошелька:</span>
+              <span className="address-value">{address}</span>
+            </div>
+            <button className="disconnect-btn" onClick={handleConnectWallet}>
+              <Icons.connect />
+              Отключить кошелек
+            </button>
+          </div>
+        ) : (
+          <button className="connect-wallet-btn" onClick={handleConnectWallet}>
+            <Icons.connect />
+            {t.connectWallet}
+          </button>
+        )}
       </div>
     </div>
   </div>
@@ -562,9 +595,7 @@ function AppContent() {
           <span className="balance-icon">
             <Icons.diamond />
           </span>
-          <span className="balance-amount">
-            {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : balance.ton.toFixed(2)}
-          </span>
+          <span className="balance-amount">{balance.ton.toFixed(2)}</span>
         </div>
         <div className="balance-item">
           <span className="balance-icon">
@@ -572,7 +603,7 @@ function AppContent() {
           </span>
           <span className="balance-amount">{balance.stars}</span>
         </div>
-        <WalletConnectButton t={t} />
+        <WalletButton t={t} setActiveTab={setActiveTab} />
         <div className="user-avatar" onClick={handleProfileClick}>
           {user?.photo_url ? (
             <img src={user.photo_url} alt="Avatar" />
