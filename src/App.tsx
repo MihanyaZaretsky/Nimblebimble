@@ -362,7 +362,7 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
              <div className="amount-input">
          <input 
            type="number" 
-                       placeholder={selectedPaymentMethod === 'stars' ? '1' : '0.01'} 
+                       placeholder={selectedPaymentMethod === 'stars' ? '1' : ''} 
             value={amount}
             onChange={(e) => {
               const value = parseFloat(e.target.value) || 0
