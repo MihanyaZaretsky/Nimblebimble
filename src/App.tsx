@@ -229,7 +229,7 @@ const CasesTab = ({ t }: { t: any }) => (
 )
 
 const TopUpTab = ({ t, user }: { t: any, user: any }) => {
-  const [amount, setAmount] = useState(1)
+  const [amount, setAmount] = useState(0.001)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'ton' | 'stars'>('stars')
@@ -284,11 +284,12 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
 
         try {
           // Создаем транзакцию для пополнения баланса
+          // ВНИМАНИЕ: Это тестовый адрес! Замените на реальный адрес для приема платежей
           const transaction = {
             validUntil: Date.now() + 5 * 60 * 1000, // 5 минут
             messages: [
               {
-                address: "0QD-SuoCHsCL2pIZfE8IAKsjc0aDpDUQAoo-ALHl2mje04A-", // Адрес для пополнения
+                address: "0QD-SuoCHsCL2pIZfE8IAKsjc0aDpDUQAoo-ALHl2mje04A-", // ТЕСТОВЫЙ адрес - замените на свой!
                 amount: (amount * 1000000000).toString(), // Конвертируем в nanotons
               },
             ],
@@ -353,10 +354,11 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
       <div className="amount-input">
         <input 
           type="number" 
-          placeholder="1" 
+          placeholder="0.001" 
           value={amount}
-          onChange={(e) => setAmount(Math.max(1, parseInt(e.target.value) || 1))}
-          min="1"
+          onChange={(e) => setAmount(Math.max(0.001, parseFloat(e.target.value) || 0.001))}
+          min="0.001"
+          step="0.001"
         />
       </div>
       
