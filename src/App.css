@@ -730,8 +730,8 @@ body {
   }
 }
 
-/* Tablet styles */
-@media (min-width: 768px) {
+/* Tablet and larger screens */
+@media (min-width: 480px) {
   .channel-card {
     width: 100%;
     margin-left: 0;
