@@ -31,4 +31,4 @@ dist-ssr
 .env.production.local
 
 # Bot data files
-user_balances.json 
+# user_balances.json - удален, используем облачную БД 
