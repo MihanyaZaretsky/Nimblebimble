@@ -824,4 +824,26 @@ body {
   .tab-content {
     max-width: 500px;
   }
+}
+
+/* Убираем синий квадрат на мобильных устройствах */
+.action-btn,
+.connect-btn,
+.nav-btn,
+.payment-card,
+.case-card,
+.open-btn,
+.topup-btn,
+.lang-btn,
+.connect-wallet-btn,
+.disconnect-btn,
+.user-avatar,
+.channel-card {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 } 
