@@ -67,6 +67,8 @@ body {
   position: relative;
   overflow: hidden;
   outline: none;
+  width: 120px;
+  justify-content: center;
 }
 
 .connect-btn::before {
