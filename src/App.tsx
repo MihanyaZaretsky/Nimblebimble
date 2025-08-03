@@ -485,7 +485,22 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
           placeholder="" 
           value={amount}
                      onChange={(e) => {
-             setAmount(e.target.value)
+             const value = e.target.value
+             
+             // Для TON ограничиваем до 2 знаков после запятой
+             if (selectedPaymentMethod === 'ton') {
+               // Проверяем формат: только цифры и максимум одна запятая/точка с максимум 2 знаками после
+               const tonRegex = /^\d*\.?\d{0,2}$/
+               if (tonRegex.test(value) || value === '') {
+                 setAmount(value)
+               }
+             } else {
+               // Для звезд только целые числа
+               const starsRegex = /^\d*$/
+               if (starsRegex.test(value) || value === '') {
+                 setAmount(value)
+               }
+             }
            }}
           min={selectedPaymentMethod === 'stars' ? '1' : '0.01'}
           step={selectedPaymentMethod === 'stars' ? '1' : '0.01'}
