@@ -469,7 +469,7 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
           <div className="payment-icon">
             <Icons.starLarge />
           </div>
-          <h3>Звёзды</h3>
+                     <h3>{t.stars}</h3>
           <p>{t.starsPayment}</p>
         </div>
       </div>
