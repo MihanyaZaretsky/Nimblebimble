@@ -14,6 +14,27 @@ WEBAPP_URL = "https://nimblebimble.onrender.com"
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
+# Простое хранилище балансов пользователей (в памяти)
+# В реальном проекте лучше использовать базу данных
+user_balances = {}
+
+def get_user_balance(user_id: int):
+    """Получить баланс пользователя"""
+    return user_balances.get(user_id, {"stars": 0, "ton": 0.0})
+
+def update_user_balance(user_id: int, currency: str, amount: float):
+    """Обновить баланс пользователя"""
+    if user_id not in user_balances:
+        user_balances[user_id] = {"stars": 0, "ton": 0.0}
+    
+    if currency.lower() == "stars":
+        user_balances[user_id]["stars"] += int(amount)
+    elif currency.lower() == "ton":
+        user_balances[user_id]["ton"] += amount
+    
+    print(f"💰 Обновлен баланс пользователя {user_id}: {user_balances[user_id]}")
+    return user_balances[user_id]
+
 # Функция создания инвойса для Telegram Stars
 async def create_invoice_link(user_id: int, amount: int, currency: str = "Stars", description: str = "Пополнение баланса"):
     """Создание инвойса для Telegram Stars через Telegram API"""
@@ -126,16 +147,19 @@ async def process_successful_payment(message: types.Message):
         # Парсим payload как в примере Django
         try:
             order_id = payment.invoice_payload.split("&&&")[0]
-            amount = payment.invoice_payload.split("&&&")[1]
+            amount = int(payment.invoice_payload.split("&&&")[1])
             
             print(f"🆔 Order ID: {order_id}")
             print(f"💰 Amount: {amount}")
             
-            # Здесь можно добавить логику обновления баланса пользователя
+            # Начисляем баланс пользователю
+            new_balance = update_user_balance(user_id, "stars", amount)
+            
             await message.answer(
                 f"✅ Платеж успешно обработан!\n"
                 f"💰 Сумма: {amount} Stars\n"
-                f"🎮 Ваш баланс пополнен!"
+                f"🎮 Ваш баланс пополнен!\n"
+                f"💎 Текущий баланс: {new_balance['stars']} Stars"
             )
             
         except Exception as e:
@@ -221,6 +245,49 @@ async def main():
                 
             except Exception as e:
                 print(f"❌ Ошибка создания инвойса: {e}")
+                return {
+                    "success": False,
+                    "error": str(e)
+                }
+        
+        @app.get("/api/balance/{user_id}")
+        async def get_balance(user_id: int):
+            """Получить баланс пользователя"""
+            try:
+                balance = get_user_balance(user_id)
+                return {
+                    "success": True,
+                    "balance": balance,
+                    "user_id": user_id
+                }
+            except Exception as e:
+                print(f"❌ Ошибка получения баланса: {e}")
+                return {
+                    "success": False,
+                    "error": str(e)
+                }
+        
+        @app.post("/api/updateBalance")
+        async def update_balance(request: dict):
+            """Обновить баланс пользователя (для TON платежей)"""
+            try:
+                user_id = request.get("user_id")
+                currency = request.get("currency", "TON")
+                amount = request.get("amount", 0)
+                
+                if not user_id:
+                    return {"success": False, "error": "user_id required"}
+                
+                new_balance = update_user_balance(user_id, currency, amount)
+                
+                return {
+                    "success": True,
+                    "balance": new_balance,
+                    "user_id": user_id
+                }
+                
+            except Exception as e:
+                print(f"❌ Ошибка обновления баланса: {e}")
                 return {
                     "success": False,
                     "error": str(e)

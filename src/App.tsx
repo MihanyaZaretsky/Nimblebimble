@@ -3,6 +3,7 @@ import './App.css'
 import { initGradientAnimations } from './gradientAnimations'
 import { getTranslations } from './translations'
 import { PaymentService } from './services/paymentService'
+import { BalanceService } from './services/balanceService'
 import { TonConnectUIProvider, useTonConnectUI, useTonAddress } from '@tonconnect/ui-react'
 
 // Типы для Telegram Web App
@@ -228,7 +229,7 @@ const CasesTab = ({ t }: { t: any }) => (
   </div>
 )
 
-const TopUpTab = ({ t, user }: { t: any, user: any }) => {
+const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUpdate?: () => void }) => {
   const [amount, setAmount] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -279,13 +280,16 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
               userId: user.id
             }))
           }
-          // Открываем инвойс через Telegram API
-          if (window.Telegram?.WebApp?.openInvoice) {
-            window.Telegram.WebApp.openInvoice(response.invoice_url)
-          } else {
-            // Fallback для старых версий
-            window.open(response.invoice_url, '_blank')
-          }
+                     // Открываем инвойс через Telegram API
+           if (window.Telegram?.WebApp?.openInvoice) {
+             window.Telegram.WebApp.openInvoice(response.invoice_url)
+           } else {
+             // Fallback для старых версий
+             window.open(response.invoice_url, '_blank')
+           }
+           
+           // Обновляем баланс после успешного создания инвойса
+           // Примечание: для Stars платежей баланс обновляется на сервере после успешной оплаты
         } else {
           console.error('🔴 Ошибка в ответе:', response.error)
           setError(response.error || 'Ошибка создания платежа')
@@ -310,6 +314,27 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
           }
 
           await tonConnectUI.sendTransaction(transaction)
+          
+          // Обновляем баланс пользователя после успешной TON транзакции
+          try {
+            const balanceResponse = await BalanceService.updateBalance({
+              user_id: user.id,
+              currency: 'TON',
+              amount: amount
+            })
+            
+            if (balanceResponse.success) {
+              console.log('✅ Баланс обновлен:', balanceResponse.balance)
+              // Обновляем баланс в интерфейсе
+              if (onBalanceUpdate) {
+                onBalanceUpdate()
+              }
+            } else {
+              console.error('❌ Ошибка обновления баланса:', balanceResponse.error)
+            }
+          } catch (err) {
+            console.error('❌ Ошибка обновления баланса:', err)
+          }
           
           if (window.Telegram?.WebApp) {
             window.Telegram.WebApp.sendData(JSON.stringify({
@@ -412,7 +437,7 @@ const UpgradeTab = ({ t }: { t: any }) => (
   </div>
 )
 
-const ProfileTab = ({ user, t, language, setLanguage }: { user: any, t: any, language: string, setLanguage: (lang: string) => void }) => {
+const ProfileTab = ({ user, t, language, setLanguage, balance }: { user: any, t: any, language: string, setLanguage: (lang: string) => void, balance: any }) => {
   const [tonConnectUI] = useTonConnectUI()
   const address = useTonAddress()
 
@@ -444,16 +469,16 @@ const ProfileTab = ({ user, t, language, setLanguage }: { user: any, t: any, lan
       <p className="user-id">ID: {user?.id || '0000000000'}</p>
     </div>
     
-    <div className="stats-grid">
-      <div className="stat-card">
-        <h3>{t.balance}</h3>
-        <p>0.00 <Icons.diamond /></p>
-      </div>
-      <div className="stat-card">
-        <h3>{t.casesOpened}</h3>
-        <p>0 <Icons.box /></p>
-      </div>
-    </div>
+         <div className="stats-grid">
+       <div className="stat-card">
+         <h3>{t.balance}</h3>
+         <p>{balance.ton.toFixed(2)} <Icons.diamond /></p>
+       </div>
+       <div className="stat-card">
+         <h3>Звезды</h3>
+         <p>{balance.stars} <Icons.star /></p>
+       </div>
+     </div>
     
     {/* Секция кошелька */}
     <div className="wallet-section">
@@ -531,6 +556,9 @@ function AppContent() {
         if (tgUser) {
           setUser(tgUser)
           console.log('✅ Пользователь Telegram:', tgUser)
+          
+          // Загружаем баланс пользователя
+          loadUserBalance(tgUser.id)
         }
         
       } catch (error) {
@@ -546,6 +574,23 @@ function AppContent() {
       initGradientAnimations()
     }, 500)
   }, [])
+
+  // Функция загрузки баланса пользователя
+  const loadUserBalance = async (userId: number) => {
+    try {
+      console.log('💰 Загружаем баланс пользователя:', userId)
+      const response = await BalanceService.getUserBalance(userId)
+      
+      if (response.success && response.balance) {
+        setBalance(response.balance)
+        console.log('✅ Баланс загружен:', response.balance)
+      } else {
+        console.error('❌ Ошибка загрузки баланса:', response.error)
+      }
+    } catch (error) {
+      console.error('❌ Ошибка загрузки баланса:', error)
+    }
+  }
 
   const getTabContainerClass = () => {
     switch (activeTab) {
@@ -660,9 +705,9 @@ function AppContent() {
         >
           <HomeTab user={user} t={t} setActiveTab={setActiveTab} />
           <CasesTab t={t} />
-          <TopUpTab t={t} user={user} />
+                     <TopUpTab t={t} user={user} onBalanceUpdate={() => loadUserBalance(user.id)} />
           <UpgradeTab t={t} />
-          <ProfileTab user={user} t={t} language={language} setLanguage={setLanguage} />
+                     <ProfileTab user={user} t={t} language={language} setLanguage={setLanguage} balance={balance} />
         </div>
       </div>
 
