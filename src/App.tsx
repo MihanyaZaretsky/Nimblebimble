@@ -253,6 +253,12 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
       return
     }
 
+    // Проверка минимальной суммы для TON
+    if (selectedPaymentMethod === 'ton' && amount < 0.01) {
+      setError('Минимальная сумма для TON платежа: 0.01')
+      return
+    }
+
     setIsLoading(true)
     setError('')
 
@@ -362,7 +368,7 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
              <div className="amount-input">
          <input 
            type="number" 
-                       placeholder={selectedPaymentMethod === 'stars' ? '1' : ''} 
+                       placeholder="" 
             value={amount}
             onChange={(e) => {
               const value = parseFloat(e.target.value) || 0
@@ -370,11 +376,11 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
                 // Для звезд только целые числа, минимум 1
                 setAmount(Math.max(1, Math.floor(value)))
               } else {
-                // Для TON можно дробные числа, минимум 0.01
-                setAmount(Math.max(0.01, value))
+                // Для TON можно дробные числа, без ограничений в поле
+                setAmount(value)
               }
             }}
-            min={selectedPaymentMethod === 'stars' ? '1' : '0.01'}
+            min={selectedPaymentMethod === 'stars' ? '1' : ''}
             step={selectedPaymentMethod === 'stars' ? '1' : '0.001'}
          />
        </div>
