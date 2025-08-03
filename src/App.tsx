@@ -420,26 +420,6 @@ const ProfileTab = ({ user, t, language, setLanguage }: { user: any, t: any, lan
       </div>
     </div>
     
-    <div className="language-section">
-      <h3>{t.language}</h3>
-      <div className="language-buttons">
-        <button 
-          className={`lang-btn ${language === 'ru' ? 'active' : ''}`}
-          onClick={() => setLanguage('ru')}
-        >
-          <Icons.globe />
-          Русский
-        </button>
-        <button 
-          className={`lang-btn ${language === 'en' ? 'active' : ''}`}
-          onClick={() => setLanguage('en')}
-        >
-          <Icons.globe />
-          English
-        </button>
-      </div>
-    </div>
-    
     {/* Секция кошелька */}
     <div className="wallet-section">
       <h3>{t.connectWallet}</h3>
@@ -458,9 +438,28 @@ const ProfileTab = ({ user, t, language, setLanguage }: { user: any, t: any, lan
         ) : (
           <button className="connect-wallet-btn" onClick={handleConnectWallet}>
             <Icons.connect />
-            {t.connectWallet}
           </button>
         )}
+      </div>
+    </div>
+    
+    <div className="language-section">
+      <h3>{t.language}</h3>
+      <div className="language-buttons">
+        <button 
+          className={`lang-btn ${language === 'ru' ? 'active' : ''}`}
+          onClick={() => setLanguage('ru')}
+        >
+          <Icons.globe />
+          Русский
+        </button>
+        <button 
+          className={`lang-btn ${language === 'en' ? 'active' : ''}`}
+          onClick={() => setLanguage('en')}
+        >
+          <Icons.globe />
+          English
+        </button>
       </div>
     </div>
   </div>
