@@ -447,9 +447,6 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
   return (
     <div className="tab-content">
       <div className="topup-header">
-        <span className="header-icon">
-          <Icons.wallet />
-        </span>
         <span>{t.topUpBalance}</span>
       </div>
       
@@ -509,7 +506,7 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
           {isLoading ? (
             <div className="loading-spinner"></div>
           ) : (
-            <Icons.money />
+            <Icons.plus />
           )}
         </span>
         <span>{isLoading ? 'Обработка...' : t.topUp}</span>
