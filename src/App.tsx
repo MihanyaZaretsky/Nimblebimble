@@ -574,12 +574,12 @@ const ProfileTab = ({ user, t, language, setLanguage, balance }: { user: any, t:
         {address ? (
           <div className="connected-wallet">
             <div className="wallet-address">
-              <span className="address-label">Адрес кошелька:</span>
+              <span className="address-label">{t.walletAddress}</span>
               <span className="address-value">{address}</span>
             </div>
             <button className="disconnect-btn" onClick={handleConnectWallet}>
               <Icons.connect />
-              Отключить кошелек
+              {t.disconnectWallet}
             </button>
           </div>
         ) : (

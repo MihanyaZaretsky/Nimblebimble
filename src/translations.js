@@ -35,6 +35,8 @@ export const translations = {
     stars: 'Звезды',
     casesOpened: 'Открыто кейсов',
     language: 'Язык',
+    walletAddress: 'Адрес кошелька:',
+    disconnectWallet: 'Отключить кошелек',
     
     // Navigation
     home: 'Главная',
@@ -83,6 +85,8 @@ export const translations = {
     stars: 'Stars',
     casesOpened: 'Cases Opened',
     language: 'Language',
+    walletAddress: 'Wallet Address:',
+    disconnectWallet: 'Disconnect Wallet',
     
     // Navigation
     home: 'Home',
