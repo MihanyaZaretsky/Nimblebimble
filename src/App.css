@@ -646,40 +646,56 @@ body {
   left: -3px;
   right: -3px;
   bottom: -3px;
-  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff, #5f27cd);
-  background-size: 400% 400%;
+  background: linear-gradient(45deg, 
+    #ff0080, #ff6b6b, #4ecdc4, #45b7d1, 
+    #96ceb4, #feca57, #ff9ff3, #54a0ff, 
+    #5f27cd, #ff0080, #ff6b6b, #4ecdc4);
+  background-size: 300% 300%;
   border-radius: 50%;
   z-index: -1;
-  animation: gradientRotate 3s ease-in-out infinite;
+  animation: gradientFlow 2s ease-in-out infinite;
+  filter: brightness(1.2) contrast(1.1);
 }
 
 .profile-avatar::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff, #5f27cd);
-  background-size: 400% 400%;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  background: linear-gradient(45deg, 
+    #ff0080, #ff6b6b, #4ecdc4, #45b7d1, 
+    #96ceb4, #feca57, #ff9ff3, #54a0ff, 
+    #5f27cd, #ff0080, #ff6b6b, #4ecdc4);
+  background-size: 300% 300%;
   border-radius: 50%;
   z-index: -2;
-  animation: gradientRotate 3s ease-in-out infinite reverse;
-  filter: blur(8px);
-  opacity: 0.3;
+  animation: gradientFlow 2s ease-in-out infinite reverse;
+  filter: blur(12px) brightness(1.5);
+  opacity: 0.6;
 }
 
-@keyframes gradientRotate {
+@keyframes gradientFlow {
   0% {
     background-position: 0% 50%;
-    transform: rotate(0deg);
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    background-position: 100% 50%;
+    transform: rotate(90deg) scale(1.05);
   }
   50% {
-    background-position: 100% 50%;
+    background-position: 100% 100%;
+    transform: rotate(180deg) scale(1);
+  }
+  75% {
+    background-position: 0% 100%;
+    transform: rotate(270deg) scale(1.05);
   }
   100% {
     background-position: 0% 50%;
-    transform: rotate(360deg);
+    transform: rotate(360deg) scale(1);
   }
 }
 
@@ -688,10 +704,11 @@ body {
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid rgba(255, 255, 255, 0.2);
+  border: 3px solid rgba(255, 255, 255, 0.3);
   position: relative;
   z-index: 1;
   background: #1a1a1a;
+  box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
 }
 
 .username {
