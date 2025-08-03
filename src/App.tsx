@@ -229,12 +229,21 @@ const CasesTab = ({ t }: { t: any }) => (
 )
 
 const TopUpTab = ({ t, user }: { t: any, user: any }) => {
-  const [amount, setAmount] = useState(0.001)
+  const [amount, setAmount] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'ton' | 'stars'>('stars')
   const [tonConnectUI] = useTonConnectUI()
   const address = useTonAddress()
+
+  // Сбрасываем значение при смене метода оплаты
+  useEffect(() => {
+    if (selectedPaymentMethod === 'stars') {
+      setAmount(1)
+    } else {
+      setAmount(0.001)
+    }
+  }, [selectedPaymentMethod])
 
   const handlePayment = async () => {
     console.log('🔵 Начинаем платеж:', { user: user?.id, amount, selectedMethod: selectedPaymentMethod })
@@ -350,16 +359,25 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
         </div>
       </div>
       
-      <div className="amount-input">
-        <input 
-          type="number" 
-          placeholder="0.001" 
-          value={amount}
-          onChange={(e) => setAmount(Math.max(0.001, parseFloat(e.target.value) || 0.001))}
-          min="0.001"
-          step="0.001"
-        />
-      </div>
+             <div className="amount-input">
+         <input 
+           type="number" 
+           placeholder={selectedPaymentMethod === 'stars' ? '1' : '0.001'} 
+           value={amount}
+           onChange={(e) => {
+             const value = parseFloat(e.target.value) || 0
+             if (selectedPaymentMethod === 'stars') {
+               // Для звезд только целые числа, минимум 1
+               setAmount(Math.max(1, Math.floor(value)))
+             } else {
+               // Для TON можно дробные числа, минимум 0.001
+               setAmount(Math.max(0.001, value))
+             }
+           }}
+           min={selectedPaymentMethod === 'stars' ? '1' : '0.001'}
+           step={selectedPaymentMethod === 'stars' ? '1' : '0.001'}
+         />
+       </div>
       
       {error && <div className="error-message">{error}</div>}
       
