@@ -232,7 +232,7 @@ const CasesTab = ({ t }: { t: any }) => (
 )
 
 const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUpdate?: () => void }) => {
-  const [amount, setAmount] = useState(1)
+  const [amount, setAmount] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'ton' | 'stars'>('stars')
@@ -241,11 +241,7 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
 
   // Сбрасываем значение при смене метода оплаты
   useEffect(() => {
-    if (selectedPaymentMethod === 'stars') {
-      setAmount(1)
-    } else {
-      setAmount(0.01)
-    }
+    setAmount('')
   }, [selectedPaymentMethod])
 
   const handlePayment = async () => {
@@ -256,19 +252,28 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
       return
     }
 
+    // Проверяем, что сумма введена
+    if (!amount || amount === '') {
+      setError('Введите сумму')
+      return
+    }
+
+    const numAmount = parseFloat(amount)
+    if (isNaN(numAmount) || numAmount <= 0) {
+      setError('Введите корректную сумму')
+      return
+    }
+
     // Проверка минимальной суммы для TON
-    if (selectedPaymentMethod === 'ton' && amount < 0.01) {
+    if (selectedPaymentMethod === 'ton' && numAmount < 0.01) {
       setError('Минимальная сумма для TON платежа: 0.01')
       return
     }
      
      // Округляем сумму для TON до 2 знаков после запятой
-     let finalAmount = amount
+     let finalAmount = numAmount
      if (selectedPaymentMethod === 'ton') {
-       finalAmount = Math.round(amount * 100) / 100
-       if (finalAmount !== amount) {
-         setAmount(finalAmount)
-       }
+       finalAmount = Math.round(numAmount * 100) / 100
      }
 
     setIsLoading(true)
@@ -277,7 +282,7 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
     try {
       if (selectedPaymentMethod === 'stars') {
         console.log('🔵 Вызываем PaymentService.processStarsPayment...')
-        const response = await PaymentService.processStarsPayment(amount, user.id)
+        const response = await PaymentService.processStarsPayment(numAmount, user.id)
         console.log('🔵 Ответ от PaymentService:', response)
         
         if (response.success && response.invoice_url) {
@@ -323,15 +328,15 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
             }
           }, 10000)
           
-          // Отправляем данные в Telegram Web App
-          if (window.Telegram?.WebApp) {
-            window.Telegram.WebApp.sendData(JSON.stringify({
-              action: 'payment_initiated',
-              method: 'stars',
-              amount: amount,
-              userId: user.id
-            }))
-          }
+                     // Отправляем данные в Telegram Web App
+           if (window.Telegram?.WebApp) {
+             window.Telegram.WebApp.sendData(JSON.stringify({
+               action: 'payment_initiated',
+               method: 'stars',
+               amount: numAmount,
+               userId: user.id
+             }))
+           }
           
           // Открываем инвойс через Telegram API
           if (window.Telegram?.WebApp?.openInvoice) {
@@ -479,17 +484,9 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
           type="number" 
           placeholder="" 
           value={amount}
-          onChange={(e) => {
-            const value = parseFloat(e.target.value) || 0
-            if (selectedPaymentMethod === 'stars') {
-              // Для звезд только целые числа, минимум 1
-              setAmount(Math.max(1, Math.floor(value)))
-            } else {
-              // Для TON ограничиваем до 2 знаков после запятой
-              const roundedValue = Math.round(value * 100) / 100
-              setAmount(roundedValue)
-            }
-          }}
+                     onChange={(e) => {
+             setAmount(e.target.value)
+           }}
           min={selectedPaymentMethod === 'stars' ? '1' : '0.01'}
           step={selectedPaymentMethod === 'stars' ? '1' : '0.01'}
         />
@@ -497,11 +494,11 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
       
       {error && <div className="error-message">{error}</div>}
       
-      <button 
-        className={`topup-btn ${isLoading ? 'loading' : ''}`}
-        onClick={handlePayment}
-        disabled={isLoading || amount <= 0}
-      >
+             <button 
+         className={`topup-btn ${isLoading ? 'loading' : ''}`}
+         onClick={handlePayment}
+         disabled={isLoading || !amount || amount === ''}
+       >
         <span className="btn-icon">
           {isLoading ? (
             <div className="loading-spinner"></div>
