@@ -218,9 +218,10 @@ body {
 
 .channel-card {
   background: url('/channel-logo.png') center center;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   border-radius: 12px;
-  height: 100px;
+  height: 120px;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
