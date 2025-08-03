@@ -52,4 +52,29 @@ export class BalanceService {
       }
     }
   }
+
+  static async verifyTonPayment(txHash: string, userId: number, amount: number, memo: string): Promise<BalanceResponse> {
+    try {
+      const response = await fetch(`${BALANCE_API_URL}/api/verifyTonPayment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          tx_hash: txHash,
+          user_id: userId,
+          amount: amount,
+          memo: memo
+        })
+      })
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Ошибка проверки TON платежа:', error)
+      return {
+        success: false,
+        error: 'Ошибка сети'
+      }
+    }
+  }
 } 

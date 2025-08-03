@@ -8,6 +8,9 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 # Получаем токен бота (хардкодим для Railway)
 BOT_TOKEN = "7771822556:AAHWZD6D_AMH0bT51ygacsoEEwQmPzJn4xI"
 
+# TON Center API ключ (нужно получить на https://toncenter.com)
+TON_CENTER_API_KEY = "YOUR_TON_CENTER_API_KEY"  # Замените на ваш ключ
+
 # URL вашего Web App на Render
 WEBAPP_URL = "https://nimblebimble.onrender.com"
 
@@ -61,6 +64,65 @@ def update_user_balance(user_id: int, currency: str, amount: float):
     
     print(f"💰 Обновлен баланс пользователя {user_id}: {user_balances[user_id_str]}")
     return user_balances[user_id_str]
+
+# Функции для работы с TON Center API
+async def check_ton_transaction(tx_hash: str, expected_amount: float, expected_address: str, memo: str):
+    """Проверка TON транзакции через TON Center API"""
+    try:
+        import aiohttp
+        
+        # URL для получения информации о транзакции
+        url = f"https://toncenter.com/api/v2/getTransaction"
+        
+        params = {
+            "hash": tx_hash,
+            "api_key": TON_CENTER_API_KEY
+        }
+        
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, params=params) as resp:
+                result = await resp.json()
+                
+                if result.get("ok"):
+                    transaction = result["result"]
+                    
+                    # Проверяем, что транзакция успешна
+                    if transaction.get("success"):
+                        # Проверяем входящие сообщения
+                        in_msg = transaction.get("in_msg", {})
+                        
+                        # Проверяем адрес получателя
+                        if in_msg.get("destination") == expected_address:
+                            # Проверяем сумму (в nanotons)
+                            amount_nano = int(expected_amount * 1000000000)
+                            if in_msg.get("value") == str(amount_nano):
+                                # Проверяем мемо
+                                if in_msg.get("message") == memo:
+                                    return True, "Transaction confirmed"
+                    
+                    return False, "Transaction details don't match"
+                else:
+                    return False, f"API error: {result.get('error')}"
+                    
+    except Exception as e:
+        print(f"❌ Ошибка проверки TON транзакции: {e}")
+        return False, str(e)
+
+async def wait_for_ton_payment(tx_hash: str, expected_amount: float, expected_address: str, memo: str, max_attempts: int = 30):
+    """Ожидание подтверждения TON транзакции"""
+    for attempt in range(max_attempts):
+        print(f"🔍 Проверка транзакции {tx_hash} (попытка {attempt + 1}/{max_attempts})")
+        
+        confirmed, message = await check_ton_transaction(tx_hash, expected_amount, expected_address, memo)
+        
+        if confirmed:
+            print(f"✅ Транзакция подтверждена: {message}")
+            return True, message
+        
+        # Ждем 10 секунд перед следующей проверкой
+        await asyncio.sleep(10)
+    
+    return False, "Transaction not confirmed after maximum attempts"
 
 # Функция создания инвойса для Telegram Stars
 async def create_invoice_link(user_id: int, amount: int, currency: str = "Stars", description: str = "Пополнение баланса"):
@@ -315,6 +377,49 @@ async def main():
                 
             except Exception as e:
                 print(f"❌ Ошибка обновления баланса: {e}")
+                return {
+                    "success": False,
+                    "error": str(e)
+                }
+
+        @app.post("/api/verifyTonPayment")
+        async def verify_ton_payment(request: dict):
+            """Проверка и подтверждение TON платежа"""
+            try:
+                tx_hash = request.get("tx_hash")
+                user_id = request.get("user_id")
+                amount = request.get("amount")
+                memo = request.get("memo")
+                
+                if not all([tx_hash, user_id, amount, memo]):
+                    return {"success": False, "error": "Missing required fields"}
+                
+                # Адрес для получения TON платежей
+                expected_address = "UQBimhjgyaNdL7tNkvQF26T8llmevqau32tS2opyypF5U_z-"
+                
+                # Ждем подтверждения транзакции
+                confirmed, message = await wait_for_ton_payment(
+                    tx_hash, amount, expected_address, memo
+                )
+                
+                if confirmed:
+                    # Обновляем баланс пользователя
+                    new_balance = update_user_balance(user_id, "TON", amount)
+                    
+                    return {
+                        "success": True,
+                        "balance": new_balance,
+                        "message": message,
+                        "user_id": user_id
+                    }
+                else:
+                    return {
+                        "success": False,
+                        "error": message
+                    }
+                    
+            except Exception as e:
+                print(f"❌ Ошибка проверки TON платежа: {e}")
                 return {
                     "success": False,
                     "error": str(e)

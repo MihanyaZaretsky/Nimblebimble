@@ -324,6 +324,9 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
         }
 
         try {
+          // Генерируем уникальное мемо для идентификации платежа
+          const memo = `nimble_${user.id}_${Date.now()}`
+          
           // Создаем транзакцию для пополнения баланса
           const transaction = {
             validUntil: Date.now() + 5 * 60 * 1000, // 5 минут
@@ -331,13 +334,23 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
               {
                 address: "UQBimhjgyaNdL7tNkvQF26T8llmevqau32tS2opyypF5U_z-", // Адрес для приема TON платежей
                 amount: (amount * 1000000000).toString(), // Конвертируем в nanotons
+                stateInit: undefined,
+                payload: memo // Добавляем мемо в транзакцию
               },
             ],
           }
 
-          await tonConnectUI.sendTransaction(transaction)
+          console.log('🔵 Отправляем TON транзакцию:', transaction)
           
-          // Обновляем баланс пользователя после успешной TON транзакции
+          // Отправляем транзакцию
+          await tonConnectUI.sendTransaction(transaction)
+          console.log('🔵 TON транзакция отправлена')
+          
+          // Показываем пользователю, что транзакция отправлена
+          setError('Транзакция отправлена. Ожидаем подтверждения...')
+          
+          // Для простоты пока просто обновляем баланс
+          // В будущем здесь будет проверка через TON Center API
           try {
             const balanceResponse = await BalanceService.updateBalance({
               user_id: user.id,
@@ -347,15 +360,18 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
             
             if (balanceResponse.success) {
               console.log('✅ Баланс обновлен:', balanceResponse.balance)
+              setError('')
               // Обновляем баланс в интерфейсе
               if (onBalanceUpdate) {
                 onBalanceUpdate()
               }
             } else {
               console.error('❌ Ошибка обновления баланса:', balanceResponse.error)
+              setError('Ошибка обновления баланса')
             }
           } catch (err) {
             console.error('❌ Ошибка обновления баланса:', err)
+            setError('Ошибка обновления баланса')
           }
           
           if (window.Telegram?.WebApp) {
