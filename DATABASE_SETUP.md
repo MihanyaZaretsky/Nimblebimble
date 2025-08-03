@@ -17,6 +17,57 @@
 - **Производительность**: очень быстрая
 - **Git-подобная работа с БД**
 
+### 4. **Яндекс.Облако** (PostgreSQL/MySQL)
+- **Бесплатный план**: 15GB SSD, 2 ядра, 2GB RAM на 60 дней
+- **Регион**: Россия (быстрая скорость)
+- **Поддержка**: на русском языке
+
+### 5. **VK Cloud** (PostgreSQL/MySQL)
+- **Бесплатный план**: 15GB SSD, 1 ядро, 1GB RAM на 30 дней
+- **Регион**: Россия
+- **Интеграция**: с VK экосистемой
+
+### 6. **Selectel** (PostgreSQL/MySQL)
+- **Бесплатный план**: 10GB SSD, 1 ядро, 1GB RAM на 14 дней
+- **Регион**: Россия
+- **Простота**: легкая настройка
+
+## 🇷🇺 Российские облачные БД (Рекомендуется для РФ)
+
+### 🚀 Настройка Яндекс.Облако
+
+#### Шаг 1: Регистрация
+1. Зайдите на [cloud.yandex.ru](https://cloud.yandex.ru)
+2. Нажмите "Попробовать бесплатно"
+3. Заполните форму (нужна карта для верификации)
+
+#### Шаг 2: Создание БД
+1. В консоли выберите "Managed Service for PostgreSQL"
+2. Нажмите "Создать кластер"
+3. Выберите "Стартовый" план (бесплатный)
+4. Настройте:
+   - **Имя**: `nimblebot-db`
+   - **Пароль**: `сложный_пароль_123!`
+   - **База данных**: `nimblebot`
+
+#### Шаг 3: Получение строки подключения
+```
+postgresql://nimblebot:пароль@c-xxxxx.rw.mdb.yandexcloud.net:6432/nimblebot
+```
+
+### 🚀 Настройка VK Cloud
+
+#### Шаг 1: Регистрация
+1. Зайдите на [mcs.mail.ru](https://mcs.mail.ru)
+2. Нажмите "Попробовать бесплатно"
+3. Заполните форму регистрации
+
+#### Шаг 2: Создание БД
+1. Выберите "Базы данных" → "PostgreSQL"
+2. Нажмите "Создать инстанс"
+3. Выберите бесплатный план
+4. Настройте подключение
+
 ## 🚀 Пошаговая настройка MongoDB Atlas
 
 ### Шаг 1: Регистрация
@@ -53,16 +104,98 @@ mongodb+srv://nimblebot:пароль@cluster0.xxxxx.mongodb.net/?retryWrites=tru
 ## 🔧 Обновление кода
 
 ### 1. Установка зависимостей
+
+**Для российских сервисов (PostgreSQL):**
+```bash
+pip install psycopg2-binary
+```
+
+**Для зарубежных сервисов (MongoDB):**
 ```bash
 pip install pymongo
 ```
 
 ### 2. Обновление `requirements.txt`
+
+**Для российских сервисов:**
+```
+psycopg2-binary==2.9.9
+```
+
+**Для зарубежных сервисов:**
 ```
 pymongo==4.6.1
 ```
 
-### 3. Обновление `bot.py`
+### 3. Обновление `bot.py` (PostgreSQL для российских сервисов)
+
+```python
+import psycopg2
+import os
+from psycopg2.extras import RealDictCursor
+
+# Подключение к PostgreSQL (Яндекс.Облако/VK Cloud)
+DATABASE_URL = "postgresql://nimblebot:пароль@c-xxxxx.rw.mdb.yandexcloud.net:6432/nimblebot"
+
+def get_db_connection():
+    return psycopg2.connect(DATABASE_URL)
+
+# Создание таблицы (выполнить один раз)
+def create_tables():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS user_balances (
+            user_id BIGINT PRIMARY KEY,
+            stars INTEGER DEFAULT 0,
+            ton DECIMAL(10,2) DEFAULT 0.00,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+    """)
+    conn.commit()
+    cur.close()
+    conn.close()
+
+# Функции для работы с балансом
+def get_user_balance(user_id: int):
+    conn = get_db_connection()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+    cur.execute("SELECT stars, ton FROM user_balances WHERE user_id = %s", (user_id,))
+    result = cur.fetchone()
+    cur.close()
+    conn.close()
+    
+    if result:
+        return {"stars": result['stars'], "ton": float(result['ton'])}
+    return {"stars": 0, "ton": 0}
+
+def update_user_balance(user_id: int, currency: str, amount: float):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    
+    if currency == "stars":
+        cur.execute("""
+            INSERT INTO user_balances (user_id, stars, updated_at) 
+            VALUES (%s, %s, CURRENT_TIMESTAMP)
+            ON CONFLICT (user_id) 
+            DO UPDATE SET stars = user_balances.stars + %s, updated_at = CURRENT_TIMESTAMP
+        """, (user_id, amount, amount))
+    elif currency == "ton":
+        cur.execute("""
+            INSERT INTO user_balances (user_id, ton, updated_at) 
+            VALUES (%s, %s, CURRENT_TIMESTAMP)
+            ON CONFLICT (user_id) 
+            DO UPDATE SET ton = user_balances.ton + %s, updated_at = CURRENT_TIMESTAMP
+        """, (user_id, amount, amount))
+    
+    conn.commit()
+    cur.close()
+    conn.close()
+```
+
+### 3. Обновление `bot.py` (MongoDB для зарубежных сервисов)
+
 ```python
 from pymongo import MongoClient
 import os
