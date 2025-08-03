@@ -354,6 +354,7 @@ body {
 .topup-header {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
   color: #1a1a1a;
