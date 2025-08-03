@@ -32,6 +32,7 @@ export const translations = {
     
     // Profile Tab
     balance: 'Баланс',
+    stars: 'Звезды',
     casesOpened: 'Открыто кейсов',
     language: 'Язык',
     
@@ -79,6 +80,7 @@ export const translations = {
     
     // Profile Tab
     balance: 'Balance',
+    stars: 'Stars',
     casesOpened: 'Cases Opened',
     language: 'Language',
     

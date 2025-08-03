@@ -563,7 +563,7 @@ const ProfileTab = ({ user, t, language, setLanguage, balance }: { user: any, t:
          <p>{balance.ton.toFixed(2)} <Icons.diamond /></p>
        </div>
        <div className="stat-card">
-         <h3>Звезды</h3>
+         <h3>{t.stars}</h3>
          <p>{balance.stars} <Icons.star /></p>
        </div>
      </div>
