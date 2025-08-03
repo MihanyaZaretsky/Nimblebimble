@@ -197,7 +197,7 @@ async def process_successful_payment(message: types.Message):
             print(f"💰 Amount: {amount}")
             
             # Начисляем баланс пользователю
-            new_balance = update_user_balance(user_id, "stars", amount)
+            new_balance = await update_user_balance(user_id, "stars", amount)
             
             await message.answer(
                 f"✅ Платеж успешно обработан!\n"
