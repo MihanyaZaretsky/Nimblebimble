@@ -1,69 +1,24 @@
-import os
 import asyncio
 import json
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-# Получаем токен бота (хардкодим для Railway)
-BOT_TOKEN = "7771822556:AAHWZD6D_AMH0bT51ygacsoEEwQmPzJn4xI"
-
-# TON Center API ключ (нужно получить на https://toncenter.com)
-TON_CENTER_API_KEY = "df82b466369447773fbaf3c2e4ad82f6e37c0b53648ed2a934c1165041e6312d"  # Замените на ваш ключ
-
-# URL вашего Web App на Render
-WEBAPP_URL = "https://nimblebimble.onrender.com"
+from database import db
+from config import BOT_TOKEN, TON_CENTER_API_KEY, WEBAPP_URL
 
 # Создаем бота и диспетчер
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
-# Файл для хранения балансов пользователей
-BALANCE_FILE = "user_balances.json"
+async def get_user_balance(user_id: int):
+    """Получить баланс пользователя из БД"""
+    return await db.get_user_balance(user_id)
 
-def load_balances():
-    """Загрузить балансы из файла"""
-    try:
-        if os.path.exists(BALANCE_FILE):
-            with open(BALANCE_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        return {}
-    except Exception as e:
-        print(f"❌ Ошибка загрузки балансов: {e}")
-        return {}
-
-def save_balances(balances):
-    """Сохранить балансы в файл"""
-    try:
-        with open(BALANCE_FILE, 'w', encoding='utf-8') as f:
-            json.dump(balances, f, ensure_ascii=False, indent=2)
-        print(f"✅ Балансы сохранены в файл")
-    except Exception as e:
-        print(f"❌ Ошибка сохранения балансов: {e}")
-
-# Загружаем балансы при запуске
-user_balances = load_balances()
-
-def get_user_balance(user_id: int):
-    """Получить баланс пользователя"""
-    return user_balances.get(str(user_id), {"stars": 0, "ton": 0.0})
-
-def update_user_balance(user_id: int, currency: str, amount: float):
-    """Обновить баланс пользователя"""
-    user_id_str = str(user_id)
-    if user_id_str not in user_balances:
-        user_balances[user_id_str] = {"stars": 0, "ton": 0.0}
-    
-    if currency.lower() == "stars":
-        user_balances[user_id_str]["stars"] += int(amount)
-    elif currency.lower() == "ton":
-        user_balances[user_id_str]["ton"] += amount
-    
-    # Сохраняем балансы в файл после каждого обновления
-    save_balances(user_balances)
-    
-    print(f"💰 Обновлен баланс пользователя {user_id}: {user_balances[user_id_str]}")
-    return user_balances[user_id_str]
+async def update_user_balance(user_id: int, currency: str, amount: float):
+    """Обновить баланс пользователя в БД"""
+    result = await db.update_user_balance(user_id, currency, amount)
+    print(f"💰 Обновлен баланс пользователя {user_id}: {result}")
+    return result
 
 # Функции для работы с TON Center API
 async def check_ton_transaction(tx_hash: str, expected_amount: float, expected_address: str, memo: str):
@@ -275,6 +230,10 @@ async def main():
     print(f"🌐 Web App URL: {WEBAPP_URL}")
     
     try:
+        # Подключаемся к базе данных
+        await db.connect()
+        print("✅ База данных подключена")
+        
         # Проверяем подключение к боту
         bot_info = await bot.get_me()
         print(f"✅ Бот подключен: @{bot_info.username}")
@@ -343,7 +302,7 @@ async def main():
         async def get_balance(user_id: int):
             """Получить баланс пользователя"""
             try:
-                balance = get_user_balance(user_id)
+                balance = await get_user_balance(user_id)
                 return {
                     "success": True,
                     "balance": balance,
@@ -367,7 +326,7 @@ async def main():
                 if not user_id:
                     return {"success": False, "error": "user_id required"}
                 
-                new_balance = update_user_balance(user_id, currency, amount)
+                new_balance = await update_user_balance(user_id, currency, amount)
                 
                 return {
                     "success": True,
@@ -404,7 +363,7 @@ async def main():
                 
                 if confirmed:
                     # Обновляем баланс пользователя
-                    new_balance = update_user_balance(user_id, "TON", amount)
+                    new_balance = await update_user_balance(user_id, "TON", amount)
                     
                     return {
                         "success": True,
