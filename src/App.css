@@ -633,6 +633,54 @@ body {
 
 .profile-avatar {
   margin-bottom: 16px;
+  position: relative;
+  width: 86px;
+  height: 86px;
+  margin: 0 auto 16px auto;
+}
+
+.profile-avatar::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff, #5f27cd);
+  background-size: 400% 400%;
+  border-radius: 50%;
+  z-index: -1;
+  animation: gradientRotate 3s ease-in-out infinite;
+}
+
+.profile-avatar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff, #5f27cd);
+  background-size: 400% 400%;
+  border-radius: 50%;
+  z-index: -2;
+  animation: gradientRotate 3s ease-in-out infinite reverse;
+  filter: blur(8px);
+  opacity: 0.3;
+}
+
+@keyframes gradientRotate {
+  0% {
+    background-position: 0% 50%;
+    transform: rotate(0deg);
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+    transform: rotate(360deg);
+  }
 }
 
 .profile-avatar img, .profile-avatar .default-avatar {
@@ -641,6 +689,9 @@ body {
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+  background: #1a1a1a;
 }
 
 .username {
