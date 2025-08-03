@@ -9,7 +9,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 BOT_TOKEN = "7771822556:AAHWZD6D_AMH0bT51ygacsoEEwQmPzJn4xI"
 
 # TON Center API ключ (нужно получить на https://toncenter.com)
-TON_CENTER_API_KEY = "YOUR_TON_CENTER_API_KEY"  # Замените на ваш ключ
+TON_CENTER_API_KEY = "df82b466369447773fbaf3c2e4ad82f6e37c0b53648ed2a934c1165041e6312d"  # Замените на ваш ключ
 
 # URL вашего Web App на Render
 WEBAPP_URL = "https://nimblebimble.onrender.com"
