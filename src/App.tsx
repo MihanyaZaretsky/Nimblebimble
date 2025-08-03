@@ -464,7 +464,8 @@ const ProfileTab = ({ user, t, language, setLanguage }: { user: any, t: any, lan
       </div>
     </div>
   </div>
-)
+  )
+}
 
 function AppContent() {
   const [user, setUser] = useState<any>(null)
