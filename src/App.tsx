@@ -330,24 +330,27 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
           // Генерируем уникальное мемо для идентификации платежа
           const memo = `nimble_${user.id}_${Date.now()}`
           
-          // Создаем транзакцию для пополнения баланса
-          const transaction = {
-            validUntil: Date.now() + 5 * 60 * 1000, // 5 минут
-            messages: [
-              {
-                address: "UQBimhjgyaNdL7tNkvQF26T8llmevqau32tS2opyypF5U_z-", // Адрес для приема TON платежей
-                amount: (amount * 1000000000).toString(), // Конвертируем в nanotons
-                stateInit: undefined,
-                payload: memo // Добавляем мемо в транзакцию
-              },
-            ],
-          }
+                     // Проверяем минимальную сумму в nanotons (0.01 TON = 10,000,000 nanotons)
+           const amountInNano = Math.max(10000000, Math.floor(amount * 1000000000))
+           
+           // Создаем транзакцию для пополнения баланса
+           const transaction = {
+             validUntil: Date.now() + 5 * 60 * 1000, // 5 минут
+             messages: [
+               {
+                 address: "UQBimhjgyaNdL7tNkvQF26T8llmevqau32tS2opyypF5U_z-", // Адрес для приема TON платежей
+                 amount: amountInNano.toString(), // Конвертируем в nanotons
+                 // Убираем stateInit и payload для простой транзакции
+               },
+             ],
+           }
 
           console.log('🔵 Отправляем TON транзакцию:', transaction)
           
-          // Отправляем транзакцию
-          const result = await tonConnectUI.sendTransaction(transaction)
-          console.log('🔵 Результат отправки TON транзакции:', result)
+                     // Отправляем транзакцию
+           console.log('🔵 Попытка отправки транзакции...')
+           const result = await tonConnectUI.sendTransaction(transaction)
+           console.log('🔵 Результат отправки TON транзакции:', result)
           console.log('🔵 TON транзакция отправлена')
           
           // Показываем пользователю, что транзакция отправлена
