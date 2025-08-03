@@ -3,6 +3,7 @@ import './App.css'
 import { initGradientAnimations } from './gradientAnimations'
 import { getTranslations } from './translations'
 import { PaymentService } from './services/paymentService'
+import { TonConnectUIProvider, useTonConnectUI, useTonAddress } from '@tonconnect/ui-react'
 
 // Типы для Telegram Web App
 declare global {
@@ -114,6 +115,31 @@ const Icons = {
   )
 }
 
+// Компонент для подключения TON кошелька
+const WalletConnectButton = ({ t }: { t: any }) => {
+  const [tonConnectUI] = useTonConnectUI()
+  const address = useTonAddress()
+
+  const handleConnect = () => {
+    if (address) {
+      // Если кошелек уже подключен, отключаем
+      tonConnectUI.disconnect()
+    } else {
+      // Если не подключен, открываем модальное окно
+      tonConnectUI.openModal()
+    }
+  }
+
+  return (
+    <button className="connect-btn" onClick={handleConnect}>
+      <span className="btn-icon">
+        <Icons.connect />
+      </span>
+      <span>{address ? 'Отключить' : t.connectWallet}</span>
+    </button>
+  )
+}
+
 // Компоненты для разных вкладок
 const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (tab: string) => void }) => {
   const handleChannelClick = () => {
@@ -202,6 +228,8 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'ton' | 'stars'>('stars')
+  const [tonConnectUI] = useTonConnectUI()
+  const address = useTonAddress()
 
   const handlePayment = async () => {
     console.log('🔵 Начинаем платеж:', { user: user?.id, amount, selectedMethod: selectedPaymentMethod })
@@ -244,15 +272,37 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
         }
       } else {
         // Для TON платежей
-        if (window.Telegram?.WebApp) {
-          window.Telegram.WebApp.sendData(JSON.stringify({
-            action: 'payment_initiated',
-            method: 'ton',
-            amount: amount,
-            userId: user.id
-          }))
+        if (!address) {
+          setError('Сначала подключите TON кошелек')
+          return
         }
-        setError('TON платежи пока не поддерживаются')
+
+        try {
+          // Создаем транзакцию для пополнения баланса
+          const transaction = {
+            validUntil: Date.now() + 5 * 60 * 1000, // 5 минут
+            messages: [
+              {
+                address: "0QD-SuoCHsCL2pIZfE8IAKsjc0aDpDUQAoo-ALHl2mje04A-", // Адрес для пополнения
+                amount: (amount * 1000000000).toString(), // Конвертируем в nanotons
+              },
+            ],
+          }
+
+          await tonConnectUI.sendTransaction(transaction)
+          
+          if (window.Telegram?.WebApp) {
+            window.Telegram.WebApp.sendData(JSON.stringify({
+              action: 'payment_initiated',
+              method: 'ton',
+              amount: amount,
+              userId: user.id
+            }))
+          }
+        } catch (err) {
+          console.error('Ошибка TON транзакции:', err)
+          setError('Ошибка отправки TON транзакции')
+        }
       }
     } catch (err) {
       console.error('🔴 Ошибка в handlePayment:', err)
@@ -383,13 +433,14 @@ const ProfileTab = ({ user, t, language, setLanguage }: { user: any, t: any, lan
   </div>
 )
 
-function App() {
+function AppContent() {
   const [user, setUser] = useState<any>(null)
   const [activeTab, setActiveTab] = useState('home')
   const [balance, setBalance] = useState({ ton: 0, stars: 0 })
   const [language, setLanguage] = useState('ru')
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const address = useTonAddress()
   
   // Получаем переводы для текущего языка
   const t = getTranslations(language)
@@ -511,7 +562,9 @@ function App() {
           <span className="balance-icon">
             <Icons.diamond />
           </span>
-          <span className="balance-amount">{balance.ton.toFixed(2)}</span>
+          <span className="balance-amount">
+            {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : balance.ton.toFixed(2)}
+          </span>
         </div>
         <div className="balance-item">
           <span className="balance-icon">
@@ -519,12 +572,7 @@ function App() {
           </span>
           <span className="balance-amount">{balance.stars}</span>
         </div>
-        <button className="connect-btn">
-          <span className="btn-icon">
-            <Icons.connect />
-          </span>
-          <span>{t.connectWallet}</span>
-        </button>
+        <WalletConnectButton t={t} />
         <div className="user-avatar" onClick={handleProfileClick}>
           {user?.photo_url ? (
             <img src={user.photo_url} alt="Avatar" />
@@ -605,6 +653,15 @@ function App() {
         </button>
       </div>
     </div>
+  )
+}
+
+// Основной компонент с TonConnectUIProvider
+function App() {
+  return (
+    <TonConnectUIProvider manifestUrl="https://nimblebimble.onrender.com/tonconnect-manifest.json">
+      <AppContent />
+    </TonConnectUIProvider>
   )
 }
 
