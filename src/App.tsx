@@ -9,22 +9,24 @@ import { TonConnectUIProvider, useTonConnectUI, useTonAddress } from '@tonconnec
 // Типы для Telegram Web App
 declare global {
   interface Window {
-    Telegram?: {
-      WebApp: {
-        ready: () => void
-        sendData: (data: string) => void
-        openInvoice?: (url: string) => void
-        initDataUnsafe?: {
-          user?: {
-            id: number
-            first_name: string
-            username?: string
-            photo_url?: string
-          }
+  Telegram?: {
+    WebApp: {
+      ready: () => void
+      sendData: (data: string) => void
+      openInvoice?: (url: string) => void
+      onEvent?: (eventType: string, eventHandler: (event: any) => void) => void
+      offEvent?: (eventType: string, eventHandler: (event: any) => void) => void
+      initDataUnsafe?: {
+        user?: {
+          id: number
+          first_name: string
+          username?: string
+          photo_url?: string
         }
       }
     }
   }
+}
 }
 
 // SVG иконки
@@ -271,6 +273,28 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
         
         if (response.success && response.invoice_url) {
           console.log('🔵 Открываем инвойс:', response.invoice_url)
+          
+          // Добавляем обработчик события закрытия инвойса
+          const handleInvoiceClosed = (event: any) => {
+            console.log('🔵 Событие invoiceClosed:', event)
+            if (event.status === 'paid') {
+              console.log('✅ Платеж успешно оплачен, обновляем баланс')
+              // Обновляем баланс после успешной оплаты звездами
+              if (onBalanceUpdate) {
+                onBalanceUpdate()
+              }
+            }
+            // Удаляем обработчик после использования
+            if (window.Telegram?.WebApp?.offEvent) {
+              window.Telegram.WebApp.offEvent('invoiceClosed', handleInvoiceClosed)
+            }
+          }
+          
+          // Подписываемся на событие закрытия инвойса
+          if (window.Telegram?.WebApp?.onEvent) {
+            window.Telegram.WebApp.onEvent('invoiceClosed', handleInvoiceClosed)
+          }
+          
           // Отправляем данные в Telegram Web App
           if (window.Telegram?.WebApp) {
             window.Telegram.WebApp.sendData(JSON.stringify({
@@ -280,16 +304,14 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
               userId: user.id
             }))
           }
-                     // Открываем инвойс через Telegram API
-           if (window.Telegram?.WebApp?.openInvoice) {
-             window.Telegram.WebApp.openInvoice(response.invoice_url)
-           } else {
-             // Fallback для старых версий
-             window.open(response.invoice_url, '_blank')
-           }
-           
-           // Обновляем баланс после успешного создания инвойса
-           // Примечание: для Stars платежей баланс обновляется на сервере после успешной оплаты
+          
+          // Открываем инвойс через Telegram API
+          if (window.Telegram?.WebApp?.openInvoice) {
+            window.Telegram.WebApp.openInvoice(response.invoice_url)
+          } else {
+            // Fallback для старых версий
+            window.open(response.invoice_url, '_blank')
+          }
         } else {
           console.error('🔴 Ошибка в ответе:', response.error)
           setError(response.error || 'Ошибка создания платежа')
