@@ -241,7 +241,7 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
     if (selectedPaymentMethod === 'stars') {
       setAmount(1)
     } else {
-      setAmount(0.001)
+      setAmount(0.01)
     }
   }, [selectedPaymentMethod])
 
@@ -362,20 +362,20 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
              <div className="amount-input">
          <input 
            type="number" 
-           placeholder={selectedPaymentMethod === 'stars' ? '1' : '0.001'} 
-           value={amount}
-           onChange={(e) => {
-             const value = parseFloat(e.target.value) || 0
-             if (selectedPaymentMethod === 'stars') {
-               // Для звезд только целые числа, минимум 1
-               setAmount(Math.max(1, Math.floor(value)))
-             } else {
-               // Для TON можно дробные числа, минимум 0.001
-               setAmount(Math.max(0.001, value))
-             }
-           }}
-           min={selectedPaymentMethod === 'stars' ? '1' : '0.001'}
-           step={selectedPaymentMethod === 'stars' ? '1' : '0.001'}
+                       placeholder={selectedPaymentMethod === 'stars' ? '1' : '0.01'} 
+            value={amount}
+            onChange={(e) => {
+              const value = parseFloat(e.target.value) || 0
+              if (selectedPaymentMethod === 'stars') {
+                // Для звезд только целые числа, минимум 1
+                setAmount(Math.max(1, Math.floor(value)))
+              } else {
+                // Для TON можно дробные числа, минимум 0.01
+                setAmount(Math.max(0.01, value))
+              }
+            }}
+            min={selectedPaymentMethod === 'stars' ? '1' : '0.01'}
+            step={selectedPaymentMethod === 'stars' ? '1' : '0.001'}
          />
        </div>
       
