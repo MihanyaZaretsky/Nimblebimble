@@ -219,17 +219,17 @@ body {
 .channel-card {
   background: url('/channel-logo.png') center center;
   background-size: cover;
-  border-radius: 0;
+  border-radius: 12px;
   height: 100px;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
   outline: none;
-  margin: 0;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 400px;
+  min-width: 300px;
 }
 
 .channel-card:hover {
@@ -885,11 +885,7 @@ body {
 /* Tablet and larger screens */
 @media (min-width: 480px) {
   .channel-card {
-    width: 100%;
-    margin-left: 0;
-    border-radius: 12px;
-    max-width: 400px;
-    margin: 0 auto;
+    max-width: 450px;
   }
   
   .tab-content {
