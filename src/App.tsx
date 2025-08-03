@@ -422,7 +422,6 @@ const ProfileTab = ({ user, t, language, setLanguage }: { user: any, t: any, lan
     
     {/* Секция кошелька */}
     <div className="wallet-section">
-      <h3>{t.connectWallet}</h3>
       <div className="wallet-info">
         {address ? (
           <div className="connected-wallet">
@@ -438,6 +437,7 @@ const ProfileTab = ({ user, t, language, setLanguage }: { user: any, t: any, lan
         ) : (
           <button className="connect-wallet-btn" onClick={handleConnectWallet}>
             <Icons.connect />
+            {t.connectWallet}
           </button>
         )}
       </div>
