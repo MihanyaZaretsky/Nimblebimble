@@ -1,5 +1,6 @@
 import os
 import asyncio
+import json
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -14,26 +15,52 @@ WEBAPP_URL = "https://nimblebimble.onrender.com"
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
-# Простое хранилище балансов пользователей (в памяти)
-# В реальном проекте лучше использовать базу данных
-user_balances = {}
+# Файл для хранения балансов пользователей
+BALANCE_FILE = "user_balances.json"
+
+def load_balances():
+    """Загрузить балансы из файла"""
+    try:
+        if os.path.exists(BALANCE_FILE):
+            with open(BALANCE_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        return {}
+    except Exception as e:
+        print(f"❌ Ошибка загрузки балансов: {e}")
+        return {}
+
+def save_balances(balances):
+    """Сохранить балансы в файл"""
+    try:
+        with open(BALANCE_FILE, 'w', encoding='utf-8') as f:
+            json.dump(balances, f, ensure_ascii=False, indent=2)
+        print(f"✅ Балансы сохранены в файл")
+    except Exception as e:
+        print(f"❌ Ошибка сохранения балансов: {e}")
+
+# Загружаем балансы при запуске
+user_balances = load_balances()
 
 def get_user_balance(user_id: int):
     """Получить баланс пользователя"""
-    return user_balances.get(user_id, {"stars": 0, "ton": 0.0})
+    return user_balances.get(str(user_id), {"stars": 0, "ton": 0.0})
 
 def update_user_balance(user_id: int, currency: str, amount: float):
     """Обновить баланс пользователя"""
-    if user_id not in user_balances:
-        user_balances[user_id] = {"stars": 0, "ton": 0.0}
+    user_id_str = str(user_id)
+    if user_id_str not in user_balances:
+        user_balances[user_id_str] = {"stars": 0, "ton": 0.0}
     
     if currency.lower() == "stars":
-        user_balances[user_id]["stars"] += int(amount)
+        user_balances[user_id_str]["stars"] += int(amount)
     elif currency.lower() == "ton":
-        user_balances[user_id]["ton"] += amount
+        user_balances[user_id_str]["ton"] += amount
     
-    print(f"💰 Обновлен баланс пользователя {user_id}: {user_balances[user_id]}")
-    return user_balances[user_id]
+    # Сохраняем балансы в файл после каждого обновления
+    save_balances(user_balances)
+    
+    print(f"💰 Обновлен баланс пользователя {user_id}: {user_balances[user_id_str]}")
+    return user_balances[user_id_str]
 
 # Функция создания инвойса для Telegram Stars
 async def create_invoice_link(user_id: int, amount: int, currency: str = "Stars", description: str = "Пополнение баланса"):
