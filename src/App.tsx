@@ -284,12 +284,11 @@ const TopUpTab = ({ t, user }: { t: any, user: any }) => {
 
         try {
           // Создаем транзакцию для пополнения баланса
-          // ВНИМАНИЕ: Это тестовый адрес! Замените на реальный адрес для приема платежей
           const transaction = {
             validUntil: Date.now() + 5 * 60 * 1000, // 5 минут
             messages: [
               {
-                address: "0QD-SuoCHsCL2pIZfE8IAKsjc0aDpDUQAoo-ALHl2mje04A-", // ТЕСТОВЫЙ адрес - замените на свой!
+                address: "UQBimhjgyaNdL7tNkvQF26T8llmevqau32tS2opyypF5U_z-", // Адрес для приема TON платежей
                 amount: (amount * 1000000000).toString(), // Конвертируем в nanotons
               },
             ],
