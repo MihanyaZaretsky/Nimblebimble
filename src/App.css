@@ -225,6 +225,7 @@ body {
   margin: 0;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
+  max-width: 500px;
 }
 
 .channel-card:hover {
@@ -726,5 +727,20 @@ body {
   
   .stats-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  .channel-card {
+    width: 100%;
+    margin-left: 0;
+    border-radius: 12px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .tab-content {
+    max-width: 500px;
   }
 } 
