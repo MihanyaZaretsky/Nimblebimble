@@ -323,6 +323,9 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
           return
         }
 
+        console.log('🔵 TON кошелек подключен, адрес:', address)
+        console.log('🔵 tonConnectUI доступен:', !!tonConnectUI)
+
         try {
           // Генерируем уникальное мемо для идентификации платежа
           const memo = `nimble_${user.id}_${Date.now()}`
@@ -343,7 +346,8 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
           console.log('🔵 Отправляем TON транзакцию:', transaction)
           
           // Отправляем транзакцию
-          await tonConnectUI.sendTransaction(transaction)
+          const result = await tonConnectUI.sendTransaction(transaction)
+          console.log('🔵 Результат отправки TON транзакции:', result)
           console.log('🔵 TON транзакция отправлена')
           
           // Показываем пользователю, что транзакция отправлена
@@ -383,8 +387,22 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
             }))
           }
         } catch (err) {
-          console.error('Ошибка TON транзакции:', err)
-          setError('Ошибка отправки TON транзакции')
+          console.error('❌ Ошибка TON транзакции:', err)
+          
+          // Более детальная обработка ошибок
+          if (err instanceof Error) {
+            if (err.message.includes('insufficient funds')) {
+              setError('Недостаточно средств в кошельке')
+            } else if (err.message.includes('user rejected')) {
+              setError('Транзакция отменена пользователем')
+            } else if (err.message.includes('invalid address')) {
+              setError('Неверный адрес получателя')
+            } else {
+              setError(`Ошибка TON транзакции: ${err.message}`)
+            }
+          } else {
+            setError('Ошибка отправки TON транзакции')
+          }
         }
       }
     } catch (err) {
