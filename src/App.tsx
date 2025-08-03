@@ -170,7 +170,7 @@ const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (
         </button>
         <button className="action-btn topup-home-btn" onClick={() => setActiveTab('topup')}>
           <span className="btn-icon">
-            <Icons.money />
+            <Icons.plus />
           </span>
           <span>{t.topUp}</span>
         </button>
@@ -509,7 +509,7 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
           {isLoading ? (
             <div className="loading-spinner"></div>
           ) : (
-            <Icons.plus />
+            <Icons.money />
           )}
         </span>
         <span>{isLoading ? 'Обработка...' : t.topUp}</span>
@@ -826,7 +826,7 @@ function AppContent() {
           onClick={() => setActiveTab('topup')}
         >
           <span className="nav-icon">
-            <Icons.money />
+            <Icons.plus />
           </span>
           <span>{t.topUp}</span>
         </button>
