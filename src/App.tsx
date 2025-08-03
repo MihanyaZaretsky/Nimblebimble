@@ -232,43 +232,42 @@ const CasesTab = ({ t }: { t: any }) => (
 )
 
 const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUpdate?: () => void }) => {
-  const [amount, setAmount] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'ton' | 'stars'>('stars')
   const [tonConnectUI] = useTonConnectUI()
   const address = useTonAddress()
 
-  // Сбрасываем значение при смене метода оплаты
-  useEffect(() => {
-    if (selectedPaymentMethod === 'stars') {
-      setAmount(1)
-    } else {
-      setAmount(0.01)
-    }
-  }, [selectedPaymentMethod])
-
   const handlePayment = async () => {
-    console.log('🔵 Начинаем платеж:', { user: user?.id, amount, selectedMethod: selectedPaymentMethod })
+    console.log('🔵 Начинаем платеж:', { user: user?.id, selectedMethod: selectedPaymentMethod })
     
     if (!user?.id) {
       setError('Пользователь не найден')
       return
     }
 
-         // Проверка минимальной суммы для TON
-     if (selectedPaymentMethod === 'ton' && amount < 0.01) {
-       setError('Минимальная сумма для TON платежа: 0.01')
-       return
-     }
+    // Запрашиваем сумму у пользователя
+    let userAmount = 0
+    if (selectedPaymentMethod === 'stars') {
+      const starsInput = prompt('Введите количество звезд (минимум 1):')
+      if (!starsInput) return
+      userAmount = Math.max(1, Math.floor(parseFloat(starsInput) || 0))
+    } else {
+      const tonInput = prompt('Введите сумму TON (минимум 0.01):')
+      if (!tonInput) return
+      userAmount = Math.max(0.01, Math.round((parseFloat(tonInput) || 0) * 100) / 100)
+    }
+
+    // Проверка минимальной суммы для TON
+    if (selectedPaymentMethod === 'ton' && userAmount < 0.01) {
+      setError('Минимальная сумма для TON платежа: 0.01')
+      return
+    }
      
      // Округляем сумму для TON до 2 знаков после запятой
-     let finalAmount = amount
+     let finalAmount = userAmount
      if (selectedPaymentMethod === 'ton') {
-       finalAmount = Math.round(amount * 100) / 100
-       if (finalAmount !== amount) {
-         setAmount(finalAmount)
-       }
+       finalAmount = Math.round(userAmount * 100) / 100
      }
 
     setIsLoading(true)
@@ -277,7 +276,7 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
     try {
       if (selectedPaymentMethod === 'stars') {
         console.log('🔵 Вызываем PaymentService.processStarsPayment...')
-        const response = await PaymentService.processStarsPayment(amount, user.id)
+        const response = await PaymentService.processStarsPayment(userAmount, user.id)
         console.log('🔵 Ответ от PaymentService:', response)
         
         if (response.success && response.invoice_url) {
@@ -328,7 +327,7 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
             window.Telegram.WebApp.sendData(JSON.stringify({
               action: 'payment_initiated',
               method: 'stars',
-              amount: amount,
+              amount: userAmount,
               userId: user.id
             }))
           }
@@ -473,27 +472,6 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
           <p>{t.starsPayment}</p>
         </div>
       </div>
-      
-             <div className="amount-input">
-         <input 
-           type="number" 
-                       placeholder="" 
-            value={amount}
-                         onChange={(e) => {
-               const value = parseFloat(e.target.value) || 0
-               if (selectedPaymentMethod === 'stars') {
-                 // Для звезд только целые числа, минимум 1
-                 setAmount(Math.max(1, Math.floor(value)))
-               } else {
-                 // Для TON ограничиваем до 2 знаков после запятой
-                 const roundedValue = Math.round(value * 100) / 100
-                 setAmount(roundedValue)
-               }
-             }}
-                         min={selectedPaymentMethod === 'stars' ? '1' : '0.01'}
-             step={selectedPaymentMethod === 'stars' ? '1' : '0.01'}
-         />
-       </div>
       
       {error && <div className="error-message">{error}</div>}
       
