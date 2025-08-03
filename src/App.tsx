@@ -277,13 +277,21 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
           // Добавляем обработчик события закрытия инвойса
           const handleInvoiceClosed = (event: any) => {
             console.log('🔵 Событие invoiceClosed:', event)
+            console.log('🔵 Статус события:', event.status)
+            
             if (event.status === 'paid') {
               console.log('✅ Платеж успешно оплачен, обновляем баланс')
               // Обновляем баланс после успешной оплаты звездами
               if (onBalanceUpdate) {
+                console.log('🔵 Вызываем onBalanceUpdate...')
                 onBalanceUpdate()
+              } else {
+                console.log('❌ onBalanceUpdate не определен')
               }
+            } else {
+              console.log('❌ Статус платежа не "paid":', event.status)
             }
+            
             // Удаляем обработчик после использования
             if (window.Telegram?.WebApp?.offEvent) {
               window.Telegram.WebApp.offEvent('invoiceClosed', handleInvoiceClosed)
@@ -293,7 +301,18 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
           // Подписываемся на событие закрытия инвойса
           if (window.Telegram?.WebApp?.onEvent) {
             window.Telegram.WebApp.onEvent('invoiceClosed', handleInvoiceClosed)
+            console.log('🔵 Подписались на событие invoiceClosed')
+          } else {
+            console.log('❌ onEvent не доступен')
           }
+          
+          // Альтернативный способ: проверяем баланс через 10 секунд
+          setTimeout(() => {
+            console.log('🔵 Проверяем баланс через таймер...')
+            if (onBalanceUpdate) {
+              onBalanceUpdate()
+            }
+          }, 10000)
           
           // Отправляем данные в Telegram Web App
           if (window.Telegram?.WebApp) {
