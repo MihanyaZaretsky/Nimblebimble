@@ -480,10 +480,10 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
       </div>
       
       <div className="amount-input">
-        <input 
-          type="number" 
-          placeholder="" 
-          value={amount}
+                 <input 
+           type="number" 
+           placeholder="0" 
+           value={amount}
                      onChange={(e) => {
              const value = e.target.value
              
