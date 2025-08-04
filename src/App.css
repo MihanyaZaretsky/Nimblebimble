@@ -180,6 +180,7 @@ body {
   overflow-y: auto;
   max-width: 400px;
   margin: 0 auto;
+  position: relative;
 }
 
 /* Анимация появления контента */
@@ -1087,7 +1088,7 @@ body {
 
 /* Стили для слайд-панели кейсов */
 .case-slide-overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
