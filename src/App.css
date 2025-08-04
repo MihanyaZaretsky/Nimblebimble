@@ -70,8 +70,8 @@ body {
   overflow: hidden;
   outline: none;
   width: fit-content;
-  min-width: 140px;
-  max-width: 160px;
+  min-width: 150px;
+  max-width: 170px;
   justify-content: center;
   white-space: nowrap;
   height: 36px;
@@ -915,8 +915,8 @@ body {
     padding: 4px 8px;
     font-size: 10px;
     width: fit-content;
-    min-width: 100px;
-    max-width: 120px;
+    min-width: 110px;
+    max-width: 130px;
     height: 28px;
     line-height: 1;
   }
@@ -1240,8 +1240,8 @@ body {
     padding: 6px 10px;
     font-size: 11px;
     width: fit-content;
-    min-width: 120px;
-    max-width: 140px;
+    min-width: 130px;
+    max-width: 150px;
     height: 32px;
     line-height: 1;
   }
