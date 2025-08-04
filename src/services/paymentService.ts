@@ -22,10 +22,10 @@ interface BalanceResponse {
   userId: number;
 }
 
-// API бота (теперь встроен в bot.py на Railway)
+// API бота (теперь встроен в bot.py на Timeweb.Cloud)
 const PAYMENT_API_URL = typeof window !== 'undefined' && window.location.hostname === 'localhost'
   ? 'http://localhost:8000'
-  : 'https://nimblebimble-production.up.railway.app'; // Бот с API на Railway
+  : 'https://mihanyazaretsky-nimblebimble-0aea.twc1.net'; // Бот с API на Timeweb.Cloud
 
 export class PaymentService {
   static async createInvoiceLink(request: PaymentRequest): Promise<PaymentResponse> {
