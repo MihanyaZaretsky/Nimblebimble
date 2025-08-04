@@ -36,6 +36,7 @@ export const translations = {
     casesOpened: 'Открыто кейсов',
     language: 'Язык',
     walletAddress: 'Адрес кошелька:',
+    connectWallet: 'Подключить Кошелёк',
     disconnectWallet: 'Отключить кошелек',
     
     // Navigation
@@ -86,6 +87,7 @@ export const translations = {
     casesOpened: 'Cases Opened',
     language: 'Language',
     walletAddress: 'Wallet Address:',
+    connectWallet: 'Connect Wallet',
     disconnectWallet: 'Disconnect Wallet',
     
     // Navigation
