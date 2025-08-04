@@ -5,7 +5,7 @@ import { getTranslations } from './translations'
 import { PaymentService } from './services/paymentService'
 import { BalanceService } from './services/balanceService'
 import { TonConnectUIProvider, useTonConnectUI, useTonAddress } from '@tonconnect/ui-react'
-import CaseModal from './components/CaseModal'
+import CaseSlidePanel from './components/CaseSlidePanel'
 
 // Типы для Telegram Web App
 declare global {
@@ -194,7 +194,7 @@ const CasesTab = ({ t }: { t: any }) => {
     starsPrice: number;
     tonPrice: number;
   } | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSlideOpen, setIsSlideOpen] = useState(false);
 
   const cases = [
     {
@@ -221,12 +221,24 @@ const CasesTab = ({ t }: { t: any }) => {
 
   const handleCaseClick = (caseData: typeof cases[0]) => {
     setSelectedCase(caseData);
-    setIsModalOpen(true);
+    setIsSlideOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleCloseSlide = () => {
+    setIsSlideOpen(false);
     setSelectedCase(null);
+  };
+
+  const handleOpenWithStars = () => {
+    console.log('Открытие кейса за Stars:', selectedCase);
+    // TODO: Реализовать логику открытия кейса за Stars
+    handleCloseSlide();
+  };
+
+  const handleOpenWithTon = () => {
+    console.log('Открытие кейса за TON:', selectedCase);
+    // TODO: Реализовать логику открытия кейса за TON
+    handleCloseSlide();
   };
 
   return (
@@ -255,12 +267,14 @@ const CasesTab = ({ t }: { t: any }) => {
       </div>
 
       {selectedCase && (
-        <CaseModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
+        <CaseSlidePanel
+          isOpen={isSlideOpen}
+          onClose={handleCloseSlide}
           caseType={selectedCase.type}
           starsPrice={selectedCase.starsPrice}
           tonPrice={selectedCase.tonPrice}
+          onOpenWithStars={handleOpenWithStars}
+          onOpenWithTon={handleOpenWithTon}
         />
       )}
     </div>
