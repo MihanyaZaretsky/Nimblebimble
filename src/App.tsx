@@ -243,7 +243,11 @@ const CasesTab = ({ t }: { t: any }) => {
       
       <div className="cases-grid">
         {cases.map((caseData, index) => (
-          <div key={index} className="case-card">
+          <div 
+            key={index} 
+            className="case-card"
+            onClick={() => handleCaseClick(caseData)}
+          >
             <div className="case-icon">
               <Icons.box />
             </div>
@@ -252,12 +256,6 @@ const CasesTab = ({ t }: { t: any }) => {
               <p>{t.price}: {caseData.starsPrice} <Icons.star /></p>
               <p>{t.price}: {caseData.tonPrice} <Icons.diamond /></p>
             </div>
-            <button 
-              className="open-btn" 
-              onClick={() => handleCaseClick(caseData)}
-            >
-              {t.open}
-            </button>
           </div>
         ))}
       </div>

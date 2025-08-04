@@ -364,6 +364,7 @@ body {
   outline: none;
   border: 1px solid rgba(0, 245, 212, 0.2);
   box-shadow: 0 4px 15px rgba(0, 245, 212, 0.1);
+  cursor: pointer;
 }
 
 .case-card:hover {
@@ -371,6 +372,7 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 245, 212, 0.3);
   border-color: rgba(0, 245, 212, 0.4);
+  cursor: pointer;
 }
 
 .case-icon {
@@ -399,26 +401,7 @@ body {
   margin-bottom: 12px;
 }
 
-.open-btn {
-  background: linear-gradient(90deg, #00BBF9, #9B5DE5);
-  border: none;
-  color: #FFFFFF;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
-  transition: all 0.2s ease;
-  outline: none;
-  box-shadow: 0 0 12px rgba(0, 187, 249, 0.4);
-}
 
-.open-btn:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 16px rgba(155, 93, 229, 0.6);
-  background: linear-gradient(90deg, #9B5DE5, #00BBF9);
-}
 
 /* TopUp Tab */
 .topup-header {
@@ -970,10 +953,7 @@ body {
     gap: 8px;
   }
   
-  .open-btn {
-    padding: 5px 10px;
-    font-size: 10px;
-  }
+
   
   .connect-btn {
     padding: 6px 8px 6px 6px;
@@ -1024,7 +1004,7 @@ body {
 .nav-btn,
 .payment-card,
 .case-card,
-.open-btn,
+
 .topup-btn,
 .lang-btn,
 .connect-wallet-btn,
@@ -1299,10 +1279,7 @@ body {
     gap: 10px;
   }
   
-  .open-btn {
-    padding: 6px 12px;
-    font-size: 11px;
-  }
+
   
   .connect-btn {
     padding: 7px 9px 7px 7px;
