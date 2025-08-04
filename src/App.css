@@ -63,7 +63,7 @@ body {
   background: linear-gradient(90deg, #00BBF9, #9B5DE5);
   border: none;
   color: #FFFFFF;
-  padding: 8px 10px 8px 8px;
+  padding: 8px 12px 8px 10px;
   border-radius: 8px;
   font-size: 10px;
   font-weight: 500;
@@ -72,7 +72,7 @@ body {
   position: relative;
   overflow: hidden;
   outline: none;
-  width: 90px;
+  width: 110px;
   justify-content: center;
   white-space: nowrap;
   height: auto;
@@ -956,9 +956,9 @@ body {
 
   
   .connect-btn {
-    padding: 6px 8px 6px 6px;
+    padding: 6px 10px 6px 8px;
     font-size: 9px;
-    width: 80px;
+    width: 95px;
     height: auto;
     line-height: 1.2;
     flex-direction: row;
@@ -1282,9 +1282,9 @@ body {
 
   
   .connect-btn {
-    padding: 7px 9px 7px 7px;
+    padding: 7px 11px 7px 9px;
     font-size: 10px;
-    width: 85px;
+    width: 100px;
     height: auto;
     line-height: 1.2;
     flex-direction: row;
