@@ -5,6 +5,7 @@ import { getTranslations } from './translations'
 import { PaymentService } from './services/paymentService'
 import { BalanceService } from './services/balanceService'
 import { TonConnectUIProvider, useTonConnectUI, useTonAddress } from '@tonconnect/ui-react'
+import CaseModal from './components/CaseModal'
 
 // Типы для Telegram Web App
 declare global {
@@ -187,49 +188,84 @@ const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (
   )
 }
 
-const CasesTab = ({ t }: { t: any }) => (
-  <div className="tab-content">
-    <h2 className="section-title">{t.cases}</h2>
-    
-    <div className="cases-grid">
-      <div className="case-card">
-        <div className="case-icon">
-          <Icons.box />
-        </div>
-        <h3>{t.commonCase}</h3>
-        <p>{t.price}: 100 <Icons.money /></p>
-        <button className="open-btn">{t.open}</button>
-      </div>
+const CasesTab = ({ t }: { t: any }) => {
+  const [selectedCase, setSelectedCase] = useState<{
+    type: string;
+    starsPrice: number;
+    tonPrice: number;
+  } | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const cases = [
+    {
+      type: t.commonCase,
+      starsPrice: 100,
+      tonPrice: 0.1
+    },
+    {
+      type: t.rareCase,
+      starsPrice: 500,
+      tonPrice: 0.5
+    },
+    {
+      type: t.epicCase,
+      starsPrice: 1000,
+      tonPrice: 1.0
+    },
+    {
+      type: t.legendaryCase,
+      starsPrice: 5000,
+      tonPrice: 5.0
+    }
+  ];
+
+  const handleCaseClick = (caseData: typeof cases[0]) => {
+    setSelectedCase(caseData);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedCase(null);
+  };
+
+  return (
+    <div className="tab-content">
+      <h2 className="section-title">{t.cases}</h2>
       
-      <div className="case-card">
-        <div className="case-icon">
-          <Icons.box />
-        </div>
-        <h3>{t.rareCase}</h3>
-        <p>{t.price}: 500 <Icons.money /></p>
-        <button className="open-btn">{t.open}</button>
+      <div className="cases-grid">
+        {cases.map((caseData, index) => (
+          <div key={index} className="case-card">
+            <div className="case-icon">
+              <Icons.box />
+            </div>
+            <h3>{caseData.type}</h3>
+            <div className="case-prices">
+              <p>{t.price}: {caseData.starsPrice} <Icons.star /></p>
+              <p>{t.price}: {caseData.tonPrice} <Icons.diamond /></p>
+            </div>
+            <button 
+              className="open-btn" 
+              onClick={() => handleCaseClick(caseData)}
+            >
+              {t.open}
+            </button>
+          </div>
+        ))}
       </div>
-      
-      <div className="case-card">
-        <div className="case-icon">
-          <Icons.box />
-        </div>
-        <h3>{t.epicCase}</h3>
-        <p>{t.price}: 1000 <Icons.money /></p>
-        <button className="open-btn">{t.open}</button>
-      </div>
-      
-      <div className="case-card">
-        <div className="case-icon">
-          <Icons.box />
-        </div>
-        <h3>{t.legendaryCase}</h3>
-        <p>{t.price}: 5000 <Icons.money /></p>
-        <button className="open-btn">{t.open}</button>
-      </div>
+
+      {selectedCase && (
+        <CaseModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          caseType={selectedCase.type}
+          starsPrice={selectedCase.starsPrice}
+          tonPrice={selectedCase.tonPrice}
+        />
+      )}
     </div>
-  </div>
-)
+  );
+};
 
 const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUpdate?: () => void }) => {
   const [amount, setAmount] = useState('')
