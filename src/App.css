@@ -56,11 +56,11 @@ body {
 .connect-btn {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 6px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
   color: white;
-  padding: 8px 12px;
+  padding: 8px 16px;
   border-radius: 8px;
   font-size: 12px;
   font-weight: 500;
@@ -72,7 +72,7 @@ body {
   width: fit-content;
   min-width: 150px;
   max-width: 170px;
-  justify-content: center;
+  justify-content: flex-start;
   white-space: nowrap;
   height: 36px;
   line-height: 1;
@@ -912,7 +912,7 @@ body {
   }
   
   .connect-btn {
-    padding: 4px 8px;
+    padding: 4px 10px;
     font-size: 10px;
     width: fit-content;
     min-width: 110px;
@@ -1237,7 +1237,7 @@ body {
   }
   
   .connect-btn {
-    padding: 6px 10px;
+    padding: 6px 12px;
     font-size: 11px;
     width: fit-content;
     min-width: 130px;
