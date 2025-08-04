@@ -245,14 +245,11 @@ const CasesTab = ({ t }: { t: any }) => {
         {cases.map((caseData, index) => (
           <div 
             key={index} 
-            className="case-card"
+            className={`case-card ${caseData.type === t.commonCase ? 'common-case' : ''}`}
             onClick={() => handleCaseClick(caseData)}
           >
             {caseData.type === t.commonCase ? (
               <>
-                <div className="case-image">
-                  <img src="/common-case-image.png" alt="Common Case" />
-                </div>
                 <h3>{caseData.type}</h3>
                 <div className="case-prices">
                   <p>{t.price}: {caseData.starsPrice} <Icons.star /></p>
