@@ -892,10 +892,48 @@ body {
   .stats-grid {
     grid-template-columns: 1fr;
   }
+  
+  /* Еще больше уменьшаем кнопки на очень маленьких экранах */
+  .action-btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  
+  .open-btn {
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+  
+  .connect-btn {
+    padding: 3px 6px;
+    font-size: 9px;
+    width: 90px;
+  }
+  
+  .nav-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+  
+  .topup-btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  
+  .lang-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+  
+  .connect-wallet-btn,
+  .disconnect-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 }
 
 /* Tablet and larger screens */
-@media (min-width: 480px) {
+@media (min-width: 768px) {
   .channel-card {
     max-width: 450px;
   }
@@ -1173,5 +1211,43 @@ body {
     width: 64px;
     height: 64px;
     font-size: 24px;
+  }
+  
+  /* Уменьшаем размеры кнопок на мобильных */
+  .action-btn {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+  
+  .open-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+  
+  .connect-btn {
+    padding: 4px 8px;
+    font-size: 10px;
+    width: 100px;
+  }
+  
+  .nav-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .topup-btn {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+  
+  .lang-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .connect-wallet-btn,
+  .disconnect-btn {
+    padding: 10px 14px;
+    font-size: 13px;
   }
 } 
