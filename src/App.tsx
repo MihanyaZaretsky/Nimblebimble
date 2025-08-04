@@ -216,6 +216,14 @@ const CasesTab = ({ t }: { t: any }) => {
   ];
 
   const handleCaseClick = (caseData: typeof cases[0]) => {
+    // Для Common Case показываем кнопку подключения кошелька
+    if (caseData.type === t.commonCase) {
+      // Здесь можно добавить логику для подключения кошелька
+      console.log('Подключение кошелька для Common Case');
+      return;
+    }
+    
+    // Для остальных кейсов показываем слайд-панель
     setSelectedCase(caseData);
     setIsSlideOpen(true);
   };
@@ -256,6 +264,12 @@ const CasesTab = ({ t }: { t: any }) => {
               <p>{t.price}: {caseData.starsPrice} <Icons.star /></p>
               <p>{t.price}: {caseData.tonPrice} <Icons.diamond /></p>
             </div>
+            {caseData.type === t.commonCase && (
+              <button className="connect-btn" style={{ marginTop: '8px', width: '100%' }}>
+                <Icons.connect />
+                <span>{t.connectBtn}</span>
+              </button>
+            )}
           </div>
         ))}
       </div>
@@ -828,7 +842,7 @@ function AppContent() {
           </span>
           <span className="balance-amount">{balance.stars}</span>
         </div>
-        <WalletButton t={t} setActiveTab={setActiveTab} />
+
         <div className="user-avatar" onClick={handleProfileClick}>
           {user?.photo_url ? (
             <img src={user.photo_url} alt="Avatar" />
