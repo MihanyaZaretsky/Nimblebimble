@@ -349,64 +349,11 @@ body {
   text-align: center;
 }
 
-.cases-slider {
+.cases-list {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   gap: 16px;
   padding: 16px;
-  position: relative;
-}
-
-.case-slide-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  max-width: 300px;
-}
-
-.slider-arrow {
-  background: linear-gradient(135deg, #00BBF9, #9B5DE5);
-  border: none;
-  color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  box-shadow: 0 0 12px rgba(0, 187, 249, 0.4);
-}
-
-.slider-arrow:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 16px rgba(155, 93, 229, 0.6);
-}
-
-.slider-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.slider-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(155, 93, 229, 0.3);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.slider-dot.active {
-  background: linear-gradient(135deg, #00BBF9, #9B5DE5);
-  box-shadow: 0 0 8px rgba(0, 187, 249, 0.6);
 }
 
 .case-card {
@@ -480,6 +427,9 @@ body {
   flex-direction: column;
   justify-content: space-between;
   min-height: 200px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .case-card .case-content {
@@ -1043,19 +993,9 @@ body {
 
 /* Responsive */
 @media (max-width: 360px) {
-  .cases-slider {
-    gap: 8px;
+  .cases-list {
+    gap: 12px;
     padding: 12px;
-  }
-  
-  .slider-arrow {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
-  }
-  
-  .case-slide-container {
-    max-width: 250px;
   }
   
   .payment-methods {

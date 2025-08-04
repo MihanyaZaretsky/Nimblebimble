@@ -191,7 +191,6 @@ const CasesTab = ({ t }: { t: any }) => {
     tonPrice: number;
   } | null>(null);
   const [isSlideOpen, setIsSlideOpen] = useState(false);
-  const [currentCaseIndex, setCurrentCaseIndex] = useState(0);
 
   const cases = [
     {
@@ -238,38 +237,25 @@ const CasesTab = ({ t }: { t: any }) => {
     handleCloseSlide();
   };
 
-  const nextCase = () => {
-    setCurrentCaseIndex((prev) => (prev + 1) % cases.length);
-  };
-
-  const prevCase = () => {
-    setCurrentCaseIndex((prev) => (prev - 1 + cases.length) % cases.length);
-  };
-
-  const currentCase = cases[currentCaseIndex];
-
   return (
     <div className="tab-content">
       <h2 className="section-title">{t.cases}</h2>
       
-      <div className="cases-slider">
-        <button className="slider-arrow slider-arrow-left" onClick={prevCase}>
-          ‹
-        </button>
-        
-        <div className="case-slide-container">
-          <div 
-            className={`case-card ${currentCase.type === t.commonCase ? 'common-case' : ''}`}
-            onClick={() => handleCaseClick(currentCase)}
+      <div className="cases-list">
+        {cases.map((caseData, index) => (
+          <div
+            key={index}
+            className={`case-card ${caseData.type === t.commonCase ? 'common-case' : ''}`}
+            onClick={() => handleCaseClick(caseData)}
           >
-            {currentCase.type === t.commonCase ? (
+            {caseData.type === t.commonCase ? (
               <>
                 <div className="case-content">
-                  <h3>{currentCase.type}</h3>
+                  <h3>{caseData.type}</h3>
                 </div>
                 <div className="case-prices">
-                  <p>{t.price}: {currentCase.starsPrice} <Icons.star /></p>
-                  <p>{t.price}: {currentCase.tonPrice} <Icons.diamond /></p>
+                  <p>{t.price}: {caseData.starsPrice} <Icons.star /></p>
+                  <p>{t.price}: {caseData.tonPrice} <Icons.diamond /></p>
                 </div>
               </>
             ) : (
@@ -278,29 +264,15 @@ const CasesTab = ({ t }: { t: any }) => {
                   <div className="case-icon">
                     <Icons.box />
                   </div>
-                  <h3>{currentCase.type}</h3>
+                  <h3>{caseData.type}</h3>
                 </div>
                 <div className="case-prices">
-                  <p>{t.price}: {currentCase.starsPrice} <Icons.star /></p>
-                  <p>{t.price}: {currentCase.tonPrice} <Icons.diamond /></p>
+                  <p>{t.price}: {caseData.starsPrice} <Icons.star /></p>
+                  <p>{t.price}: {caseData.tonPrice} <Icons.diamond /></p>
                 </div>
               </>
             )}
           </div>
-        </div>
-
-        <button className="slider-arrow slider-arrow-right" onClick={nextCase}>
-          ›
-        </button>
-      </div>
-
-      <div className="slider-dots">
-        {cases.map((_, index) => (
-          <button
-            key={index}
-            className={`slider-dot ${index === currentCaseIndex ? 'active' : ''}`}
-            onClick={() => setCurrentCaseIndex(index)}
-          />
         ))}
       </div>
 
