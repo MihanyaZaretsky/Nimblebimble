@@ -248,14 +248,29 @@ const CasesTab = ({ t }: { t: any }) => {
             className="case-card"
             onClick={() => handleCaseClick(caseData)}
           >
-            <div className="case-icon">
-              <Icons.box />
-            </div>
-            <h3>{caseData.type}</h3>
-            <div className="case-prices">
-              <p>{t.price}: {caseData.starsPrice} <Icons.star /></p>
-              <p>{t.price}: {caseData.tonPrice} <Icons.diamond /></p>
-            </div>
+            {caseData.type === t.commonCase ? (
+              <>
+                <div className="case-image">
+                  <img src="/common-case-image.png" alt="Common Case" />
+                </div>
+                <h3>{caseData.type}</h3>
+                <div className="case-prices">
+                  <p>{t.price}: {caseData.starsPrice} <Icons.star /></p>
+                  <p>{t.price}: {caseData.tonPrice} <Icons.diamond /></p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="case-icon">
+                  <Icons.box />
+                </div>
+                <h3>{caseData.type}</h3>
+                <div className="case-prices">
+                  <p>{t.price}: {caseData.starsPrice} <Icons.star /></p>
+                  <p>{t.price}: {caseData.tonPrice} <Icons.diamond /></p>
+                </div>
+              </>
+            )}
 
           </div>
         ))}
