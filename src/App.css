@@ -198,6 +198,29 @@ body {
   }
 }
 
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    background-position: 100% 50%;
+    transform: rotate(90deg) scale(1.05);
+  }
+  50% {
+    background-position: 100% 100%;
+    transform: rotate(180deg) scale(1);
+  }
+  75% {
+    background-position: 0% 100%;
+    transform: rotate(270deg) scale(1.05);
+  }
+  100% {
+    background-position: 0% 50%;
+    transform: rotate(360deg) scale(1);
+  }
+}
+
 /* Home Tab */
 .welcome-box {
   background: rgba(58, 58, 60, 0.4);
@@ -716,9 +739,13 @@ body {
   left: -3px;
   width: 92px;
   height: 92px;
-  background: linear-gradient(135deg, #00BBF9, #9B5DE5);
+  background: linear-gradient(45deg, 
+    #00BBF9, #9B5DE5, #00F5D4, #F15BB5, 
+    #00BBF9, #9B5DE5, #00F5D4, #F15BB5);
+  background-size: 300% 300%;
   border-radius: 50%;
   z-index: -1;
+  animation: gradientFlow 3s ease-in-out infinite;
   box-shadow: 0 0 12px rgba(0, 187, 249, 0.5);
   filter: brightness(1.2) contrast(1.1);
 }
@@ -730,9 +757,13 @@ body {
   left: -6px;
   width: 98px;
   height: 98px;
-  background: linear-gradient(135deg, #00F5D4, #9B5DE5);
+  background: linear-gradient(45deg, 
+    #F15BB5, #00F5D4, #9B5DE5, #00BBF9, 
+    #F15BB5, #00F5D4, #9B5DE5, #00BBF9);
+  background-size: 300% 300%;
   border-radius: 50%;
   z-index: -2;
+  animation: gradientFlow 3s ease-in-out infinite reverse;
   filter: blur(12px) brightness(1.5);
   opacity: 0.6;
   box-shadow: 0 0 20px rgba(0, 245, 212, 0.4);
