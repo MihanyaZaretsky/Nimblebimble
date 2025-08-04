@@ -141,12 +141,7 @@ const WalletButton = ({ t, setActiveTab }: { t: any, setActiveTab: (tab: string)
                     <button className="connect-btn" onClick={handleClick}>
                   <Icons.connect />
                   <span>
-                    {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : (
-                      <>
-                        <div>{t.connectWalletLine1}</div>
-                        <div>{t.connectWalletLine2}</div>
-                      </>
-                    )}
+                    {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : t.connectWallet}
                   </span>
                 </button>
   )

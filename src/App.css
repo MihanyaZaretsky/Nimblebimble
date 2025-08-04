@@ -77,8 +77,8 @@ body {
   height: auto;
   line-height: 1.1;
   flex-shrink: 0;
-  flex-direction: column;
-  text-align: center;
+  flex-direction: row;
+  text-align: left;
 }
 
 .connect-btn svg {
@@ -928,6 +928,7 @@ body {
     max-width: 100px;
     height: auto;
     line-height: 1.1;
+    flex-direction: row;
   }
   
   .nav-btn {
@@ -1253,6 +1254,7 @@ body {
     max-width: 110px;
     height: auto;
     line-height: 1.1;
+    flex-direction: row;
   }
   
   .nav-btn {
