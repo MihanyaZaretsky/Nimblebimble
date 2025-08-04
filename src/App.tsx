@@ -683,9 +683,13 @@ function AppContent() {
         console.log('✅ Баланс загружен:', response.balance)
       } else {
         console.error('❌ Ошибка загрузки баланса:', response.error)
+        // Устанавливаем дефолтные значения при ошибке
+        setBalance({ ton: 0, stars: 0 })
       }
     } catch (error) {
       console.error('❌ Ошибка загрузки баланса:', error)
+      // Устанавливаем дефолтные значения при ошибке
+      setBalance({ ton: 0, stars: 0 })
     }
   }
 

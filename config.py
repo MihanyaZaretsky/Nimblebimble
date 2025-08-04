@@ -28,4 +28,4 @@ BOT_TOKEN = os.getenv('BOT_TOKEN', '7771822556:AAHWZD6D_AMH0bT51ygacsoEEwQmPzJn4
 TON_CENTER_API_KEY = os.getenv('TON_CENTER_API_KEY', 'df82b466369447773fbaf3c2e4ad82f6e37c0b53648ed2a934c1165041e6312d')
 
 # URL Web App
-WEBAPP_URL = os.getenv('WEBAPP_URL', 'https://nimblebimble.onrender.com') 
+WEBAPP_URL = os.getenv('WEBAPP_URL', 'https://mihanyazaretsky-nimblebimble-d8ef.twc1.net') 

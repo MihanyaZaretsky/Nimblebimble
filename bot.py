@@ -227,6 +227,7 @@ async def echo_message(message: types.Message):
 async def main():
     print("🚀 Запуск Python бота...")
     print(f"🔑 Токен: {BOT_TOKEN[:10]}...")
+    
     print(f"🌐 Web App URL: {WEBAPP_URL}")
     
     try:
@@ -248,7 +249,7 @@ async def main():
         from fastapi.middleware.cors import CORSMiddleware
         app.add_middleware(
             CORSMiddleware,
-            allow_origins=["https://nimblebimble.onrender.com", "http://localhost:3000"],
+            allow_origins=["https://nimblebimble.onrender.com", "http://localhost:3000", "*"],
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],
@@ -302,17 +303,20 @@ async def main():
         async def get_balance(user_id: int):
             """Получить баланс пользователя"""
             try:
+                print(f"💰 Запрос баланса для пользователя {user_id}")
                 balance = await get_user_balance(user_id)
+                print(f"✅ Баланс получен: {balance}")
                 return {
                     "success": True,
                     "balance": balance,
                     "user_id": user_id
                 }
             except Exception as e:
-                print(f"❌ Ошибка получения баланса: {e}")
+                print(f"❌ Ошибка получения баланса для {user_id}: {e}")
                 return {
                     "success": False,
-                    "error": str(e)
+                    "error": str(e),
+                    "user_id": user_id
                 }
         
         @app.post("/api/updateBalance")
@@ -387,19 +391,45 @@ async def main():
         # Запускаем бота и сервер одновременно
         print("🌐 Запуск бота и HTTP сервера...")
         
+        # Добавляем обработку graceful shutdown
+        import signal
+        import sys
+        
+        def signal_handler(signum, frame):
+            print(f"\n🛑 Получен сигнал {signum}, завершаем работу...")
+            sys.exit(0)
+        
+        signal.signal(signal.SIGINT, signal_handler)
+        signal.signal(signal.SIGTERM, signal_handler)
+        
         async def run_bot():
-            await dp.start_polling(bot)
+            try:
+                print("🤖 Запуск бота...")
+                await dp.start_polling(bot, skip_updates=True)
+            except Exception as e:
+                print(f"❌ Ошибка в боте: {e}")
+                raise
         
         async def run_server():
-            config = uvicorn.Config(app, host="0.0.0.0", port=8000)
-            server = uvicorn.Server(config)
-            await server.serve()
+            try:
+                print("🌐 Запуск HTTP сервера...")
+                config = uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="info")
+                server = uvicorn.Server(config)
+                await server.serve()
+            except Exception as e:
+                print(f"❌ Ошибка в сервере: {e}")
+                raise
         
-        # Запускаем оба процесса
-        await asyncio.gather(
-            run_bot(),
-            run_server()
-        )
+        # Запускаем оба процесса с обработкой ошибок
+        try:
+            await asyncio.gather(
+                run_bot(),
+                run_server(),
+                return_exceptions=True
+            )
+        except Exception as e:
+            print(f"❌ Критическая ошибка: {e}")
+            raise
         
     except Exception as e:
         print(f"❌ Ошибка запуска бота: {e}")

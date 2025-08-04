@@ -1,4 +1,4 @@
-const BALANCE_API_URL = 'https://nimblebimble-production.up.railway.app'
+const BALANCE_API_URL = 'https://mihanyazaretsky-nimblebimble-d8ef.twc1.net'
 
 export interface UserBalance {
   stars: number
@@ -21,14 +21,25 @@ export interface UpdateBalanceRequest {
 export class BalanceService {
   static async getUserBalance(userId: number): Promise<BalanceResponse> {
     try {
+      console.log(`💰 Запрашиваем баланс для пользователя ${userId} с ${BALANCE_API_URL}`)
       const response = await fetch(`${BALANCE_API_URL}/api/balance/${userId}`)
+      
+      if (!response.ok) {
+        console.error(`❌ HTTP ошибка: ${response.status} ${response.statusText}`)
+        return {
+          success: false,
+          error: `HTTP ошибка: ${response.status}`
+        }
+      }
+      
       const data = await response.json()
+      console.log(`✅ Получен ответ баланса:`, data)
       return data
     } catch (error) {
-      console.error('Ошибка получения баланса:', error)
+      console.error('❌ Ошибка получения баланса:', error)
       return {
         success: false,
-        error: 'Ошибка сети'
+        error: error instanceof Error ? error.message : 'Ошибка сети'
       }
     }
   }
