@@ -14,10 +14,10 @@ export const translations = {
     
     // Cases Tab
     cases: 'Кейсы',
-    commonCase: 'Обычный кейс',
-    rareCase: 'Редкий кейс',
-    epicCase: 'Эпический кейс',
-    legendaryCase: 'Легендарный кейс',
+    commonCase: 'Неоновый импульс',
+    rareCase: 'Хромовая капсула',
+    epicCase: 'Плазменная сфера',
+    legendaryCase: 'Кибер-хранилище',
     price: 'Цена',
     open: 'Открыть',
     
@@ -66,10 +66,10 @@ export const translations = {
     
     // Cases Tab
     cases: 'Cases',
-    commonCase: 'Common Case',
-    rareCase: 'Rare Case',
-    epicCase: 'Epic Case',
-    legendaryCase: 'Legendary Case',
+    commonCase: 'Neon Pulse',
+    rareCase: 'Chrome Capsule',
+    epicCase: 'Plasma Orb',
+    legendaryCase: 'Cyber Vault',
     price: 'Price',
     open: 'Open',
     
