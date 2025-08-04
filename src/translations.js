@@ -2,9 +2,7 @@
 export const translations = {
   ru: {
     // Balance Bar
-    connectWallet: 'Подключить кошелек',
-    connectWalletLine1: 'Подключить',
-    connectWalletLine2: 'кошелек',
+    connectWallet: 'Подключить',
     
     // Home Tab
     welcome: 'Добро пожаловать!',
@@ -54,9 +52,7 @@ export const translations = {
   
   en: {
     // Balance Bar
-    connectWallet: 'Connect Wallet',
-    connectWalletLine1: 'Connect',
-    connectWalletLine2: 'Wallet',
+    connectWallet: 'Connect',
     
     // Home Tab
     welcome: 'Welcome!',
