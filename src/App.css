@@ -1701,7 +1701,7 @@ body {
 
 /* Стили для слайд-панели кейсов */
 .case-slide-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -1710,9 +1710,17 @@ body {
   backdrop-filter: blur(8px);
   z-index: 1000;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   animation: slideOverlayIn 0.3s ease-out;
+  overflow: hidden;
+}
+
+/* Предотвращение прокрутки body при открытом модале */
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }
 
 @keyframes slideOverlayIn {
@@ -1726,24 +1734,25 @@ body {
 
 .case-slide-panel {
   background: linear-gradient(135deg, #231942 0%, #3A3A3C 50%, #231942 100%);
-  border-radius: 20px 20px 0 0;
+  border-radius: 20px;
   width: 100%;
   max-width: 400px;
-  max-height: 80vh;
+  height: 100vh;
+  max-height: 100vh;
   overflow: hidden;
-  box-shadow: 0 -10px 30px rgba(155, 93, 229, 0.3);
-  animation: slidePanelUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform-origin: bottom;
+  box-shadow: 0 10px 30px rgba(155, 93, 229, 0.3);
+  animation: slidePanelIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: center;
   border: 1px solid rgba(155, 93, 229, 0.3);
 }
 
-@keyframes slidePanelUp {
+@keyframes slidePanelIn {
   from {
-    transform: translateY(100%) scale(0.95);
+    transform: scale(0.8);
     opacity: 0;
   }
   to {
-    transform: translateY(0) scale(1);
+    transform: scale(1);
     opacity: 1;
   }
 }
@@ -1801,6 +1810,11 @@ body {
 .case-slide-content {
   padding: 24px;
   color: #ffffff;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .case-slide-info {
@@ -1974,11 +1988,14 @@ body {
   }
   .case-slide-panel {
     max-width: 100%;
-    border-radius: 20px 20px 0 0;
+    border-radius: 20px;
+    height: 100vh;
+    max-height: 100vh;
   }
   
   .case-slide-content {
     padding: 20px;
+    height: calc(100vh - 70px);
   }
   
   .btn-content {
