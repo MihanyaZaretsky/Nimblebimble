@@ -944,7 +944,7 @@ function AppContent() {
 // Основной компонент с TonConnectUIProvider
 function App() {
   return (
-    <TonConnectUIProvider manifestUrl="https://nimblebimble.onrender.com/tonconnect-manifest.json">
+            <TonConnectUIProvider manifestUrl="https://mihanyazaretsky-nimblebimble-120c.twc1.net/tonconnect-manifest.json">
       <AppContent />
     </TonConnectUIProvider>
   )

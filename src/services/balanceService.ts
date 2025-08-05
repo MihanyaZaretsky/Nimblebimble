@@ -1,4 +1,4 @@
-const BALANCE_API_URL = 'https://mihanyazaretsky-nimblebimble-0aea.twc1.net'
+const BALANCE_API_URL = 'https://mihanyazaretsky-nimblebimble-120c.twc1.net'
 
 export interface UserBalance {
   stars: number
