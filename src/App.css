@@ -1396,6 +1396,7 @@ body {
   border-top: 1px solid rgba(155, 93, 229, 0.3);
   padding: 8px 0;
   box-shadow: 0 -4px 20px rgba(155, 93, 229, 0.2);
+  z-index: 100;
 }
 
 .nav-btn {
@@ -1708,7 +1709,7 @@ body {
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(8px);
-  z-index: 1000;
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1734,9 +1735,9 @@ body.modal-open {
 
 .case-slide-panel {
   background: linear-gradient(135deg, #231942 0%, #3A3A3C 50%, #231942 100%);
-  border-radius: 20px;
+  border-radius: 0;
   width: 100%;
-  max-width: 400px;
+  max-width: 100%;
   height: 100vh;
   max-height: 100vh;
   overflow: hidden;
@@ -1811,7 +1812,7 @@ body.modal-open {
   padding: 24px;
   color: #ffffff;
   height: calc(100vh - 80px);
-  overflow-y: auto;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1855,6 +1856,7 @@ body.modal-open {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  overflow: hidden;
 }
 
 .case-slide-btn {
@@ -1988,7 +1990,7 @@ body.modal-open {
   }
   .case-slide-panel {
     max-width: 100%;
-    border-radius: 20px;
+    border-radius: 0;
     height: 100vh;
     max-height: 100vh;
   }
