@@ -1,47 +1,64 @@
+/* Улучшение загрузки шрифтов */
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/orbitron/v31/yMJMMIlzdpvBhQQL_SC3X9yhF25-T1nyGy6BoWgz.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Share Tech Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/sharetechmono/v17/J7aHnp1uDWRBEqV98dVQztYldFcLowEF.woff2') format('woff2');
+}
+
 /* Шрифты */
 .share-tech-mono-regular {
-  font-family: "Share Tech Mono", monospace;
+  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
   font-weight: 400;
   font-style: normal;
 }
 
 .orbitron-400 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
 }
 
 .orbitron-500 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
 }
 
 .orbitron-600 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-optical-sizing: auto;
   font-weight: 600;
   font-style: normal;
 }
 
 .orbitron-700 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-optical-sizing: auto;
   font-weight: 700;
   font-style: normal;
 }
 
 .orbitron-800 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-optical-sizing: auto;
   font-weight: 800;
   font-style: normal;
 }
 
 .orbitron-900 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-optical-sizing: auto;
   font-weight: 900;
   font-style: normal;
@@ -55,7 +72,7 @@
 }
 
 body {
-  font-family: "Share Tech Mono", monospace;
+  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
   background: #231942;
   color: white;
   overflow: hidden;
@@ -102,7 +119,7 @@ body {
 }
 
 .balance-amount {
-  font-family: "Share Tech Mono", monospace;
+  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
   font-weight: 600;
 }
 
@@ -285,7 +302,7 @@ body {
 }
 
 .welcome-box h2 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-weight: 700;
   font-size: 20px;
   margin-bottom: 8px;
@@ -309,7 +326,7 @@ body {
 }
 
 .channel-title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 16px;
   color: white;
@@ -398,7 +415,7 @@ body {
 
 /* Cases Tab */
 .section-title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 20px;
   margin-bottom: 20px;
@@ -459,7 +476,7 @@ body {
 }
 
 .case-card.common-case .case-content h3 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-weight: 700;
   color: #ffffff;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
@@ -475,7 +492,7 @@ body {
 }
 
 .case-card.common-case .case-prices p {
-  font-family: "Share Tech Mono", monospace;
+  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
   color: #ffffff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   margin-bottom: 2px;
@@ -501,7 +518,7 @@ body {
 }
 
 .case-card h3 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 6px;
@@ -521,7 +538,7 @@ body {
   flex-direction: column;
   gap: 2px;
   margin-bottom: 12px;
-  font-family: "Share Tech Mono", monospace;
+  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
 }
 
 
@@ -537,7 +554,7 @@ body {
   padding: 12px 16px;
   border-radius: 8px;
   margin-bottom: 20px;
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   box-shadow: 0 0 12px rgba(0, 187, 249, 0.4);
 }
@@ -631,7 +648,7 @@ body {
 }
 
 .payment-card h3 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 4px;
@@ -753,7 +770,7 @@ body {
 }
 
 .wallet-section h3 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 16px;
   margin-bottom: 12px;
@@ -788,7 +805,7 @@ body {
 
 .address-value {
   display: block;
-  font-family: "Share Tech Mono", monospace;
+  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
   font-size: 14px;
   font-weight: 600;
   word-break: break-all;
@@ -908,7 +925,7 @@ body {
 }
 
 .user-id {
-  font-family: "Share Tech Mono", monospace;
+  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
   color: rgba(255, 255, 255, 0.5);
   font-size: 12px;
 }
@@ -938,7 +955,7 @@ body {
 }
 
 .stat-card h3 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
@@ -951,7 +968,7 @@ body {
 }
 
 .language-section h3 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 16px;
   margin-bottom: 12px;
@@ -1067,6 +1084,31 @@ body {
 
 /* Responsive */
 @media (max-width: 360px) {
+  /* Принудительное применение шрифтов на очень маленьких экранах */
+  body,
+  .balance-amount,
+  .address-value,
+  .user-id,
+  .case-prices,
+  .btn-price {
+    font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace !important;
+  }
+  
+  .welcome-box h2,
+  .channel-title,
+  .section-title,
+  .case-card h3,
+  .case-card.common-case .case-content h3,
+  .topup-header,
+  .payment-card h3,
+  .wallet-section h3,
+  .stat-card h3,
+  .language-section h3,
+  .case-slide-header h2,
+  .case-slide-info h3,
+  .btn-title {
+    font-family: "Orbitron", "Arial", "Helvetica", sans-serif !important;
+  }
   .cases-list {
     gap: 12px;
     padding: 12px;
@@ -1228,7 +1270,7 @@ body {
 }
 
 .case-slide-header h2 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-weight: 700;
   color: #ffffff;
   font-size: 18px;
@@ -1281,7 +1323,7 @@ body {
 }
 
 .case-slide-info h3 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-weight: 700;
   font-size: 22px;
   margin-bottom: 8px;
@@ -1375,7 +1417,7 @@ body {
 }
 
 .btn-title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
   font-weight: 700;
   font-size: 16px;
   margin-bottom: 4px;
@@ -1383,7 +1425,7 @@ body {
 }
 
 .btn-price {
-  font-family: "Share Tech Mono", monospace;
+  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
   font-size: 14px;
   color: rgba(26, 26, 46, 0.8);
   font-weight: 500;
@@ -1391,6 +1433,38 @@ body {
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 480px) {
+  /* Улучшение отображения шрифтов на мобильных */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Принудительное применение шрифтов на мобильных */
+  body,
+  .balance-amount,
+  .address-value,
+  .user-id,
+  .case-prices,
+  .btn-price {
+    font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace !important;
+  }
+  
+  .welcome-box h2,
+  .channel-title,
+  .section-title,
+  .case-card h3,
+  .case-card.common-case .case-content h3,
+  .topup-header,
+  .payment-card h3,
+  .wallet-section h3,
+  .stat-card h3,
+  .language-section h3,
+  .case-slide-header h2,
+  .case-slide-info h3,
+  .btn-title {
+    font-family: "Orbitron", "Arial", "Helvetica", sans-serif !important;
+  }
   .case-slide-panel {
     max-width: 100%;
     border-radius: 20px 20px 0 0;
