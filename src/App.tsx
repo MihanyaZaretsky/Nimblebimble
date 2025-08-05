@@ -249,26 +249,38 @@ const CasesTab = ({ t }: { t: any }) => {
             onClick={() => handleCaseClick(caseData)}
           >
             {caseData.type === t.commonCase ? (
-              <>
-                <div className="case-content">
-                  <h3>{caseData.type}</h3>
+              <div className="case-prices">
+                <h3 className="case-title">{caseData.type}</h3>
+                <div className="price-row">
+                  <span className="price-item">
+                    <span className="price-value">{caseData.starsPrice}</span>
+                    <Icons.star />
+                  </span>
+                  <span className="price-item">
+                    <span className="price-value">{caseData.tonPrice}</span>
+                    <Icons.diamond />
+                  </span>
                 </div>
-                <div className="case-prices">
-                  <p>{t.price}: {caseData.starsPrice} <Icons.star /></p>
-                  <p>{t.price}: {caseData.tonPrice} <Icons.diamond /></p>
-                </div>
-              </>
+              </div>
             ) : (
               <>
                 <div className="case-content">
                   <div className="case-icon">
                     <Icons.box />
                   </div>
-                  <h3>{caseData.type}</h3>
                 </div>
                 <div className="case-prices">
-                  <p>{t.price}: {caseData.starsPrice} <Icons.star /></p>
-                  <p>{t.price}: {caseData.tonPrice} <Icons.diamond /></p>
+                  <h3 className="case-title">{caseData.type}</h3>
+                  <div className="price-row">
+                    <span className="price-item">
+                      <span className="price-value">{caseData.starsPrice}</span>
+                      <Icons.star />
+                    </span>
+                    <span className="price-item">
+                      <span className="price-value">{caseData.tonPrice}</span>
+                      <Icons.diamond />
+                    </span>
+                  </div>
                 </div>
               </>
             )}

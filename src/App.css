@@ -485,17 +485,56 @@ body {
 }
 
 .case-card.common-case .case-prices {
-  background: rgba(0, 0, 0, 0.7);
-  padding: 8px 12px;
-  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 16px 20px;
+  border-radius: 12px;
   margin-top: auto;
+  text-align: center;
+  border: 1px solid rgba(0, 245, 212, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 245, 212, 0.2);
 }
 
-.case-card.common-case .case-prices p {
-  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
+.case-card.common-case .case-prices .case-title {
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-weight: 700;
   color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  font-size: 18px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.case-card.common-case .case-prices .price-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+}
+
+.case-card.common-case .case-prices .price-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(0, 245, 212, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 245, 212, 0.3);
+  transition: all 0.3s ease;
+}
+
+.case-card.common-case .case-prices .price-item:hover {
+  background: rgba(0, 245, 212, 0.2);
+  border-color: rgba(0, 245, 212, 0.5);
+  transform: translateY(-1px);
+}
+
+.case-card.common-case .case-prices .price-value {
+  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
+  font-weight: 600;
+  color: #00f5d4;
+  font-size: 16px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-  margin-bottom: 2px;
 }
 
 .case-card {
@@ -534,11 +573,56 @@ body {
 }
 
 .case-prices {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin-top: auto;
+  text-align: center;
+  border: 1px solid rgba(0, 245, 212, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 245, 212, 0.2);
+}
+
+.case-prices .case-title {
+  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  font-size: 16px;
   margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.case-prices .price-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+}
+
+.case-prices .price-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: rgba(0, 245, 212, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(0, 245, 212, 0.3);
+  transition: all 0.3s ease;
+}
+
+.case-prices .price-item:hover {
+  background: rgba(0, 245, 212, 0.2);
+  border-color: rgba(0, 245, 212, 0.5);
+  transform: translateY(-1px);
+}
+
+.case-prices .price-value {
   font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
+  font-weight: 600;
+  color: #00f5d4;
+  font-size: 14px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 
@@ -1089,7 +1173,7 @@ body {
   .balance-amount,
   .address-value,
   .user-id,
-  .case-prices,
+  .case-prices .price-value,
   .btn-price {
     font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace !important;
   }
@@ -1099,6 +1183,7 @@ body {
   .section-title,
   .case-card h3,
   .case-card.common-case .case-content h3,
+  .case-prices .case-title,
   .topup-header,
   .payment-card h3,
   .wallet-section h3,
@@ -1106,9 +1191,9 @@ body {
   .language-section h3,
   .case-slide-header h2,
   .case-slide-info h3,
-  .btn-title {
-    font-family: "Orbitron", "Arial", "Helvetica", sans-serif !important;
-  }
+        .btn-title {
+          font-family: "Orbitron", "Arial", "Helvetica", sans-serif !important;
+        }
   .cases-list {
     gap: 12px;
     padding: 12px;
@@ -1440,15 +1525,15 @@ body {
     text-rendering: optimizeLegibility;
   }
   
-  /* Принудительное применение шрифтов на мобильных */
-  body,
-  .balance-amount,
-  .address-value,
-  .user-id,
-  .case-prices,
-  .btn-price {
-    font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace !important;
-  }
+          /* Принудительное применение шрифтов на мобильных */
+        body,
+        .balance-amount,
+        .address-value,
+        .user-id,
+        .case-prices .price-value,
+        .btn-price {
+          font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace !important;
+        }
   
   .welcome-box h2,
   .channel-title,
