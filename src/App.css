@@ -1766,7 +1766,7 @@ body.modal-open .case-slide-overlay * {
 .case-slide-panel {
   background: linear-gradient(135deg, #231942 0%, #3A3A3C 50%, #231942 100%);
   border-radius: 0;
-  width: 100%;
+  width: 90%;
   max-width: 400px;
   height: 100vh;
   max-height: 100vh;
@@ -2023,7 +2023,7 @@ body.modal-open .case-slide-overlay * {
   }
   .case-slide-panel {
     max-width: 400px;
-    width: 90%;
+    width: 95%;
     border-radius: 0;
     height: 100vh;
     max-height: 100vh;
