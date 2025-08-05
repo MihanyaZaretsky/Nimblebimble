@@ -1745,7 +1745,7 @@ body.modal-open {
   background: linear-gradient(135deg, #231942 0%, #3A3A3C 50%, #231942 100%);
   border-radius: 0;
   width: 100%;
-  max-width: 100%;
+  max-width: 400px;
   height: 100vh;
   max-height: 100vh;
   overflow: hidden;
