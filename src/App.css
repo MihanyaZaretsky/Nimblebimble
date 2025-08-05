@@ -1717,7 +1717,7 @@ body {
   z-index: 9999;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   animation: slideOverlayIn 0.3s ease-out;
   overflow: hidden;
   pointer-events: all;
@@ -1766,7 +1766,7 @@ body.modal-open .case-slide-overlay * {
 .case-slide-panel {
   background: linear-gradient(135deg, #231942 0%, #3A3A3C 50%, #231942 100%);
   border-radius: 0;
-  width: 90%;
+  width: 100%;
   max-width: 400px;
   height: 100vh;
   max-height: 100vh;
@@ -1777,7 +1777,28 @@ body.modal-open .case-slide-overlay * {
   border: 1px solid rgba(155, 93, 229, 0.3);
   position: relative;
   z-index: 10000;
-  margin: 0 auto;
+  margin-left: 0;
+}
+
+/* Позиционирование панели в зависимости от активной вкладки */
+.case-slide-panel.tab-home {
+  margin-left: 0;
+}
+
+.case-slide-panel.tab-cases {
+  margin-left: 20%;
+}
+
+.case-slide-panel.tab-topup {
+  margin-left: 40%;
+}
+
+.case-slide-panel.tab-upgrade {
+  margin-left: 60%;
+}
+
+.case-slide-panel.tab-profile {
+  margin-left: 80%;
 }
 
 @keyframes slidePanelIn {
@@ -2023,11 +2044,10 @@ body.modal-open .case-slide-overlay * {
   }
   .case-slide-panel {
     max-width: 400px;
-    width: 95%;
+    width: 100%;
     border-radius: 0;
     height: 100vh;
     max-height: 100vh;
-    margin: 0 auto;
   }
   
   .case-slide-content {

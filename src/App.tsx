@@ -184,7 +184,7 @@ const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (
   )
 }
 
-const CasesTab = ({ t }: { t: any }) => {
+const CasesTab = ({ t, currentTab }: { t: any, currentTab: string }) => {
   const [selectedCase, setSelectedCase] = useState<{
     type: string;
     starsPrice: number;
@@ -297,6 +297,7 @@ const CasesTab = ({ t }: { t: any }) => {
           tonPrice={selectedCase.tonPrice}
           onOpenWithStars={handleOpenWithStars}
           onOpenWithTon={handleOpenWithTon}
+          currentTab={currentTab}
         />
       )}
     </div>
@@ -878,7 +879,7 @@ function AppContent() {
           onTouchEnd={onTouchEnd}
         >
           <HomeTab user={user} t={t} setActiveTab={setActiveTab} />
-          <CasesTab t={t} />
+          <CasesTab t={t} currentTab={activeTab} />
                      <TopUpTab t={t} user={user} onBalanceUpdate={() => loadUserBalance(user.id)} />
           <UpgradeTab t={t} />
                      <ProfileTab user={user} t={t} language={language} setLanguage={setLanguage} balance={balance} />
