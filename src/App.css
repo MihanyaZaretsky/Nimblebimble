@@ -1,66 +1,98 @@
 /* Улучшение загрузки шрифтов */
 @font-face {
-  font-family: 'Orbitron';
+  font-family: 'Unbounded';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('https://fonts.gstatic.com/s/orbitron/v31/yMJMMIlzdpvBhQQL_SC3X9yhF25-T1nyGy6BoWgz.woff2') format('woff2');
+  src: url('/fonts/Unbounded-Regular.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Share Tech Mono';
+  font-family: 'Unbounded';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/Unbounded-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Unbounded';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/Unbounded-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Exo 2';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('https://fonts.gstatic.com/s/sharetechmono/v17/J7aHnp1uDWRBEqV98dVQztYldFcLowEF.woff2') format('woff2');
+  src: url('/fonts/Exo2-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Exo 2';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/Exo2-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Exo 2';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/Exo2-SemiBold.ttf') format('truetype');
 }
 
 /* Шрифты */
-.share-tech-mono-regular {
-  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
+.unbounded-regular {
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
-.orbitron-400 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.orbitron-500 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
-}
-
-.orbitron-600 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
-  font-optical-sizing: auto;
+.unbounded-semibold {
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-style: normal;
 }
 
-.orbitron-700 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
-  font-optical-sizing: auto;
+.unbounded-bold {
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 700;
   font-style: normal;
 }
 
-.orbitron-800 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 800;
+.exo2-regular {
+  font-family: "Exo 2", "Arial", "Helvetica", sans-serif;
+  font-weight: 400;
   font-style: normal;
 }
 
-.orbitron-900 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 900;
+.exo2-medium {
+  font-family: "Exo 2", "Arial", "Helvetica", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.exo2-semibold {
+  font-family: "Exo 2", "Arial", "Helvetica", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.rajdhani-light {
+  font-family: "Rajdhani", "Arial", "Helvetica", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.rajdhani-regular {
+  font-family: "Rajdhani", "Arial", "Helvetica", sans-serif;
+  font-weight: 400;
   font-style: normal;
 }
 
@@ -72,7 +104,7 @@
 }
 
 body {
-  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
+  font-family: "Exo 2", "Arial", "Helvetica", sans-serif;
   background: #231942;
   color: white;
   overflow: hidden;
@@ -119,8 +151,8 @@ body {
 }
 
 .balance-amount {
-  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
-  font-weight: 600;
+  font-family: "Rajdhani", "Arial", "Helvetica", sans-serif;
+  font-weight: 300;
 }
 
 .connect-btn {
@@ -302,13 +334,14 @@ body {
 }
 
 .welcome-box h2 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 700;
   font-size: 20px;
   margin-bottom: 8px;
 }
 
 .welcome-box p {
+  font-family: "Rajdhani", "Arial", "Helvetica", sans-serif;
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
 }
@@ -326,7 +359,7 @@ body {
 }
 
 .channel-title {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 16px;
   color: white;
@@ -415,7 +448,7 @@ body {
 
 /* Cases Tab */
 .section-title {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 20px;
   margin-bottom: 20px;
@@ -476,7 +509,7 @@ body {
 }
 
 .case-card.common-case .case-content h3 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 700;
   color: #ffffff;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
@@ -495,7 +528,7 @@ body {
 }
 
 .case-card.common-case .case-prices .case-title {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 700;
   color: #ffffff;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
@@ -530,7 +563,7 @@ body {
 }
 
 .case-card.common-case .case-prices .price-value {
-  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
+  font-family: "Exo 2", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   color: #00f5d4;
   font-size: 16px;
@@ -557,13 +590,14 @@ body {
 }
 
 .case-card h3 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 6px;
 }
 
 .case-card p {
+  font-family: "Rajdhani", "Arial", "Helvetica", sans-serif;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 4px;
@@ -583,7 +617,7 @@ body {
 }
 
 .case-prices .case-title {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 700;
   color: #ffffff;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
@@ -618,7 +652,7 @@ body {
 }
 
 .case-prices .price-value {
-  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
+  font-family: "Exo 2", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   color: #00f5d4;
   font-size: 14px;
@@ -638,7 +672,7 @@ body {
   padding: 12px 16px;
   border-radius: 8px;
   margin-bottom: 20px;
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   box-shadow: 0 0 12px rgba(0, 187, 249, 0.4);
 }
@@ -732,13 +766,14 @@ body {
 }
 
 .payment-card h3 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 4px;
 }
 
 .payment-card p {
+  font-family: "Rajdhani", "Arial", "Helvetica", sans-serif;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
 }
@@ -817,6 +852,7 @@ body {
 }
 
 .error-message {
+  font-family: "Rajdhani", "Arial", "Helvetica", sans-serif;
   background: rgba(255, 77, 109, 0.1);
   border: 1px solid rgba(255, 77, 109, 0.3);
   color: #FF4D6D;
@@ -836,6 +872,7 @@ body {
 
 /* Upgrade Tab */
 .coming-soon {
+  font-family: "Rajdhani", "Arial", "Helvetica", sans-serif;
   text-align: center;
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
@@ -854,7 +891,7 @@ body {
 }
 
 .wallet-section h3 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 16px;
   margin-bottom: 12px;
@@ -881,6 +918,7 @@ body {
 }
 
 .address-label {
+  font-family: "Rajdhani", "Arial", "Helvetica", sans-serif;
   display: block;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
@@ -889,9 +927,9 @@ body {
 
 .address-value {
   display: block;
-  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
+  font-family: "Rajdhani", "Arial", "Helvetica", sans-serif;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 300;
   word-break: break-all;
   background: rgba(58, 58, 60, 0.6);
   padding: 8px;
@@ -1009,7 +1047,7 @@ body {
 }
 
 .user-id {
-  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
+  font-family: "Rajdhani", "Arial", "Helvetica", sans-serif;
   color: rgba(255, 255, 255, 0.5);
   font-size: 12px;
 }
@@ -1039,7 +1077,7 @@ body {
 }
 
 .stat-card h3 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
@@ -1047,12 +1085,13 @@ body {
 }
 
 .stat-card p {
+  font-family: "Exo 2", "Arial", "Helvetica", sans-serif;
   font-size: 16px;
   font-weight: 600;
 }
 
 .language-section h3 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   font-size: 16px;
   margin-bottom: 12px;
@@ -1169,13 +1208,19 @@ body {
 /* Responsive */
 @media (max-width: 360px) {
   /* Принудительное применение шрифтов на очень маленьких экранах */
-  body,
+  body {
+    font-family: "Exo 2", "Arial", "Helvetica", sans-serif !important;
+  }
+  
   .balance-amount,
   .address-value,
-  .user-id,
+  .user-id {
+    font-family: "Rajdhani", "Arial", "Helvetica", sans-serif !important;
+  }
+  
   .case-prices .price-value,
   .btn-price {
-    font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace !important;
+    font-family: "Exo 2", "Arial", "Helvetica", sans-serif !important;
   }
   
   .welcome-box h2,
@@ -1191,9 +1236,9 @@ body {
   .language-section h3,
   .case-slide-header h2,
   .case-slide-info h3,
-        .btn-title {
-          font-family: "Orbitron", "Arial", "Helvetica", sans-serif !important;
-        }
+  .btn-title {
+    font-family: "Unbounded", "Arial", "Helvetica", sans-serif !important;
+  }
   .cases-list {
     gap: 12px;
     padding: 12px;
@@ -1355,7 +1400,7 @@ body {
 }
 
 .case-slide-header h2 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 700;
   color: #ffffff;
   font-size: 18px;
@@ -1408,7 +1453,7 @@ body {
 }
 
 .case-slide-info h3 {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 700;
   font-size: 22px;
   margin-bottom: 8px;
@@ -1416,6 +1461,7 @@ body {
 }
 
 .case-slide-description {
+  font-family: "Rajdhani", "Arial", "Helvetica", sans-serif;
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
   line-height: 1.4;
@@ -1502,7 +1548,7 @@ body {
 }
 
 .btn-title {
-  font-family: "Orbitron", "Arial", "Helvetica", sans-serif;
+  font-family: "Unbounded", "Arial", "Helvetica", sans-serif;
   font-weight: 700;
   font-size: 16px;
   margin-bottom: 4px;
@@ -1510,7 +1556,7 @@ body {
 }
 
 .btn-price {
-  font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace;
+  font-family: "Exo 2", "Arial", "Helvetica", sans-serif;
   font-size: 14px;
   color: rgba(26, 26, 46, 0.8);
   font-weight: 500;
@@ -1526,13 +1572,19 @@ body {
   }
   
           /* Принудительное применение шрифтов на мобильных */
-        body,
+        body {
+          font-family: "Exo 2", "Arial", "Helvetica", sans-serif !important;
+        }
+        
         .balance-amount,
         .address-value,
-        .user-id,
+        .user-id {
+          font-family: "Rajdhani", "Arial", "Helvetica", sans-serif !important;
+        }
+        
         .case-prices .price-value,
         .btn-price {
-          font-family: "Share Tech Mono", "Courier New", "Monaco", "Consolas", monospace !important;
+          font-family: "Exo 2", "Arial", "Helvetica", sans-serif !important;
         }
   
   .welcome-box h2,
@@ -1548,7 +1600,7 @@ body {
   .case-slide-header h2,
   .case-slide-info h3,
   .btn-title {
-    font-family: "Orbitron", "Arial", "Helvetica", sans-serif !important;
+    font-family: "Unbounded", "Arial", "Helvetica", sans-serif !important;
   }
   .case-slide-panel {
     max-width: 100%;
