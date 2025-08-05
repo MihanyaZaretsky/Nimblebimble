@@ -1712,14 +1712,15 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(12px);
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
   animation: slideOverlayIn 0.3s ease-out;
   overflow: hidden;
+  pointer-events: all;
 }
 
 /* Предотвращение прокрутки body при открытом модале */
@@ -1730,6 +1731,18 @@ body.modal-open {
   height: 100% !important;
   top: 0 !important;
   left: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Блокировка всех элементов под модалом */
+body.modal-open * {
+  pointer-events: none !important;
+}
+
+/* Разрешение событий только для модала */
+body.modal-open .case-slide-overlay,
+body.modal-open .case-slide-overlay * {
+  pointer-events: all !important;
 }
 
 @keyframes slideOverlayIn {
@@ -1753,6 +1766,8 @@ body.modal-open {
   animation: slidePanelIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-origin: center;
   border: 1px solid rgba(155, 93, 229, 0.3);
+  position: relative;
+  z-index: 10000;
 }
 
 @keyframes slidePanelIn {
