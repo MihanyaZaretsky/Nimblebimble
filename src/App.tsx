@@ -245,10 +245,10 @@ const CasesTab = ({ t }: { t: any }) => {
         {cases.map((caseData, index) => (
           <div
             key={index}
-            className={`case-card ${caseData.type === t.commonCase ? 'common-case' : ''}`}
+            className={`case-card ${caseData.type === t.commonCase ? 'common-case' : ''} ${caseData.type === t.rareCase ? 'rare-case' : ''}`}
             onClick={() => handleCaseClick(caseData)}
           >
-            {caseData.type === t.commonCase ? (
+            {caseData.type === t.commonCase || caseData.type === t.rareCase ? (
               <div className="case-prices">
                 <h3 className="case-title">{caseData.type}</h3>
                 <div className="price-row">
