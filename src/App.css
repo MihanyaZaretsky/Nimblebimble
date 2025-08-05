@@ -1712,8 +1712,8 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -1743,6 +1743,14 @@ body.modal-open * {
 body.modal-open .case-slide-overlay,
 body.modal-open .case-slide-overlay * {
   pointer-events: all !important;
+}
+
+/* Улучшенная видимость на десктопе */
+@media (min-width: 769px) {
+  .case-slide-overlay {
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(12px);
+  }
 }
 
 @keyframes slideOverlayIn {
