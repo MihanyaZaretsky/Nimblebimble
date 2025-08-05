@@ -2020,7 +2020,8 @@ body.modal-open .case-slide-overlay * {
     font-family: "Unbounded", "Arial", "Helvetica", sans-serif !important;
   }
   .case-slide-panel {
-    max-width: 100%;
+    max-width: 400px;
+    width: 90%;
     border-radius: 0;
     height: 100vh;
     max-height: 100vh;
