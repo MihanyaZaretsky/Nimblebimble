@@ -245,10 +245,10 @@ const CasesTab = ({ t }: { t: any }) => {
         {cases.map((caseData, index) => (
           <div
             key={index}
-            className={`case-card ${caseData.type === t.commonCase ? 'common-case' : ''} ${caseData.type === t.rareCase ? 'rare-case' : ''} ${caseData.type === t.epicCase ? 'epic-case' : ''}`}
+            className={`case-card ${caseData.type === t.commonCase ? 'common-case' : ''} ${caseData.type === t.rareCase ? 'rare-case' : ''} ${caseData.type === t.epicCase ? 'epic-case' : ''} ${caseData.type === t.legendaryCase ? 'legendary-case' : ''}`}
             onClick={() => handleCaseClick(caseData)}
           >
-            {caseData.type === t.commonCase || caseData.type === t.rareCase || caseData.type === t.epicCase ? (
+            {caseData.type === t.commonCase || caseData.type === t.rareCase || caseData.type === t.epicCase || caseData.type === t.legendaryCase ? (
               <div className="case-prices">
                 <h3 className="case-title">{caseData.type}</h3>
                 <div className="price-row">
