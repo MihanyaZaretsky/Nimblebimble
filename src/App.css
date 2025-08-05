@@ -1721,6 +1721,7 @@ body {
   animation: slideOverlayIn 0.3s ease-out;
   overflow: hidden;
   pointer-events: all;
+  padding: 20px;
 }
 
 /* Предотвращение прокрутки body при открытом модале */
@@ -1776,6 +1777,7 @@ body.modal-open .case-slide-overlay * {
   border: 1px solid rgba(155, 93, 229, 0.3);
   position: relative;
   z-index: 10000;
+  margin: 0 auto;
 }
 
 @keyframes slidePanelIn {
@@ -2025,6 +2027,7 @@ body.modal-open .case-slide-overlay * {
     border-radius: 0;
     height: 100vh;
     max-height: 100vh;
+    margin: 0 auto;
   }
   
   .case-slide-content {
