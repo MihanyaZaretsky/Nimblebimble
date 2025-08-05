@@ -519,8 +519,8 @@ body {
 
 .case-card.common-case .case-prices {
   background: rgba(0, 0, 0, 0.8);
-  padding: 16px 20px;
-  border-radius: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
   margin-top: auto;
   text-align: center;
   border: 1px solid rgba(0, 245, 212, 0.3);
@@ -532,8 +532,8 @@ body {
   font-weight: 700;
   color: #ffffff;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-  font-size: 18px;
-  margin-bottom: 12px;
+  font-size: 14px;
+  margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -541,17 +541,17 @@ body {
 .case-card.common-case .case-prices .price-row {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 14px;
   align-items: center;
 }
 
 .case-card.common-case .case-prices .price-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
+  gap: 4px;
+  padding: 5px 8px;
   background: rgba(0, 245, 212, 0.1);
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid rgba(0, 245, 212, 0.3);
   transition: all 0.3s ease;
 }
@@ -566,7 +566,7 @@ body {
   font-family: "Exo 2", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   color: #00f5d4;
-  font-size: 16px;
+  font-size: 13px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
@@ -608,8 +608,8 @@ body {
 
 .case-prices {
   background: rgba(0, 0, 0, 0.8);
-  padding: 16px 20px;
-  border-radius: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
   margin-top: auto;
   text-align: center;
   border: 1px solid rgba(0, 245, 212, 0.3);
@@ -621,8 +621,8 @@ body {
   font-weight: 700;
   color: #ffffff;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-  font-size: 16px;
-  margin-bottom: 12px;
+  font-size: 13px;
+  margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -630,17 +630,17 @@ body {
 .case-prices .price-row {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 12px;
   align-items: center;
 }
 
 .case-prices .price-item {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 6px 10px;
+  gap: 3px;
+  padding: 4px 7px;
   background: rgba(0, 245, 212, 0.1);
-  border-radius: 6px;
+  border-radius: 5px;
   border: 1px solid rgba(0, 245, 212, 0.3);
   transition: all 0.3s ease;
 }
@@ -655,7 +655,7 @@ body {
   font-family: "Exo 2", "Arial", "Helvetica", sans-serif;
   font-weight: 600;
   color: #00f5d4;
-  font-size: 14px;
+  font-size: 12px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
@@ -1292,6 +1292,53 @@ body {
     padding: 8px 12px;
     font-size: 12px;
   }
+  
+  /* Уменьшаем плашку с ценой на мобильных */
+  .case-prices {
+    padding: 8px 10px;
+    border-radius: 8px;
+  }
+  
+  .case-prices .case-title {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+  
+  .case-prices .price-row {
+    gap: 8px;
+  }
+  
+  .case-prices .price-item {
+    padding: 3px 6px;
+    gap: 2px;
+  }
+  
+  .case-prices .price-value {
+    font-size: 10px;
+  }
+  
+  .case-card.common-case .case-prices {
+    padding: 8px 10px;
+    border-radius: 8px;
+  }
+  
+  .case-card.common-case .case-prices .case-title {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  
+  .case-card.common-case .case-prices .price-row {
+    gap: 10px;
+  }
+  
+  .case-card.common-case .case-prices .price-item {
+    padding: 4px 6px;
+    gap: 3px;
+  }
+  
+  .case-card.common-case .case-prices .price-value {
+    font-size: 11px;
+  }
 }
 
 /* Tablet and larger screens */
@@ -1660,5 +1707,52 @@ body {
   .disconnect-btn {
     padding: 10px 14px;
     font-size: 13px;
+  }
+  
+  /* Уменьшаем плашку с ценой на мобильных */
+  .case-prices {
+    padding: 9px 12px;
+    border-radius: 9px;
+  }
+  
+  .case-prices .case-title {
+    font-size: 12px;
+    margin-bottom: 7px;
+  }
+  
+  .case-prices .price-row {
+    gap: 10px;
+  }
+  
+  .case-prices .price-item {
+    padding: 4px 8px;
+    gap: 3px;
+  }
+  
+  .case-prices .price-value {
+    font-size: 11px;
+  }
+  
+  .case-card.common-case .case-prices {
+    padding: 9px 12px;
+    border-radius: 9px;
+  }
+  
+  .case-card.common-case .case-prices .case-title {
+    font-size: 13px;
+    margin-bottom: 7px;
+  }
+  
+  .case-card.common-case .case-prices .price-row {
+    gap: 12px;
+  }
+  
+  .case-card.common-case .case-prices .price-item {
+    padding: 5px 8px;
+    gap: 4px;
+  }
+  
+  .case-card.common-case .case-prices .price-value {
+    font-size: 12px;
   }
 } 
