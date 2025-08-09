@@ -1715,9 +1715,7 @@ body {
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(10px);
   z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   animation: slideOverlayIn 0.3s ease-out;
   overflow: hidden;
   pointer-events: all;
