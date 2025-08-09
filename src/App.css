@@ -1757,6 +1757,8 @@ body.modal-open .case-slide-overlay * {
 body.modal-open .tab-container {
   visibility: hidden !important;
   opacity: 0 !important;
+  transform: none !important;
+  pointer-events: none !important;
 }
 
 /* Улучшенная видимость на десктопе */
@@ -2054,11 +2056,41 @@ body.modal-open .tab-container {
     bottom: 0;
     margin: 0;
     padding: 0;
+    transform: none !important;
+    z-index: 10000;
   }
   
   .case-slide-content {
     padding: 20px;
     height: calc(100vh - 70px);
+  }
+  
+  /* Дополнительная защита от края слева на мобильных */
+  body.modal-open .case-slide-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+  }
+  
+  body.modal-open .case-slide-panel {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    z-index: 10000 !important;
   }
   
   .btn-content {
