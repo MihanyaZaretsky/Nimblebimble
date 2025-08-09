@@ -7,6 +7,11 @@ import { BalanceService } from './services/balanceService'
 import { TonConnectUIProvider, useTonConnectUI, useTonAddress } from '@tonconnect/ui-react'
 import CaseSlidePanel from './components/CaseSlidePanel'
 
+// Получаем URL API из PaymentService
+const PAYMENT_API_URL = typeof window !== 'undefined' && window.location.hostname === 'localhost'
+  ? 'http://localhost:8000'
+  : 'https://mihanyazaretsky-nimblebimble-120c.twc1.net';
+
 // Типы для Telegram Web App
 declare global {
   interface Window {
@@ -549,11 +554,42 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
       
       {error && <div className="error-message">{error}</div>}
       
-             <button 
-         className={`topup-btn ${isLoading ? 'loading' : ''}`}
-         onClick={handlePayment}
-         disabled={isLoading || !amount || amount === ''}
-       >
+      {/* Кнопка проверки статуса сервера */}
+      <button 
+        className="status-check-btn"
+        onClick={async () => {
+          try {
+            setIsLoading(true)
+            setError('')
+            const response = await fetch(`${PAYMENT_API_URL}/api/createInvoiceLink`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ user_id: user?.id || 0, amount: 1, currency: 'Stars' })
+            })
+            
+            if (response.status === 503) {
+              setError('🔴 Сервер недоступен: Бот не запущен на Timeweb')
+            } else if (response.ok) {
+              setError('✅ Сервер работает нормально')
+            } else {
+              setError(`⚠️ Сервер отвечает с ошибкой: ${response.status}`)
+            }
+          } catch (err) {
+            setError('❌ Не удается подключиться к серверу')
+          } finally {
+            setIsLoading(false)
+          }
+        }}
+        disabled={isLoading}
+      >
+        🔍 Проверить статус сервера
+      </button>
+      
+      <button 
+        className={`topup-btn ${isLoading ? 'loading' : ''}`}
+        onClick={handlePayment}
+        disabled={isLoading || !amount || amount === ''}
+      >
         <span className="btn-icon">
           {isLoading ? (
             <div className="loading-spinner"></div>

@@ -41,6 +41,24 @@ export class PaymentService {
       });
 
       console.log('🔵 Response status:', response.status)
+      
+      // Проверяем статус ответа
+      if (response.status === 503) {
+        console.error('🔴 Сервер недоступен (503) - бот не запущен');
+        return {
+          success: false,
+          error: 'Платежная система временно недоступна. Попробуйте позже или обратитесь в поддержку.'
+        };
+      }
+      
+      if (response.status >= 400) {
+        console.error('🔴 HTTP ошибка:', response.status);
+        return {
+          success: false,
+          error: `Ошибка сервера: ${response.status}. Попробуйте позже.`
+        };
+      }
+      
       const data = await response.json();
       console.log('🔵 Response data:', data)
       return data;
