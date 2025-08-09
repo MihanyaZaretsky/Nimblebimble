@@ -209,6 +209,10 @@ const CasesTab = ({ t, currentTab, setIsSlideOpen, isSlideOpen, setSelectedCase,
   ];
 
   const handleCaseClick = (caseData: typeof cases[0]) => {
+    // Панель можно открывать только на вкладке "Cases" (2-я вкладка)
+    if (currentTab !== 'cases') {
+      return;
+    }
     setSelectedCase(caseData);
     setIsSlideOpen(true);
   };
@@ -756,6 +760,14 @@ function AppContent() {
     setActiveTab('profile')
   }
 
+  // Закрываем панель при смене вкладки
+  useEffect(() => {
+    if (activeTab !== 'cases' && isSlideOpen) {
+      setIsSlideOpen(false)
+      setSelectedCase(null)
+    }
+  }, [activeTab, isSlideOpen])
+
   const handleCloseSlide = () => {
     setIsSlideOpen(false)
     setSelectedCase(null)
@@ -937,8 +949,8 @@ function AppContent() {
         </button>
       </div>
 
-      {/* CaseSlidePanel - рендерится на уровне приложения */}
-      {selectedCase && (
+      {/* CaseSlidePanel - рендерится на уровне приложения только на вкладке Cases */}
+      {selectedCase && activeTab === 'cases' && (
         <CaseSlidePanel
           isOpen={isSlideOpen}
           onClose={handleCloseSlide}

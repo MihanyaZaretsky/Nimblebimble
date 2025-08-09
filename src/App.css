@@ -1788,16 +1788,7 @@ body.modal-open .case-slide-overlay * {
   right: 0;
 }
 
-/* Позиционирование панели в зависимости от активной вкладки */
-.case-slide-panel.tab-home,
-.case-slide-panel.tab-cases,
-.case-slide-panel.tab-topup,
-.case-slide-panel.tab-upgrade,
-.case-slide-panel.tab-profile {
-  margin: 0;
-  left: 0;
-  right: 0;
-}
+/* Панель теперь рендерится на уровне приложения, поэтому позиционирование универсальное */
 
 @keyframes slidePanelIn {
   from {

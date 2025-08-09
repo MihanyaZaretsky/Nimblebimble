@@ -35,26 +35,9 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
 
   if (!isOpen) return null;
 
-  const getTabClass = () => {
-    switch (currentTab) {
-      case 'home':
-        return 'tab-home';
-      case 'cases':
-        return 'tab-cases';
-      case 'topup':
-        return 'tab-topup';
-      case 'upgrade':
-        return 'tab-upgrade';
-      case 'profile':
-        return 'tab-profile';
-      default:
-        return 'tab-home';
-    }
-  };
-
   return (
     <div className="case-slide-overlay" onClick={onClose}>
-      <div className={`case-slide-panel ${getTabClass()}`} onClick={(e) => e.stopPropagation()}>
+      <div className="case-slide-panel" onClick={(e) => e.stopPropagation()}>
         <div className="case-slide-header">
           <h2>Открытие кейса</h2>
           <button className="case-slide-close" onClick={onClose}>×</button>
