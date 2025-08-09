@@ -86,7 +86,6 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
     <div
       ref={overlayRef}
       className="case-slide-overlay"
-      onClick={isTouchDevice ? undefined : onClose}
     >
       <div ref={panelRef} className="case-slide-panel" onClick={(e) => e.stopPropagation()}>
         <div className="case-slide-header">
