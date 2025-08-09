@@ -740,6 +740,11 @@ function AppContent() {
   }
 
   const getTabContainerClass = () => {
+    // Если открыт модал, не применяем трансформацию к tab-container
+    if (isSlideOpen) {
+      return ''
+    }
+    
     switch (activeTab) {
       case 'home':
         return 'slide-home'
