@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface CaseSlidePanelProps {
   isOpen: boolean;
@@ -9,6 +9,7 @@ interface CaseSlidePanelProps {
   onOpenWithStars: () => void;
   onOpenWithTon: () => void;
   currentTab: string;
+  balance: { stars: number; ton: number };
 }
 
 const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({ 
@@ -19,10 +20,13 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
   tonPrice,
   onOpenWithStars,
   onOpenWithTon,
-  currentTab
+  currentTab,
+  balance
 }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [spinMode, setSpinMode] = useState<'stars' | 'ton' | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -95,12 +99,38 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
             </div>
             <h3>{caseType}</h3>
             <p className="case-slide-description">Выберите способ оплаты для открытия кейса</p>
+
+            {/* Баланс пользователя внутри панели */}
+            <div className="case-balance">
+              <div className="case-balance-item">
+                <span className="case-balance-icon">⚡</span>
+                <span className="case-balance-amount">{balance.ton.toFixed(2)} TON</span>
+              </div>
+              <div className="case-balance-item">
+                <span className="case-balance-icon">💎</span>
+                <span className="case-balance-amount">{balance.stars} Stars</span>
+              </div>
+            </div>
           </div>
           
+          {/* Рулетка */}
+          <div className={`roulette-container ${isSpinning ? 'spinning' : ''}`}>
+            <div className={`roulette-wheel ${spinMode ?? ''}`}></div>
+          </div>
+
           <div className="case-slide-actions">
             <button 
               className="case-slide-btn stars-slide-btn"
-              onClick={onOpenWithStars}
+              onClick={() => {
+                if (isSpinning) return;
+                setSpinMode('stars');
+                setIsSpinning(true);
+                setTimeout(() => {
+                  onOpenWithStars();
+                  setIsSpinning(false);
+                  onClose();
+                }, 1800);
+              }}
             >
               <div className="btn-content">
                 <span className="btn-icon">💎</span>
@@ -113,7 +143,16 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
             
             <button 
               className="case-slide-btn ton-slide-btn"
-              onClick={onOpenWithTon}
+              onClick={() => {
+                if (isSpinning) return;
+                setSpinMode('ton');
+                setIsSpinning(true);
+                setTimeout(() => {
+                  onOpenWithTon();
+                  setIsSpinning(false);
+                  onClose();
+                }, 1800);
+              }}
             >
               <div className="btn-content">
                 <span className="btn-icon">⚡</span>

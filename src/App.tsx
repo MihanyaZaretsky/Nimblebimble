@@ -970,6 +970,7 @@ function AppContent() {
           onOpenWithStars={handleOpenWithStars}
           onOpenWithTon={handleOpenWithTon}
           currentTab={activeTab}
+          balance={balance}
         />
       )}
     </div>
