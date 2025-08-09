@@ -1753,6 +1753,12 @@ body.modal-open .case-slide-overlay * {
   touch-action: pan-y !important;
 }
 
+/* Скрываем содержимое tab-container когда открыт модал */
+body.modal-open .tab-container {
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
 /* Улучшенная видимость на десктопе */
 @media (min-width: 769px) {
   .case-slide-overlay {
