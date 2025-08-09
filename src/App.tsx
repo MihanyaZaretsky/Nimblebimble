@@ -553,38 +553,7 @@ const TopUpTab = ({ t, user, onBalanceUpdate }: { t: any, user: any, onBalanceUp
       </div>
       
       {error && <div className="error-message">{error}</div>}
-      
-      {/* Кнопка проверки статуса сервера */}
-      <button 
-        className="status-check-btn"
-        onClick={async () => {
-          try {
-            setIsLoading(true)
-            setError('')
-            const response = await fetch(`${PAYMENT_API_URL}/api/createInvoiceLink`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ user_id: user?.id || 0, amount: 1, currency: 'Stars' })
-            })
-            
-            if (response.status === 503) {
-              setError('🔴 Сервер недоступен: Бот не запущен на Timeweb')
-            } else if (response.ok) {
-              setError('✅ Сервер работает нормально')
-            } else {
-              setError(`⚠️ Сервер отвечает с ошибкой: ${response.status}`)
-            }
-          } catch (err) {
-            setError('❌ Не удается подключиться к серверу')
-          } finally {
-            setIsLoading(false)
-          }
-        }}
-        disabled={isLoading}
-      >
-        🔍 Проверить статус сервера
-      </button>
-      
+
       <button 
         className={`topup-btn ${isLoading ? 'loading' : ''}`}
         onClick={handlePayment}
