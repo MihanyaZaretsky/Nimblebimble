@@ -1738,6 +1738,11 @@ body.modal-open {
   touch-action: none !important;
 }
 
+/* Сброс трансформации tab-container при открытом модале */
+body.modal-open .tab-container {
+  transform: translateX(0) !important;
+}
+
 /* Блокировка всех элементов под модалом */
 body.modal-open * {
   pointer-events: none !important;
