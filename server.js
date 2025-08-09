@@ -58,6 +58,11 @@ app.post("/api/createInvoiceLink", async (req, res) => {
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(join(__dirname, 'dist')))
   app.get('*', (req, res) => {
+    // Отключаем кэширование index.html, чтобы Telegram Mini App не держал старую версию
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+    res.set('Pragma', 'no-cache')
+    res.set('Expires', '0')
+    res.set('Surrogate-Control', 'no-store')
     res.sendFile(join(__dirname, 'dist', 'index.html'))
   })
 } else {
