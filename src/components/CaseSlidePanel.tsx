@@ -25,6 +25,7 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
 }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const isTouchDevice = typeof window !== 'undefined' && (('ontouchstart' in window) || (navigator as any)?.maxTouchPoints > 0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [spinMode, setSpinMode] = useState<'stars' | 'ton' | null>(null);
 
@@ -82,7 +83,11 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div ref={overlayRef} className="case-slide-overlay" onClick={onClose}>
+    <div
+      ref={overlayRef}
+      className="case-slide-overlay"
+      onClick={isTouchDevice ? undefined : onClose}
+    >
       <div ref={panelRef} className="case-slide-panel" onClick={(e) => e.stopPropagation()}>
         <div className="case-slide-header">
           <h2>Открытие кейса</h2>

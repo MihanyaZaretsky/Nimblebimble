@@ -1723,6 +1723,7 @@ body {
   margin: 0;
   /* Блокируем свайпы между вкладками */
   touch-action: pan-y;
+  overscroll-behavior: contain;
 }
 
 /* Предотвращение прокрутки body при открытом модале */
@@ -1798,6 +1799,7 @@ body.modal-open .tab-container {
   z-index: 10000;
   margin: 0;
   padding: 0;
+  overscroll-behavior: contain;
 }
 
 /* Панель теперь рендерится на уровне приложения, поэтому позиционирование универсальное */
