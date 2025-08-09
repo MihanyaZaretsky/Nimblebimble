@@ -91,12 +91,6 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
         
         <div className="case-slide-content">
           <div className="case-slide-info">
-            <div className="case-slide-icon">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19Z"/>
-                <path d="M7 7H17V9H7V7ZM7 11H17V13H7V11ZM7 15H14V17H7V15Z"/>
-              </svg>
-            </div>
             <h3>{caseType}</h3>
             <p className="case-slide-description">Выберите способ оплаты для открытия кейса</p>
 
@@ -170,6 +164,19 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                 </div>
               </div>
             </button>
+          </div>
+
+          {/* Содержимое кейса: сетка с предметами */}
+          <div className="case-items-grid">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div key={i} className="case-item">
+                <img src="/common-case-image.png" alt={`item-${i}`} />
+                <div className="case-item-price">
+                  <img src="/icons/star.svg" width="14" height="14" alt="Stars" />
+                  <span> {Math.max(1, Math.round(starsPrice / 10))}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
