@@ -1866,12 +1866,13 @@ body.modal-open .tab-container {
 .case-slide-content {
   padding: 24px;
   color: #ffffff;
-  height: calc(100vh - 80px);
-  overflow-y: auto;
+  max-height: calc(100vh - 80px); /* контент ограничен по высоте окна */
+  overflow-y: auto;               /* вертикальный скролл, если не помещается */
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;    /* не растягиваем блоки по высоте */
+  gap: 16px;                      /* равномерные отступы между секциями */
 }
 
 .case-slide-info {
@@ -1883,7 +1884,7 @@ body.modal-open .tab-container {
 .case-items-grid {
   margin-top: 16px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); /* адаптивная сетка */
   gap: 10px;
 }
 
@@ -1968,7 +1969,8 @@ body.modal-open .tab-container {
   height: 120px;
   margin: 8px auto 12px;
   overflow: hidden;
-  width: min(720px, 92vw); /* фиксированная максимальная ширина, адаптив на мобильных */
+  width: 100%;               /* занимает ширину контейнера */
+  max-width: 720px;          /* но не шире 720px на больших экранах */
 }
 
 .strip-inner {
