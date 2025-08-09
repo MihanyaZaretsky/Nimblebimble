@@ -249,7 +249,7 @@ async def main():
         from fastapi.middleware.cors import CORSMiddleware
         app.add_middleware(
             CORSMiddleware,
-            allow_origins=["https://mihanyazaretsky-nimblebimble-120c.twc1.net", "http://localhost:3000", "*"],
+            allow_origins=["https://mihanyazaretsky-nimblebimble-6af6.twc1.net", "http://localhost:3000", "*"],
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],

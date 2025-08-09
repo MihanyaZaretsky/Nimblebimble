@@ -10,7 +10,7 @@ import CaseSlidePanel from './components/CaseSlidePanel'
 // Получаем URL API из PaymentService
 const PAYMENT_API_URL = typeof window !== 'undefined' && window.location.hostname === 'localhost'
   ? 'http://localhost:8000'
-  : 'https://mihanyazaretsky-nimblebimble-120c.twc1.net';
+  : 'https://mihanyazaretsky-nimblebimble-6af6.twc1.net';
 
 // Типы для Telegram Web App
 declare global {
@@ -1010,7 +1010,7 @@ function AppContent() {
 // Основной компонент с TonConnectUIProvider
 function App() {
   return (
-            <TonConnectUIProvider manifestUrl="https://mihanyazaretsky-nimblebimble-120c.twc1.net/tonconnect-manifest.json">
+  <TonConnectUIProvider manifestUrl="https://mihanyazaretsky-nimblebimble-6af6.twc1.net/tonconnect-manifest.json">
       <AppContent />
     </TonConnectUIProvider>
   )

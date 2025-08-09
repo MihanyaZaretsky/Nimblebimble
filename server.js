@@ -77,7 +77,7 @@ if (process.env.NODE_ENV === 'production') {
 const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Веб-сервер запущен на порту ${PORT}`)
   console.log(`📱 URL: http://localhost:${PORT}`)
-  console.log(`🌐 Timeweb URL: https://mihanyazaretsky-nimblebimble-120c.twc1.net`)
+  console.log(`🌐 Timeweb URL: https://mihanyazaretsky-nimblebimble-6af6.twc1.net`)
   console.log(`🤖 Бот: Запущен отдельно на VDS`)
 })
 
