@@ -90,6 +90,19 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
         </div>
         
         <div className="case-slide-content">
+          {/* Рулетка всегда сверху, фиксированная ширина */}
+          <div className={`roulette-strip ${isSpinning ? 'spinning' : ''}`}>
+            <div className={`strip-inner ${spinMode ?? ''}`}>
+              {Array.from({ length: 24 }).map((_, i) => (
+                <div key={i} className={`strip-item ${i % 5 === 0 ? 'rare' : 'common'}`}></div>
+              ))}
+            </div>
+            <div className="roulette-marker">
+              <span className="marker-top"></span>
+              <span className="marker-bottom"></span>
+            </div>
+          </div>
+
           <div className="case-slide-info">
             <h3>{caseType}</h3>
             <p className="case-slide-description">Выберите способ оплаты для открытия кейса</p>
@@ -107,19 +120,6 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
             </div>
           </div>
           
-          {/* Рулетка (стиль CS:GO — горизонтальная лента со скинами) */}
-          <div className={`roulette-strip ${isSpinning ? 'spinning' : ''}`}>
-            <div className={`strip-inner ${spinMode ?? ''}`}>
-              {Array.from({ length: 24 }).map((_, i) => (
-                <div key={i} className={`strip-item ${i % 5 === 0 ? 'rare' : 'common'}`}></div>
-              ))}
-            </div>
-            <div className="roulette-marker">
-              <span className="marker-top"></span>
-              <span className="marker-bottom"></span>
-            </div>
-          </div>
-
           <div className="case-slide-actions">
             <button 
               className="case-slide-btn stars-slide-btn"

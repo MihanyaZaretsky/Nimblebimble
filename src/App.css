@@ -1966,18 +1966,20 @@ body.modal-open .tab-container {
 .roulette-strip {
   position: relative;
   height: 120px;
-  margin: 16px 0 8px;
+  margin: 8px auto 12px;
   overflow: hidden;
+  width: min(720px, 92vw); /* фиксированная максимальная ширина, адаптив на мобильных */
 }
 
 .strip-inner {
-  display: flex;
+  display: inline-flex;
   gap: 8px;
   height: 100%;
   will-change: transform;
 }
 
 .strip-item {
+  flex: 0 0 120px; /* фиксированная ширина карточки */
   width: 120px;
   height: 100%;
   border-radius: 12px;
