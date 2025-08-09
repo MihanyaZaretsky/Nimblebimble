@@ -103,19 +103,23 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
             {/* Баланс пользователя внутри панели */}
             <div className="case-balance">
               <div className="case-balance-item">
-                <span className="case-balance-icon">⚡</span>
+                <span className="case-balance-icon"><img src="/icons/ton.svg" alt="TON" width={16} height={16} /></span>
                 <span className="case-balance-amount">{balance.ton.toFixed(2)} TON</span>
               </div>
               <div className="case-balance-item">
-                <span className="case-balance-icon">💎</span>
+                <span className="case-balance-icon"><img src="/icons/star.svg" alt="Stars" width={16} height={16} /></span>
                 <span className="case-balance-amount">{balance.stars} Stars</span>
               </div>
             </div>
           </div>
           
-          {/* Рулетка */}
-          <div className={`roulette-container ${isSpinning ? 'spinning' : ''}`}>
-            <div className={`roulette-wheel ${spinMode ?? ''}`}></div>
+          {/* Рулетка (стиль CS:GO — горизонтальная лента со скинами) */}
+          <div className={`roulette-strip ${isSpinning ? 'spinning' : ''}`}>
+            <div className={`strip-inner ${spinMode ?? ''}`}>
+              {Array.from({ length: 20 }).map((_, i) => (
+                <div key={i} className={`strip-item ${i % 2 === 0 ? 'rare' : 'common'}`}></div>
+              ))}
+            </div>
           </div>
 
           <div className="case-slide-actions">
