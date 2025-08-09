@@ -1722,6 +1722,7 @@ body {
   overflow: hidden;
   pointer-events: all;
   padding: 0;
+  margin: 0;
   /* Блокируем свайпы между вкладками */
   touch-action: pan-y;
 }
@@ -1772,8 +1773,8 @@ body.modal-open .case-slide-overlay * {
 .case-slide-panel {
   background: linear-gradient(135deg, #231942 0%, #3A3A3C 50%, #231942 100%);
   border-radius: 0;
-  width: 100%;
-  max-width: 100%;
+  width: 100vw;
+  max-width: 100vw;
   height: 100vh;
   max-height: 100vh;
   overflow: hidden;
@@ -1781,11 +1782,14 @@ body.modal-open .case-slide-overlay * {
   animation: slidePanelIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-origin: center;
   border: 1px solid rgba(155, 93, 229, 0.3);
-  position: relative;
-  z-index: 10000;
-  margin: 0;
+  position: fixed;
+  top: 0;
   left: 0;
   right: 0;
+  bottom: 0;
+  z-index: 10000;
+  margin: 0;
+  padding: 0;
 }
 
 /* Панель теперь рендерится на уровне приложения, поэтому позиционирование универсальное */
@@ -2032,11 +2036,18 @@ body.modal-open .case-slide-overlay * {
     font-family: "Unbounded", "Arial", "Helvetica", sans-serif !important;
   }
   .case-slide-panel {
-    max-width: 100%;
-    width: 100%;
+    max-width: 100vw;
+    width: 100vw;
     border-radius: 0;
     height: 100vh;
     max-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
   }
   
   .case-slide-content {
