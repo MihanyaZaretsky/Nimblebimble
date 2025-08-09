@@ -116,9 +116,13 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
           {/* Рулетка (стиль CS:GO — горизонтальная лента со скинами) */}
           <div className={`roulette-strip ${isSpinning ? 'spinning' : ''}`}>
             <div className={`strip-inner ${spinMode ?? ''}`}>
-              {Array.from({ length: 20 }).map((_, i) => (
-                <div key={i} className={`strip-item ${i % 2 === 0 ? 'rare' : 'common'}`}></div>
+              {Array.from({ length: 24 }).map((_, i) => (
+                <div key={i} className={`strip-item ${i % 5 === 0 ? 'rare' : 'common'}`}></div>
               ))}
+            </div>
+            <div className="roulette-marker">
+              <span className="marker-top"></span>
+              <span className="marker-bottom"></span>
             </div>
           </div>
 
@@ -137,7 +141,7 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
               }}
             >
               <div className="btn-content">
-                <span className="btn-icon">💎</span>
+                <span className="btn-icon"><img src="/icons/star.svg" alt="Stars" width={20} height={20} /></span>
                 <div className="btn-text">
                   <span className="btn-title">Открыть за Stars</span>
                   <span className="btn-price">{starsPrice} Stars</span>
@@ -159,7 +163,7 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
               }}
             >
               <div className="btn-content">
-                <span className="btn-icon">⚡</span>
+                <span className="btn-icon"><img src="/icons/ton.svg" alt="TON" width={20} height={20} /></span>
                 <div className="btn-text">
                   <span className="btn-title">Открыть за TON</span>
                   <span className="btn-price">{tonPrice} TON</span>
