@@ -1971,6 +1971,10 @@ body.modal-open .tab-container {
   overflow: hidden;
   width: 100%;               /* занимает ширину контейнера */
   max-width: 720px;          /* но не шире 720px на больших экранах */
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.2));
+  flex: 0 0 auto; /* не схлопывается на мобильных */
 }
 
 .strip-inner {
@@ -1988,8 +1992,8 @@ body.modal-open .tab-container {
   box-shadow: inset 0 0 0 2px rgba(255,255,255,0.08), 0 6px 16px rgba(0,0,0,0.25);
 }
 
-.strip-item.common { background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); }
-.strip-item.rare { background: linear-gradient(180deg, rgba(0,245,212,0.25), rgba(0,245,212,0.05)); }
+.strip-item.common { background: linear-gradient(180deg, rgba(81,162,255,0.25), rgba(81,162,255,0.08)); }
+.strip-item.rare { background: linear-gradient(180deg, rgba(0,245,212,0.35), rgba(0,245,212,0.1)); }
 
 .spinning .strip-inner {
   animation: strip-spin 1.8s cubic-bezier(.2,.7,.2,1) forwards;
@@ -2187,7 +2191,8 @@ body.modal-open .tab-container {
   
   .case-slide-content {
     padding: 20px;
-    height: calc(100vh - 70px);
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
   }
   
   /* Дополнительная защита от края слева на мобильных */
