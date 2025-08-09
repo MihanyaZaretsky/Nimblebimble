@@ -1722,6 +1722,8 @@ body {
   overflow: hidden;
   pointer-events: all;
   padding: 20px;
+  /* Блокируем свайпы между вкладками */
+  touch-action: pan-y;
 }
 
 /* Предотвращение прокрутки body при открытом модале */
@@ -1733,6 +1735,8 @@ body.modal-open {
   top: 0 !important;
   left: 0 !important;
   pointer-events: none !important;
+  /* Дополнительная защита от свайпов */
+  touch-action: none !important;
 }
 
 /* Блокировка всех элементов под модалом */
@@ -1744,6 +1748,8 @@ body.modal-open * {
 body.modal-open .case-slide-overlay,
 body.modal-open .case-slide-overlay * {
   pointer-events: all !important;
+  /* Разрешаем только вертикальные свайпы внутри модала */
+  touch-action: pan-y !important;
 }
 
 /* Улучшенная видимость на десктопе */
@@ -1786,19 +1792,19 @@ body.modal-open .case-slide-overlay * {
 }
 
 .case-slide-panel.tab-cases {
-  margin-left: 20%;
+  margin-left: 0; /* Исправляем отступ для 2-й вкладки */
 }
 
 .case-slide-panel.tab-topup {
-  margin-left: 40%;
+  margin-left: 0; /* Убираем отступы для всех вкладок */
 }
 
 .case-slide-panel.tab-upgrade {
-  margin-left: 60%;
+  margin-left: 0;
 }
 
 .case-slide-panel.tab-profile {
-  margin-left: 80%;
+  margin-left: 0;
 }
 
 @keyframes slidePanelIn {

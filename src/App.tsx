@@ -789,18 +789,27 @@ function AppContent() {
 
   // Функции для свайпа - условные (отключаются когда открыт CaseSlidePanel)
   const onTouchStart = (e: React.TouchEvent) => {
-    if (isSlideOpen) return // Отключаем свайп когда открыт CaseSlidePanel
+    if (isSlideOpen) {
+      e.preventDefault() // Предотвращаем свайп когда открыт CaseSlidePanel
+      return
+    }
     setTouchEnd(null)
     setTouchStart(e.targetTouches[0].clientX)
   }
 
   const onTouchMove = (e: React.TouchEvent) => {
-    if (isSlideOpen) return // Отключаем свайп когда открыт CaseSlidePanel
+    if (isSlideOpen) {
+      e.preventDefault() // Предотвращаем свайп когда открыт CaseSlidePanel
+      return
+    }
     setTouchEnd(e.targetTouches[0].clientX)
   }
 
-  const onTouchEnd = () => {
-    if (isSlideOpen) return // Отключаем свайп когда открыт CaseSlidePanel
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (isSlideOpen) {
+      e.preventDefault() // Предотвращаем свайп когда открыт CaseSlidePanel
+      return
+    }
     if (!touchStart || !touchEnd) return
     
     const distance = touchStart - touchEnd
