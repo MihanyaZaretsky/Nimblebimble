@@ -184,13 +184,7 @@ const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (
   )
 }
 
-const CasesTab = ({ t, currentTab, setIsSlideOpen, isSlideOpen }: { t: any, currentTab: string, setIsSlideOpen: (open: boolean) => void, isSlideOpen: boolean }) => {
-  const [selectedCase, setSelectedCase] = useState<{
-    type: string;
-    starsPrice: number;
-    tonPrice: number;
-  } | null>(null);
-
+const CasesTab = ({ t, currentTab, setIsSlideOpen, isSlideOpen, setSelectedCase, selectedCase }: { t: any, currentTab: string, setIsSlideOpen: (open: boolean) => void, isSlideOpen: boolean, setSelectedCase: (caseData: any) => void, selectedCase: any }) => {
   const cases = [
     {
       type: t.commonCase,
@@ -217,23 +211,6 @@ const CasesTab = ({ t, currentTab, setIsSlideOpen, isSlideOpen }: { t: any, curr
   const handleCaseClick = (caseData: typeof cases[0]) => {
     setSelectedCase(caseData);
     setIsSlideOpen(true);
-  };
-
-  const handleCloseSlide = () => {
-    setIsSlideOpen(false);
-    setSelectedCase(null);
-  };
-
-  const handleOpenWithStars = () => {
-    console.log('Открытие кейса за Stars:', selectedCase);
-    // TODO: Реализовать логику открытия кейса за Stars
-    handleCloseSlide();
-  };
-
-  const handleOpenWithTon = () => {
-    console.log('Открытие кейса за TON:', selectedCase);
-    // TODO: Реализовать логику открытия кейса за TON
-    handleCloseSlide();
   };
 
   return (
@@ -286,19 +263,6 @@ const CasesTab = ({ t, currentTab, setIsSlideOpen, isSlideOpen }: { t: any, curr
           </div>
         ))}
       </div>
-
-      {selectedCase && (
-        <CaseSlidePanel
-          isOpen={isSlideOpen}
-          onClose={handleCloseSlide}
-          caseType={selectedCase.type}
-          starsPrice={selectedCase.starsPrice}
-          tonPrice={selectedCase.tonPrice}
-          onOpenWithStars={handleOpenWithStars}
-          onOpenWithTon={handleOpenWithTon}
-          currentTab={currentTab}
-        />
-      )}
     </div>
   );
 };
@@ -703,6 +667,11 @@ function AppContent() {
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
   const [isSlideOpen, setIsSlideOpen] = useState(false)
+  const [selectedCase, setSelectedCase] = useState<{
+    type: string;
+    starsPrice: number;
+    tonPrice: number;
+  } | null>(null)
   const address = useTonAddress()
   
   // Получаем переводы для текущего языка
@@ -785,6 +754,23 @@ function AppContent() {
 
   const handleProfileClick = () => {
     setActiveTab('profile')
+  }
+
+  const handleCloseSlide = () => {
+    setIsSlideOpen(false)
+    setSelectedCase(null)
+  }
+
+  const handleOpenWithStars = () => {
+    console.log('Открытие кейса за Stars:', selectedCase)
+    // TODO: Реализовать логику открытия кейса за Stars
+    handleCloseSlide()
+  }
+
+  const handleOpenWithTon = () => {
+    console.log('Открытие кейса за TON:', selectedCase)
+    // TODO: Реализовать логику открытия кейса за TON
+    handleCloseSlide()
   }
 
   // Функции для свайпа - условные (отключаются когда открыт CaseSlidePanel)
@@ -891,7 +877,7 @@ function AppContent() {
           onTouchEnd={onTouchEnd}
         >
           <HomeTab user={user} t={t} setActiveTab={setActiveTab} />
-          <CasesTab t={t} currentTab={activeTab} setIsSlideOpen={setIsSlideOpen} isSlideOpen={isSlideOpen} />
+          <CasesTab t={t} currentTab={activeTab} setIsSlideOpen={setIsSlideOpen} isSlideOpen={isSlideOpen} setSelectedCase={setSelectedCase} selectedCase={selectedCase} />
           <TopUpTab t={t} user={user} onBalanceUpdate={() => loadUserBalance(user.id)} />
           <UpgradeTab t={t} />
           <ProfileTab user={user} t={t} language={language} setLanguage={setLanguage} balance={balance} />
@@ -950,6 +936,20 @@ function AppContent() {
           <span>{t.profile}</span>
         </button>
       </div>
+
+      {/* CaseSlidePanel - рендерится на уровне приложения */}
+      {selectedCase && (
+        <CaseSlidePanel
+          isOpen={isSlideOpen}
+          onClose={handleCloseSlide}
+          caseType={selectedCase.type}
+          starsPrice={selectedCase.starsPrice}
+          tonPrice={selectedCase.tonPrice}
+          onOpenWithStars={handleOpenWithStars}
+          onOpenWithTon={handleOpenWithTon}
+          currentTab={activeTab}
+        />
+      )}
     </div>
   )
 }
