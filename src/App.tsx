@@ -184,13 +184,12 @@ const HomeTab = ({ user, t, setActiveTab }: { user: any, t: any, setActiveTab: (
   )
 }
 
-const CasesTab = ({ t, currentTab }: { t: any, currentTab: string }) => {
+const CasesTab = ({ t, currentTab, setIsSlideOpen, isSlideOpen }: { t: any, currentTab: string, setIsSlideOpen: (open: boolean) => void, isSlideOpen: boolean }) => {
   const [selectedCase, setSelectedCase] = useState<{
     type: string;
     starsPrice: number;
     tonPrice: number;
   } | null>(null);
-  const [isSlideOpen, setIsSlideOpen] = useState(false);
 
   const cases = [
     {
@@ -703,6 +702,7 @@ function AppContent() {
   const [language, setLanguage] = useState('ru')
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const [isSlideOpen, setIsSlideOpen] = useState(false)
   const address = useTonAddress()
   
   // Получаем переводы для текущего языка
@@ -787,17 +787,20 @@ function AppContent() {
     setActiveTab('profile')
   }
 
-  // Функции для свайпа
+  // Функции для свайпа - условные (отключаются когда открыт CaseSlidePanel)
   const onTouchStart = (e: React.TouchEvent) => {
+    if (isSlideOpen) return // Отключаем свайп когда открыт CaseSlidePanel
     setTouchEnd(null)
     setTouchStart(e.targetTouches[0].clientX)
   }
 
   const onTouchMove = (e: React.TouchEvent) => {
+    if (isSlideOpen) return // Отключаем свайп когда открыт CaseSlidePanel
     setTouchEnd(e.targetTouches[0].clientX)
   }
 
   const onTouchEnd = () => {
+    if (isSlideOpen) return // Отключаем свайп когда открыт CaseSlidePanel
     if (!touchStart || !touchEnd) return
     
     const distance = touchStart - touchEnd
@@ -879,10 +882,10 @@ function AppContent() {
           onTouchEnd={onTouchEnd}
         >
           <HomeTab user={user} t={t} setActiveTab={setActiveTab} />
-          <CasesTab t={t} currentTab={activeTab} />
-                     <TopUpTab t={t} user={user} onBalanceUpdate={() => loadUserBalance(user.id)} />
+          <CasesTab t={t} currentTab={activeTab} setIsSlideOpen={setIsSlideOpen} isSlideOpen={isSlideOpen} />
+          <TopUpTab t={t} user={user} onBalanceUpdate={() => loadUserBalance(user.id)} />
           <UpgradeTab t={t} />
-                     <ProfileTab user={user} t={t} language={language} setLanguage={setLanguage} balance={balance} />
+          <ProfileTab user={user} t={t} language={language} setLanguage={setLanguage} balance={balance} />
         </div>
       </div>
 
