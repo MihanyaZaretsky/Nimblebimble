@@ -786,13 +786,11 @@ function AppContent() {
   const handleOpenWithStars = () => {
     console.log('Открытие кейса за Stars:', selectedCase)
     // TODO: Реализовать логику открытия кейса за Stars
-    handleCloseSlide()
   }
 
   const handleOpenWithTon = () => {
     console.log('Открытие кейса за TON:', selectedCase)
     // TODO: Реализовать логику открытия кейса за TON
-    handleCloseSlide()
   }
 
   // Функции для свайпа - условные (отключаются когда открыт CaseSlidePanel)
