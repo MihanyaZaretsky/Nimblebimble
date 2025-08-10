@@ -98,25 +98,25 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
           {/* Рулетка всегда сверху, фиксированная ширина */}
           <div className={`roulette-strip ${isSpinning ? 'spinning' : ''}`}>
             <div className={`strip-inner ${spinMode ?? ''}`}>
-              {/* Первый набор элементов для создания бесконечного эффекта */}
-              {Array.from({ length: 60 }).map((_, i) => {
+              {/* Оптимизированный набор элементов для мобильных устройств */}
+              {Array.from({ length: 30 }).map((_, i) => {
                 // Создаем более разнообразные элементы
                 let itemClass = 'common';
-                if (i % 7 === 0) itemClass = 'rare';
-                if (i % 15 === 0) itemClass = 'epic';
-                if (i % 25 === 0) itemClass = 'legendary';
+                if (i % 5 === 0) itemClass = 'rare';
+                if (i % 10 === 0) itemClass = 'epic';
+                if (i % 15 === 0) itemClass = 'legendary';
                 
                 return (
                   <div key={`first-${i}`} className={`strip-item ${itemClass}`}></div>
                 );
               })}
-              {/* Дублируем элементы для бесконечного эффекта */}
-              {Array.from({ length: 60 }).map((_, i) => {
+              {/* Дублируем элементы для бесконечного эффекта (уменьшено количество) */}
+              {Array.from({ length: 30 }).map((_, i) => {
                 // Создаем более разнообразные элементы
                 let itemClass = 'common';
-                if (i % 7 === 0) itemClass = 'rare';
-                if (i % 15 === 0) itemClass = 'epic';
-                if (i % 25 === 0) itemClass = 'legendary';
+                if (i % 5 === 0) itemClass = 'rare';
+                if (i % 10 === 0) itemClass = 'epic';
+                if (i % 15 === 0) itemClass = 'legendary';
                 
                 return (
                   <div key={`second-${i}`} className={`strip-item ${itemClass}`}></div>
@@ -199,9 +199,9 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
             </button>
           </div>
 
-          {/* Содержимое кейса: сетка с предметами */}
+          {/* Содержимое кейса: сетка с предметами (оптимизировано для мобильных) */}
           <div className="case-items-grid">
-            {Array.from({ length: 20 }).map((_, i) => (
+            {Array.from({ length: 12 }).map((_, i) => (
               <div key={i} className="case-item">
                 <img src="/common-case-image.png" alt={`item-${i}`} />
                 <div className="case-item-price">

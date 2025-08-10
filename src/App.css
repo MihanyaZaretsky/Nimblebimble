@@ -2044,6 +2044,8 @@ body.modal-open .tab-container {
   will-change: transform;
   position: relative;
   z-index: 3;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .strip-item {
@@ -2055,6 +2057,9 @@ body.modal-open .tab-container {
   overflow: hidden;
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(5px);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
 }
 
 /* Голографический фон */
@@ -2115,14 +2120,13 @@ body.modal-open .tab-container {
   animation: legendaryNeonPulse 2s infinite, electricDischarge 0.5s infinite 8s;
 }
 
-/* Киберпанк анимация вращения */
+/* Киберпанк анимация вращения с оптимизацией для мобильных */
 .spinning .strip-inner {
   animation: cyberpunkSpin 10s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
-}
-
-/* Плавная анимация вращения */
-.spinning .strip-inner {
-  animation: cyberpunkSpin 10s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Голографический маркер */
@@ -2919,6 +2923,108 @@ body.modal-open .tab-container {
   }
   100% { 
     transform: translateX(-50%);
+  }
+}
+
+/* Оптимизация для мобильных устройств */
+@media (max-width: 768px) {
+  /* Упрощаем анимации на мобильных для лучшей производительности */
+  .strip-item::before {
+    animation: none;
+  }
+  
+  .strip-item.common,
+  .strip-item.rare,
+  .strip-item.epic,
+  .strip-item.legendary {
+    animation: none;
+  }
+  
+  .spinning .strip-item.common,
+  .spinning .strip-item.rare,
+  .spinning .strip-item.epic,
+  .spinning .strip-item.legendary {
+    animation: none;
+  }
+  
+  /* Упрощаем голографическую линию на мобильных */
+  .holographic-line .line-core {
+    animation: holographicPulse 3s ease-in-out infinite;
+  }
+  
+  .holographic-line .line-glow {
+    animation: glowPulse 4s ease-in-out infinite;
+  }
+  
+  .holographic-line.spinning .line-core {
+    animation: holographicPulse 1s ease-in-out infinite;
+  }
+  
+  .holographic-line.spinning .line-glow {
+    animation: glowPulse 0.5s ease-in-out infinite;
+  }
+  
+  .holographic-line.spinning .line-scan {
+    animation: scanLine 2s ease-in-out infinite;
+  }
+  
+  /* Убираем сложные эффекты фона на мобильных */
+  .roulette-strip::before,
+  .roulette-strip::after {
+    display: none;
+  }
+  
+  /* Упрощаем эффект прожигания */
+  .holographic-line.spinning::before {
+    display: none;
+  }
+  
+  /* Оптимизация производительности для мобильных */
+  .strip-inner {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  
+  .strip-item {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  
+  /* Уменьшаем размеры элементов на мобильных для лучшей производительности */
+  .strip-item {
+    flex: 0 0 100px;
+    width: 100px;
+  }
+  
+  .roulette-strip {
+    height: 80px;
+  }
+  
+  /* Оптимизация сетки предметов на мобильных */
+  .case-items-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  .case-item {
+    min-height: 60px;
+  }
+  
+  /* Убираем сложные эффекты на мобильных */
+  .case-slide-btn::before {
+    display: none;
+  }
+  
+  /* Упрощаем анимации кнопок */
+  .case-slide-btn:hover {
+    transform: none;
+  }
+  
+  .stars-slide-btn:hover,
+  .ton-slide-btn:hover {
+    transform: none;
   }
 }
 
