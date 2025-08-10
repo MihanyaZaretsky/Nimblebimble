@@ -2037,13 +2037,13 @@ body.modal-open .tab-container {
   border-color: rgba(246, 173, 85, 0.5);
 }
 
-/* Упрощенная голографическая линия */
+/* Тонкая голографическая линия как была */
 .holographic-line {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 4px;
+  width: 2px;
   height: 80px;
   z-index: 10;
   pointer-events: none;
@@ -2056,21 +2056,21 @@ body.modal-open .tab-container {
   width: 100%;
   height: 100%;
   background: linear-gradient(180deg, transparent, #00ffff, transparent);
-  border-radius: 2px;
+  border-radius: 1px;
 }
 
 .line-glow {
   position: absolute;
-  top: -10px;
-  left: -10px;
-  width: 24px;
-  height: 100px;
-  background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.3), transparent);
-  border-radius: 12px;
+  top: -5px;
+  left: -5px;
+  width: 12px;
+  height: 90px;
+  background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.2), transparent);
+  border-radius: 6px;
 }
 
 /* Анимация вращения */
-.spinning .strip-inner {
+.roulette-strip.spinning .strip-inner {
   animation: spin 3s ease-out;
 }
 
@@ -2157,6 +2157,11 @@ body.modal-open .tab-container {
   box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
 }
 
+/* Иконка на кнопке Stars должна быть хорошо видна */
+.stars-slide-btn .btn-icon img {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+}
+
 /* Кнопка TON */
 .ton-slide-btn {
   background: linear-gradient(135deg, #0088CC, #0066AA);
@@ -2204,117 +2209,7 @@ body.modal-open .tab-container {
   margin-top: 2px;
 }
 
-/* Упрощенная рулетка */
-.roulette-strip {
-  position: relative;
-  height: 120px;
-  margin: 8px auto 12px;
-  overflow: hidden;
-  width: 100%;
-  max-width: 720px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.2));
-  flex: 0 0 auto;
-}
 
-.spinning .roulette-strip {
-  background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(0,0,0,0.3));
-}
-
-.strip-inner {
-  display: inline-flex;
-  gap: 8px;
-  height: 100%;
-  will-change: transform;
-  position: relative;
-  z-index: 3;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-}
-
-.strip-item {
-  flex: 0 0 120px;
-  height: 100%;
-  border-radius: 12px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 14px;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-  border: 1px solid rgba(255,255,255,0.1);
-  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.2));
-  transition: all 0.3s ease;
-}
-
-.strip-item.common {
-  background: linear-gradient(135deg, #4a5568, #2d3748);
-  border-color: rgba(74, 85, 104, 0.5);
-}
-
-.strip-item.rare {
-  background: linear-gradient(135deg, #3182ce, #2c5aa0);
-  border-color: rgba(49, 130, 206, 0.5);
-}
-
-.strip-item.epic {
-  background: linear-gradient(135deg, #9f7aea, #805ad5);
-  border-color: rgba(159, 122, 234, 0.5);
-}
-
-.strip-item.legendary {
-  background: linear-gradient(135deg, #f6ad55, #ed8936);
-  border-color: rgba(246, 173, 85, 0.5);
-}
-
-/* Упрощенная голографическая линия */
-.holographic-line {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 4px;
-  height: 80px;
-  z-index: 10;
-  pointer-events: none;
-}
-
-.line-core {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(180deg, transparent, #00ffff, transparent);
-  border-radius: 2px;
-}
-
-.line-glow {
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  width: 24px;
-  height: 100px;
-  background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.3), transparent);
-  border-radius: 12px;
-}
-
-/* Анимация вращения */
-.spinning .strip-inner {
-  animation: spin 3s ease-out;
-}
-
-@keyframes spin {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
 
 /* Убираем все сложные анимации и эффекты */
 .roulette-strip::before,

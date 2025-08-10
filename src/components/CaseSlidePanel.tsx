@@ -140,10 +140,19 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                 if (isSpinning) return;
                 setSpinMode('stars');
                 setIsSpinning(true);
+                // Добавляем класс spinning к рулетке
+                const rouletteStrip = document.querySelector('.roulette-strip');
+                if (rouletteStrip) {
+                  rouletteStrip.classList.add('spinning');
+                }
                 setTimeout(() => {
                   onOpenWithStars();
                   setIsSpinning(false);
                   setSpinMode(null);
+                  // Убираем класс spinning
+                  if (rouletteStrip) {
+                    rouletteStrip.classList.remove('spinning');
+                  }
                 }, 3000); // Уменьшаем время анимации
               }}
             >
@@ -162,10 +171,19 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                 if (isSpinning) return;
                 setSpinMode('ton');
                 setIsSpinning(true);
+                // Добавляем класс spinning к рулетке
+                const rouletteStrip = document.querySelector('.roulette-strip');
+                if (rouletteStrip) {
+                  rouletteStrip.classList.add('spinning');
+                }
                 setTimeout(() => {
                   onOpenWithTon();
                   setIsSpinning(false);
                   setSpinMode(null);
+                  // Убираем класс spinning
+                  if (rouletteStrip) {
+                    rouletteStrip.classList.remove('spinning');
+                  }
                 }, 3000); // Уменьшаем время анимации
               }}
             >
