@@ -95,37 +95,33 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
         </div>
         
         <div className="case-slide-content">
-          {/* Рулетка всегда сверху, фиксированная ширина */}
-          <div className={`roulette-strip ${isSpinning ? 'spinning' : ''}`}>
+          {/* Рулетка */}
+          <div className="roulette-strip">
             <div className={`strip-inner ${spinMode ?? ''}`}>
               {/* Оптимизированный набор элементов для мобильных устройств */}
               {Array.from({ length: 30 }).map((_, i) => {
-                // Создаем более разнообразные элементы
                 let itemClass = 'common';
                 if (i % 5 === 0) itemClass = 'rare';
                 if (i % 10 === 0) itemClass = 'epic';
                 if (i % 15 === 0) itemClass = 'legendary';
-                
                 return (
                   <div key={`first-${i}`} className={`strip-item ${itemClass}`}></div>
                 );
               })}
               {/* Дублируем элементы для бесконечного эффекта (уменьшено количество) */}
               {Array.from({ length: 30 }).map((_, i) => {
-                // Создаем более разнообразные элементы
                 let itemClass = 'common';
                 if (i % 5 === 0) itemClass = 'rare';
                 if (i % 10 === 0) itemClass = 'epic';
                 if (i % 15 === 0) itemClass = 'legendary';
-                
                 return (
                   <div key={`second-${i}`} className={`strip-item ${itemClass}`}></div>
                 );
               })}
             </div>
-
+            
             {/* Голографическая линия-указатель */}
-            <div className={`holographic-line ${isSpinning ? 'spinning' : ''} ${showWinBurst ? 'win-burst' : ''}`}>
+            <div className={`holographic-line ${spinMode ? 'spinning' : ''}`}>
               <div className="line-core"></div>
               <div className="line-glow"></div>
               <div className="line-scan"></div>
