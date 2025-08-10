@@ -2035,35 +2035,7 @@ body.modal-open .tab-container {
   z-index: 4;
 }
 
-/* Матричные символы под рулеткой */
-.roulette-strip::after {
-  content: '01 10 11 00 01 10 11 00 01 10 11 00 01 10 11 00';
-  position: absolute;
-  bottom: -20px;
-  left: 0;
-  right: 0;
-  font-family: 'Courier New', monospace;
-  font-size: 10px;
-  color: rgba(0,255,255,0.7);
-  text-align: center;
-  animation: matrixRain 2s infinite;
-  z-index: 6;
-}
 
-/* Анализ данных во время вращения */
-.spinning .roulette-strip::after {
-  content: 'ANALYZING DATA... SCANNING... PROCESSING...';
-  position: absolute;
-  bottom: -25px;
-  left: 0;
-  right: 0;
-  font-family: 'Courier New', monospace;
-  font-size: 8px;
-  color: rgba(255,255,255,0.8);
-  text-align: center;
-  animation: matrixRain 1s infinite;
-  z-index: 6;
-}
 
 .strip-inner {
   display: inline-flex;
@@ -2101,25 +2073,9 @@ body.modal-open .tab-container {
   z-index: 1;
 }
 
-/* Бегущие строки с кодом */
-.strip-item::after {
-  content: '01 10 11 00 01 10 11 00';
-  position: absolute;
-  bottom: 5px;
-  left: 0;
-  right: 0;
-  font-family: 'Courier New', monospace;
-  font-size: 8px;
-  color: rgba(0,255,255,0.6);
-  text-align: center;
-  animation: codeScroll 2s infinite linear;
-  z-index: 2;
-}
 
-/* Эффект глитча во время вращения */
-.spinning .strip-item {
-  animation: glitchEffect 0.1s infinite;
-}
+
+
 
 /* Неоновые рамки для разных типов предметов */
 .strip-item.common { 
@@ -2164,9 +2120,9 @@ body.modal-open .tab-container {
   animation: cyberpunkSpin 10s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
 }
 
-/* Вибрации при замедлении */
+/* Плавная анимация вращения */
 .spinning .strip-inner {
-  animation: cyberpunkSpin 10s cubic-bezier(0.4, 0.0, 0.2, 1) infinite, vibration 0.1s infinite 8s;
+  animation: cyberpunkSpin 10s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
 }
 
 /* Голографический маркер */
@@ -2691,14 +2647,7 @@ body.modal-open .tab-container {
   100% { opacity: 0.3; }
 }
 
-@keyframes glitchEffect {
-  0%, 100% { transform: translateX(0); }
-  10% { transform: translateX(-2px); }
-  20% { transform: translateX(2px); }
-  30% { transform: translateX(-1px); }
-  40% { transform: translateX(1px); }
-  50% { transform: translateX(0); }
-}
+
 
 @keyframes electricDischarge {
   0%, 100% { 
@@ -2765,61 +2714,18 @@ body.modal-open .tab-container {
   75% { transform: translateX(-50%) translateY(1px); }
 }
 
-@keyframes codeScroll {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
 
-@keyframes matrixRain {
-  0% { 
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  10% { 
-    opacity: 1;
-  }
-  90% { 
-    opacity: 1;
-  }
-  100% { 
-    opacity: 0;
-    transform: translateY(20px);
-  }
-}
+
+
 
 @keyframes cyberpunkSpin {
   0% { 
     transform: translateX(0);
-    filter: hue-rotate(0deg);
-  }
-  20% { 
-    transform: translateX(-10%);
-    filter: hue-rotate(72deg);
-  }
-  40% { 
-    transform: translateX(-20%);
-    filter: hue-rotate(144deg);
-  }
-  60% { 
-    transform: translateX(-30%);
-    filter: hue-rotate(216deg);
-  }
-  80% { 
-    transform: translateX(-40%);
-    filter: hue-rotate(288deg);
   }
   100% { 
     transform: translateX(-50%);
-    filter: hue-rotate(360deg);
   }
 }
 
-@keyframes vibration {
-  0%, 100% { transform: translateX(0); }
-  10% { transform: translateX(-1px); }
-  20% { transform: translateX(1px); }
-  30% { transform: translateX(-0.5px); }
-  40% { transform: translateX(0.5px); }
-  50% { transform: translateX(0); }
-}
+
 
