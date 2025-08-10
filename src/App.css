@@ -2126,48 +2126,15 @@ body.modal-open .tab-container {
 }
 
 /* Голографический маркер */
-.roulette-marker {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  transform: translateX(-50%);
-  pointer-events: none;
-  z-index: 5;
-  animation: holographicTremble 0.5s infinite;
-}
 
-.roulette-marker .marker-top,
-.roulette-marker .marker-bottom {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0; 
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
-}
 
-.roulette-marker .marker-top {
-  top: -2px;
-  border-bottom: 12px solid rgba(255,255,255,0.9);
-}
-
-.roulette-marker .marker-bottom {
-  bottom: -2px;
-  border-top: 12px solid rgba(255,255,255,0.9);
-  filter: drop-shadow(0 -2px 4px rgba(0,0,0,0.4));
-}
-
-/* Голографическая линия-указатель */
+/* Голографическая линия-указатель в стиле киберпанк */
 .holographic-line {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 50%;
-  width: 2px;
+  width: 3px;
   transform: translateX(-50%);
   pointer-events: none;
   z-index: 10;
@@ -2180,7 +2147,7 @@ body.modal-open .tab-container {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 2px;
+  width: 3px;
   background: linear-gradient(to bottom, 
     rgba(0, 255, 255, 0.9) 0%,
     rgba(255, 0, 255, 0.9) 50%,
@@ -2196,7 +2163,7 @@ body.modal-open .tab-container {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 6px;
+  width: 8px;
   background: radial-gradient(circle at center,
     rgba(0, 255, 255, 0.3) 0%,
     rgba(255, 0, 255, 0.2) 50%,
@@ -2217,6 +2184,23 @@ body.modal-open .tab-container {
     transparent 100%);
   opacity: 0;
   animation: scanLine 0s ease-in-out;
+}
+
+/* Эффект "прожигания" слота при замедлении */
+.holographic-line.spinning::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -20px;
+  right: -20px;
+  background: radial-gradient(ellipse at center,
+    rgba(0, 255, 255, 0.1) 0%,
+    rgba(255, 0, 255, 0.05) 50%,
+    transparent 100%);
+  opacity: 0;
+  animation: slotBurning 0.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
 /* Анимации для голографической линии */
@@ -2253,13 +2237,37 @@ body.modal-open .tab-container {
     opacity: 0;
     transform: translateY(-100%);
   }
-  50% {
+  20% {
+    opacity: 0.8;
+    transform: translateY(-80%);
+  }
+  40% {
     opacity: 1;
-    transform: translateY(0%);
+    transform: translateY(-60%);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-40%);
+  }
+  80% {
+    opacity: 0.8;
+    transform: translateY(-20%);
   }
   100% {
     opacity: 0;
-    transform: translateY(100%);
+    transform: translateY(0%);
+  }
+}
+
+/* Эффект прожигания слота */
+@keyframes slotBurning {
+  0%, 100% {
+    opacity: 0;
+    transform: scaleX(0.8);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scaleX(1.2);
   }
 }
 
@@ -2270,6 +2278,10 @@ body.modal-open .tab-container {
 
 .holographic-line.spinning .line-glow {
   animation: glowPulse 0.3s ease-in-out infinite;
+}
+
+.holographic-line.spinning .line-scan {
+  animation: scanLine 1s ease-in-out infinite;
 }
 
 /* Эффект светового всплеска при выигрыше */

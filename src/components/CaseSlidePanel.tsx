@@ -123,10 +123,7 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                 );
               })}
             </div>
-            <div className="roulette-marker">
-              <span className="marker-top"></span>
-              <span className="marker-bottom"></span>
-            </div>
+
             {/* Голографическая линия-указатель */}
             <div className={`holographic-line ${isSpinning ? 'spinning' : ''} ${showWinBurst ? 'win-burst' : ''}`}>
               <div className="line-core"></div>
