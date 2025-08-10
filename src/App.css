@@ -1965,8 +1965,7 @@ body.modal-open .tab-container {
 .case-balance-icon { font-size: 16px; }
 .case-balance-amount { font-weight: 600; font-family: "Rajdhani", sans-serif; }
 
-/* Рулетка в стиле CS:GO — горизонтальная лента */
-/* Обновленные стили рулетки с киберпанк эффектами */
+/* Упрощенная рулетка без лишних эффектов */
 .roulette-strip {
   position: relative;
   height: 120px;
@@ -1980,62 +1979,15 @@ body.modal-open .tab-container {
   flex: 0 0 auto;
 }
 
-/* Динамический фон во время вращения */
+/* Убираем все лишние эффекты */
+.roulette-strip::before,
+.roulette-strip::after {
+  display: none;
+}
+
 .spinning .roulette-strip {
   background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(0,0,0,0.3));
-  animation: dynamicGradient 2s infinite;
 }
-
-/* Падающий дождь */
-.roulette-strip::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.2), transparent),
-    radial-gradient(1px 1px at 60px 110px, rgba(255,255,255,0.4), transparent);
-  background-size: 100px 100px, 80px 80px, 120px 120px;
-  animation: fallingRain 3s infinite linear;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* HUD элементы */
-.roulette-strip::after {
-  content: '';
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
-  background: 
-    linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%);
-  animation: hudGlow 2s infinite;
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* Лазерный сканер появляется в конце */
-.spinning .roulette-strip::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%);
-  animation: laserScanner 1s ease-in-out 9s forwards;
-  pointer-events: none;
-  z-index: 4;
-}
-
-
 
 .strip-inner {
   display: inline-flex;
@@ -2050,666 +2002,405 @@ body.modal-open .tab-container {
 
 .strip-item {
   flex: 0 0 120px;
-  width: 120px;
   height: 100%;
   border-radius: 12px;
   position: relative;
-  overflow: hidden;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(5px);
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  will-change: transform, opacity;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.2));
+  transition: all 0.3s ease;
 }
 
-/* Неоновые эффекты для слотов */
-.strip-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border: 2px solid transparent;
-  border-radius: 12px;
-  background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.3), transparent);
-  opacity: 0;
-  animation: neonPulse 3s ease-in-out infinite;
-  pointer-events: none;
-  will-change: opacity, border-color;
+.strip-item.common {
+  background: linear-gradient(135deg, #4a5568, #2d3748);
+  border-color: rgba(74, 85, 104, 0.5);
 }
 
-/* Анимации для разных типов предметов */
-.strip-item.common::before {
-  animation: neonPulse 3s ease-in-out infinite;
+.strip-item.rare {
+  background: linear-gradient(135deg, #3182ce, #2c5aa0);
+  border-color: rgba(49, 130, 206, 0.5);
 }
 
-.strip-item.rare::before {
-  animation: rareNeonPulse 2.5s ease-in-out infinite;
+.strip-item.epic {
+  background: linear-gradient(135deg, #9f7aea, #805ad5);
+  border-color: rgba(159, 122, 234, 0.5);
 }
 
-.strip-item.epic::before {
-  animation: epicNeonPulse 2s ease-in-out infinite;
+.strip-item.legendary {
+  background: linear-gradient(135deg, #f6ad55, #ed8936);
+  border-color: rgba(246, 173, 85, 0.5);
 }
 
-.strip-item.legendary::before {
-  animation: legendaryNeonPulse 1.5s ease-in-out infinite;
-}
-
-/* Электрические разряды во время вращения */
-.spinning .strip-item::before {
-  animation: electricDischarge 0.8s ease-in-out infinite;
-}
-
-.spinning .strip-item.common::before {
-  animation: electricDischarge 0.8s ease-in-out infinite;
-}
-
-.spinning .strip-item.rare::before {
-  animation: electricDischarge 0.6s ease-in-out infinite;
-}
-
-.spinning .strip-item.epic::before {
-  animation: electricDischarge 0.5s ease-in-out infinite;
-}
-
-.spinning .strip-item.legendary::before {
-  animation: electricDischarge 0.4s ease-in-out infinite;
-}
-
-/* Голографический шум */
-.strip-item::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
-  opacity: 0.3;
-  animation: hologramNoise 4s ease-in-out infinite;
-  pointer-events: none;
-  will-change: opacity, background;
-}
-
-/* Эффект прожигания слота при замедлении */
-.holographic-line.spinning::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.6), transparent);
-  opacity: 0;
-  animation: slotBurning 2s ease-in-out infinite;
-  pointer-events: none;
-  will-change: opacity;
-}
-
-/* Фоновые эффекты рулетки */
-.roulette-strip::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, 
-    rgba(0, 255, 255, 0.1) 0%, 
-    rgba(255, 0, 255, 0.1) 25%, 
-    rgba(0, 255, 255, 0.1) 50%, 
-    rgba(255, 0, 255, 0.1) 75%, 
-    rgba(0, 255, 255, 0.1) 100%);
-  animation: dynamicGradient 3s ease-in-out infinite;
-  pointer-events: none;
-  will-change: background;
-}
-
-.roulette-strip::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 10px,
-      rgba(0, 255, 255, 0.1) 10px,
-      rgba(0, 255, 255, 0.1) 20px
-    );
-  animation: scanLine 2s linear infinite;
-  pointer-events: none;
-  will-change: transform;
-}
-
-/* HUD элементы */
-.roulette-strip::before {
-  content: 'ANALYZING DATA...';
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #00ffff;
-  font-family: 'Courier New', monospace;
-  font-size: 12px;
-  text-shadow: 0 0 10px #00ffff;
-  animation: hudGlow 2s ease-in-out infinite;
-  pointer-events: none;
-  will-change: opacity, text-shadow;
-}
-
-/* Оптимизация для мобильных устройств */
-@media (max-width: 768px) {
-  /* Уменьшаем размеры для лучшей производительности */
-  .strip-item {
-    flex: 0 0 100px;
-    width: 100px;
-  }
-  
-  .roulette-strip {
-    height: 80px;
-  }
-  
-  /* Оптимизируем сетку предметов */
-  .case-items-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-  
-  .case-item {
-    min-height: 60px;
-  }
-  
-  /* Упрощаем только самые тяжёлые эффекты */
-  .roulette-strip::after {
-    animation-duration: 3s;
-  }
-  
-  .holographic-line.spinning::before {
-    animation-duration: 3s;
-  }
-  
-  /* Убираем только backdrop-filter на мобильных */
-  .strip-item {
-    backdrop-filter: none;
-    background: rgba(255,255,255,0.1);
-  }
-  
-  /* Оптимизация производительности для мобильных */
-  .strip-inner {
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-  }
-  
-  .strip-item {
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-  }
-  
-  /* Уменьшаем интенсивность некоторых эффектов на мобильных */
-  .strip-item::before {
-    box-shadow: 
-      0 0 8px rgba(81, 162, 255, 0.4),
-      0 0 16px rgba(81, 162, 255, 0.2);
-  }
-  
-  .strip-item.rare::before {
-    box-shadow: 
-      0 0 8px rgba(0, 245, 212, 0.4),
-      0 0 16px rgba(0, 245, 212, 0.2);
-  }
-  
-  .strip-item.epic::before {
-    box-shadow: 
-      0 0 8px rgba(255, 0, 150, 0.4),
-      0 0 16px rgba(255, 0, 150, 0.2);
-  }
-  
-  .strip-item.legendary::before {
-    box-shadow: 
-      0 0 8px rgba(255, 215, 0, 0.4),
-      0 0 16px rgba(255, 215, 0, 0.2);
-  }
-  
-  /* Упрощаем голографическую линию на мобильных */
-  .holographic-line .line-core {
-    animation: holographicPulse 3s ease-in-out infinite;
-  }
-  
-  .holographic-line .line-glow {
-    animation: glowPulse 4s ease-in-out infinite;
-  }
-  
-  .holographic-line.spinning .line-core {
-    animation: holographicPulse 1s ease-in-out infinite;
-  }
-  
-  .holographic-line.spinning .line-glow {
-    animation: glowPulse 0.5s ease-in-out infinite;
-  }
-  
-  .holographic-line.spinning .line-scan {
-    animation: scanLine 2s ease-in-out infinite;
-  }
-}
-
-@keyframes dynamicGradient {
-  0% { background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff); }
-  25% { background: linear-gradient(45deg, #8338ec, #3a86ff, #06ffa5); }
-  50% { background: linear-gradient(45deg, #3a86ff, #06ffa5, #ffbe0b); }
-  75% { background: linear-gradient(45deg, #06ffa5, #ffbe0b, #ff006e); }
-  100% { background: linear-gradient(45deg, #ffbe0b, #ff006e, #8338ec); }
-}
-
-@keyframes fallingRain {
-  0% { transform: translateY(-100vh) translateX(0); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(100vh) translateX(20px); opacity: 0; }
-}
-
-@keyframes hudGlow {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.7; }
-}
-
-@keyframes holographicTremble {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  25% { transform: translateX(-50%) translateY(-1px); }
-  50% { transform: translateX(-50%) translateY(0); }
-  75% { transform: translateX(-50%) translateY(1px); }
-}
-
-
-
-
-@keyframes cyberpunkSpin {
-  0% { 
-    transform: translateX(0);
-  }
-  100% { 
-    transform: translateX(-50%);
-  }
-}
-
-/* Неоновые пульсации для разных типов предметов */
-@keyframes neonPulse {
-  0%, 100% { 
-    opacity: 0;
-    border-color: rgba(81, 162, 255, 0.3);
-    box-shadow: 
-      0 0 10px rgba(81, 162, 255, 0.5),
-      0 0 20px rgba(81, 162, 255, 0.3);
-  }
-  50% { 
-    opacity: 1;
-    border-color: rgba(81, 162, 255, 0.8);
-    box-shadow: 
-      0 0 15px rgba(81, 162, 255, 0.8),
-      0 0 30px rgba(81, 162, 255, 0.5);
-  }
-}
-
-@keyframes rareNeonPulse {
-  0%, 100% { 
-    opacity: 0;
-    border-color: rgba(0, 245, 212, 0.3);
-    box-shadow: 
-      0 0 10px rgba(0, 245, 212, 0.5),
-      0 0 20px rgba(0, 245, 212, 0.3);
-  }
-  50% { 
-    opacity: 1;
-    border-color: rgba(0, 245, 212, 0.8);
-    box-shadow: 
-      0 0 15px rgba(0, 245, 212, 0.8),
-      0 0 30px rgba(0, 245, 212, 0.5);
-  }
-}
-
-@keyframes epicNeonPulse {
-  0%, 100% { 
-    opacity: 0;
-    border-color: rgba(255, 0, 150, 0.3);
-    box-shadow: 
-      0 0 10px rgba(255, 0, 150, 0.5),
-      0 0 20px rgba(255, 0, 150, 0.3);
-  }
-  50% { 
-    opacity: 1;
-    border-color: rgba(255, 0, 150, 0.8);
-    box-shadow: 
-      0 0 15px rgba(255, 0, 150, 0.8),
-      0 0 30px rgba(255, 0, 150, 0.5);
-  }
-}
-
-@keyframes legendaryNeonPulse {
-  0%, 100% { 
-    opacity: 0;
-    border-color: rgba(255, 215, 0, 0.3);
-    box-shadow: 
-      0 0 10px rgba(255, 215, 0, 0.5),
-      0 0 20px rgba(255, 215, 0, 0.3);
-  }
-  50% { 
-    opacity: 1;
-    border-color: rgba(255, 215, 0, 0.8);
-    box-shadow: 
-      0 0 15px rgba(255, 215, 0, 0.8),
-      0 0 30px rgba(255, 215, 0, 0.5);
-  }
-}
-
-/* Электрические разряды */
-@keyframes electricDischarge {
-  0%, 100% { 
-    opacity: 0;
-    border-color: rgba(0, 255, 255, 0.3);
-    box-shadow: 
-      0 0 10px rgba(0, 255, 255, 0.5),
-      0 0 20px rgba(0, 255, 255, 0.3);
-  }
-  25% { 
-    opacity: 1;
-    border-color: rgba(0, 255, 255, 0.9);
-    box-shadow: 
-      0 0 20px rgba(0, 255, 255, 1),
-      0 0 40px rgba(0, 255, 255, 0.6);
-  }
-  50% { 
-    opacity: 0.5;
-    border-color: rgba(0, 255, 255, 0.6);
-    box-shadow: 
-      0 0 15px rgba(0, 255, 255, 0.8),
-      0 0 30px rgba(0, 255, 255, 0.4);
-  }
-  75% { 
-    opacity: 1;
-    border-color: rgba(0, 255, 255, 0.9);
-    box-shadow: 
-      0 0 25px rgba(0, 255, 255, 1.2),
-      0 0 50px rgba(0, 255, 255, 0.7);
-  }
-}
-
-/* Голографический шум */
-@keyframes hologramNoise {
-  0% { 
-    opacity: 0.3;
-    background: 
-      radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
-  }
-  25% { 
-    opacity: 0.5;
-    background: 
-      radial-gradient(circle at 40% 20%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
-      radial-gradient(circle at 60% 80%, rgba(255, 0, 255, 0.15) 0%, transparent 50%);
-  }
-  50% { 
-    opacity: 0.7;
-    background: 
-      radial-gradient(circle at 60% 40%, rgba(0, 255, 255, 0.2) 0%, transparent 50%),
-      radial-gradient(circle at 40% 60%, rgba(255, 0, 255, 0.2) 0%, transparent 50%);
-  }
-  75% { 
-    opacity: 0.5;
-    background: 
-      radial-gradient(circle at 80% 10%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
-      radial-gradient(circle at 20% 90%, rgba(255, 0, 255, 0.15) 0%, transparent 50%);
-  }
-  100% { 
-    opacity: 0.3;
-    background: 
-      radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
-  }
-}
-
-/* Динамический градиент */
-@keyframes dynamicGradient {
-  0% {
-    background: linear-gradient(90deg, 
-      rgba(0, 255, 255, 0.1) 0%, 
-      rgba(255, 0, 255, 0.1) 25%, 
-      rgba(0, 255, 255, 0.1) 50%, 
-      rgba(255, 0, 255, 0.1) 75%, 
-      rgba(0, 255, 255, 0.1) 100%);
-  }
-  50% {
-    background: linear-gradient(90deg, 
-      rgba(255, 0, 255, 0.1) 0%, 
-      rgba(0, 255, 255, 0.1) 25%, 
-      rgba(255, 0, 255, 0.1) 50%, 
-      rgba(0, 255, 255, 0.1) 75%, 
-      rgba(255, 0, 255, 0.1) 100%);
-  }
-  100% {
-    background: linear-gradient(90deg, 
-      rgba(0, 255, 255, 0.1) 0%, 
-      rgba(255, 0, 255, 0.1) 25%, 
-      rgba(0, 255, 255, 0.1) 50%, 
-      rgba(255, 0, 255, 0.1) 75%, 
-      rgba(0, 255, 255, 0.1) 100%);
-  }
-}
-
-/* Сканирующая линия */
-@keyframes scanLine {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-/* HUD свечение */
-@keyframes hudGlow {
-  0%, 100% {
-    opacity: 0.7;
-    text-shadow: 0 0 10px #00ffff;
-  }
-  50% {
-    opacity: 1;
-    text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;
-  }
-}
-
-/* Прожигание слота */
-@keyframes slotBurning {
-  0%, 100% {
-    opacity: 0;
-    transform: scaleX(0.8);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scaleX(1.2);
-  }
-}
-
-/* Голографическая линия-указатель в стиле киберпанк */
+/* Упрощенная голографическая линия */
 .holographic-line {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 50%;
   left: 50%;
-  width: 3px;
-  transform: translateX(-50%);
-  pointer-events: none;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 80px;
   z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  pointer-events: none;
 }
 
 .line-core {
   position: absolute;
   top: 0;
-  bottom: 0;
-  width: 3px;
-  background: linear-gradient(to bottom, 
-    rgba(0, 255, 255, 0.9) 0%,
-    rgba(255, 0, 255, 0.9) 50%,
-    rgba(0, 255, 255, 0.9) 100%);
-  box-shadow: 
-    0 0 8px rgba(0, 255, 255, 0.8),
-    0 0 16px rgba(255, 0, 255, 0.6),
-    0 0 24px rgba(0, 255, 255, 0.4);
-  animation: holographicPulse 2s ease-in-out infinite;
-  will-change: opacity, box-shadow;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #00ffff, transparent);
+  border-radius: 2px;
 }
 
 .line-glow {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 8px;
-  background: radial-gradient(circle at center,
-    rgba(0, 255, 255, 0.3) 0%,
-    rgba(255, 0, 255, 0.2) 50%,
-    transparent 100%);
-  filter: blur(1px);
-  animation: glowPulse 3s ease-in-out infinite;
-  will-change: opacity, transform;
+  top: -10px;
+  left: -10px;
+  width: 24px;
+  height: 100px;
+  background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.3), transparent);
+  border-radius: 12px;
 }
 
-.line-scan {
+/* Анимация вращения */
+.spinning .strip-inner {
+  animation: spin 3s ease-out;
+}
+
+@keyframes spin {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Убираем все остальные сложные анимации */
+@keyframes winBurst { /* Отключаем анимацию */ }
+@keyframes winGlowBurst { /* Отключаем анимацию */ }
+@keyframes laserScan { /* Отключаем анимацию */ }
+@keyframes dynamicGradient { /* Отключаем анимацию */ }
+@keyframes fallingRain { /* Отключаем анимацию */ }
+@keyframes hudGlow { /* Отключаем анимацию */ }
+@keyframes holographicTremble { /* Отключаем анимацию */ }
+@keyframes cyberpunkSpin { /* Отключаем анимацию */ }
+@keyframes neonPulse { /* Отключаем анимацию */ }
+@keyframes rareNeonPulse { /* Отключаем анимацию */ }
+@keyframes epicNeonPulse { /* Отключаем анимацию */ }
+@keyframes legendaryNeonPulse { /* Отключаем анимацию */ }
+@keyframes electricDischarge { /* Отключаем анимацию */ }
+@keyframes hologramNoise { /* Отключаем анимацию */ }
+@keyframes scanLine { /* Отключаем анимацию */ }
+@keyframes slotBurning { /* Отключаем анимацию */ }
+
+/* Убираем все ::before и ::after эффекты */
+.roulette-strip::before,
+.roulette-strip::after,
+.strip-item::before,
+.strip-item::after,
+.holographic-line::before,
+.holographic-line::after {
+  display: none;
+}
+
+/* Убираем дублирующиеся стили */
+
+/* Упрощенные стили для кнопок открытия кейса */
+.case-slide-btn {
+  width: 100%;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+}
+
+.case-slide-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.case-slide-btn:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.case-slide-btn:not(:disabled):active {
+  transform: translateY(0);
+}
+
+/* Кнопка Stars */
+.stars-slide-btn {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #000;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.stars-slide-btn:hover {
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+}
+
+/* Кнопка TON */
+.ton-slide-btn {
+  background: linear-gradient(135deg, #0088CC, #0066AA);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+}
+
+.ton-slide-btn:hover {
+  box-shadow: 0 8px 25px rgba(0, 136, 204, 0.4);
+}
+
+/* Содержимое кнопки */
+.btn-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.btn-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.btn-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.btn-title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.btn-price {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+/* Упрощенная рулетка */
+.roulette-strip {
+  position: relative;
+  height: 120px;
+  margin: 8px auto 12px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 720px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.2));
+  flex: 0 0 auto;
+}
+
+.spinning .roulette-strip {
+  background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(0,0,0,0.3));
+}
+
+.strip-inner {
+  display: inline-flex;
+  gap: 8px;
+  height: 100%;
+  will-change: transform;
+  position: relative;
+  z-index: 3;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.strip-item {
+  flex: 0 0 120px;
+  height: 100%;
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.2));
+  transition: all 0.3s ease;
+}
+
+.strip-item.common {
+  background: linear-gradient(135deg, #4a5568, #2d3748);
+  border-color: rgba(74, 85, 104, 0.5);
+}
+
+.strip-item.rare {
+  background: linear-gradient(135deg, #3182ce, #2c5aa0);
+  border-color: rgba(49, 130, 206, 0.5);
+}
+
+.strip-item.epic {
+  background: linear-gradient(135deg, #9f7aea, #805ad5);
+  border-color: rgba(159, 122, 234, 0.5);
+}
+
+.strip-item.legendary {
+  background: linear-gradient(135deg, #f6ad55, #ed8936);
+  border-color: rgba(246, 173, 85, 0.5);
+}
+
+/* Упрощенная голографическая линия */
+.holographic-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 80px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.line-core {
   position: absolute;
   top: 0;
-  bottom: 0;
+  left: 0;
   width: 100%;
-  background: linear-gradient(to bottom,
-    transparent 0%,
-    rgba(0, 255, 255, 0.8) 45%,
-    rgba(255, 0, 255, 0.8) 55%,
-    transparent 100%);
-  opacity: 0;
-  animation: scanLine 0s ease-in-out;
-  will-change: opacity, transform;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #00ffff, transparent);
+  border-radius: 2px;
 }
 
-/* Анимации для голографической линии */
-@keyframes holographicPulse {
-  0%, 100% {
-    opacity: 0.8;
-    box-shadow: 
-      0 0 8px rgba(0, 255, 255, 0.8),
-      0 0 16px rgba(255, 0, 255, 0.6),
-      0 0 24px rgba(0, 255, 255, 0.4);
-  }
-  50% {
-    opacity: 1;
-    box-shadow: 
-      0 0 12px rgba(0, 255, 255, 1),
-      0 0 20px rgba(255, 0, 255, 0.8),
-      0 0 30px rgba(0, 255, 255, 0.6);
-  }
+.line-glow {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 24px;
+  height: 100px;
+  background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.3), transparent);
+  border-radius: 12px;
 }
 
-@keyframes glowPulse {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scaleY(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scaleY(1.1);
-  }
+/* Анимация вращения */
+.spinning .strip-inner {
+  animation: spin 3s ease-out;
 }
 
-/* Анимации для голографической линии во время вращения */
-.holographic-line.spinning .line-core {
-  animation: holographicPulse 0.5s ease-in-out infinite;
-}
-
-.holographic-line.spinning .line-glow {
-  animation: glowPulse 0.3s ease-in-out infinite;
-}
-
-.holographic-line.spinning .line-scan {
-  animation: scanLine 1s ease-in-out infinite;
-}
-
-/* Эффект светового всплеска при выигрыше */
-.holographic-line.win-burst .line-core {
-  animation: winBurst 0.5s ease-out;
-}
-
-.holographic-line.win-burst .line-glow {
-  animation: winGlowBurst 0.5s ease-out;
-}
-
-.holographic-line.win-burst .line-scan {
-  animation: laserScan 1s ease-out;
-}
-
-@keyframes winBurst {
+@keyframes spin {
   0% {
-    opacity: 0.8;
-    box-shadow: 
-      0 0 8px rgba(0, 255, 255, 0.8),
-      0 0 16px rgba(255, 0, 255, 0.6),
-      0 0 24px rgba(0, 255, 255, 0.4);
-  }
-  50% {
-    opacity: 1;
-    box-shadow: 
-      0 0 20px rgba(0, 255, 255, 1),
-      0 0 40px rgba(255, 0, 255, 1),
-      0 0 60px rgba(0, 255, 255, 0.8),
-      0 0 80px rgba(255, 0, 255, 0.6);
+    transform: translateX(0);
   }
   100% {
-    opacity: 0.8;
-    box-shadow: 
-      0 0 8px rgba(0, 255, 255, 0.8),
-      0 0 16px rgba(255, 0, 255, 0.6),
-      0 0 24px rgba(0, 255, 255, 0.4);
+    transform: translateX(-50%);
   }
 }
 
-@keyframes winGlowBurst {
-  0% {
-    opacity: 0.3;
-    transform: scaleY(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scaleY(1.5);
-  }
-  100% {
-    opacity: 0.3;
-    transform: scaleY(1);
-  }
+/* Убираем все сложные анимации и эффекты */
+.roulette-strip::before,
+.roulette-strip::after,
+.strip-item::before,
+.strip-item::after,
+.holographic-line::before,
+.holographic-line::after {
+  display: none;
 }
 
-@keyframes laserScan {
-  0% {
-    opacity: 0;
-    transform: translateY(-100%);
-  }
-  25% {
-    opacity: 1;
-    transform: translateY(-50%);
-  }
-  75% {
-    opacity: 1;
-    transform: translateY(50%);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(100%);
-  }
+/* Кнопки открытия кейса */
+.case-slide-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Баланс в панели кейса */
+.case-balance {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.case-balance-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+}
+
+.case-balance-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.case-balance-amount {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* Сетка предметов кейса */
+.case-items-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 20px;
+  padding: 0 16px;
+}
+
+.case-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.case-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.case-item-price {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
 

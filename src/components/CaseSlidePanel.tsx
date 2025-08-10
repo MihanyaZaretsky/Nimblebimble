@@ -28,7 +28,6 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
   const isTouchDevice = typeof window !== 'undefined' && (('ontouchstart' in window) || (navigator as any)?.maxTouchPoints > 0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [spinMode, setSpinMode] = useState<'stars' | 'ton' | null>(null);
-  const [showWinBurst, setShowWinBurst] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -95,11 +94,11 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
         </div>
         
         <div className="case-slide-content">
-          {/* Рулетка */}
+          {/* Упрощенная рулетка */}
           <div className="roulette-strip">
             <div className={`strip-inner ${spinMode ?? ''}`}>
               {/* Оптимизированный набор элементов для мобильных устройств */}
-              {Array.from({ length: 30 }).map((_, i) => {
+              {Array.from({ length: 20 }).map((_, i) => {
                 let itemClass = 'common';
                 if (i % 5 === 0) itemClass = 'rare';
                 if (i % 10 === 0) itemClass = 'epic';
@@ -108,23 +107,12 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                   <div key={`first-${i}`} className={`strip-item ${itemClass}`}></div>
                 );
               })}
-              {/* Дублируем элементы для бесконечного эффекта (уменьшено количество) */}
-              {Array.from({ length: 30 }).map((_, i) => {
-                let itemClass = 'common';
-                if (i % 5 === 0) itemClass = 'rare';
-                if (i % 10 === 0) itemClass = 'epic';
-                if (i % 15 === 0) itemClass = 'legendary';
-                return (
-                  <div key={`second-${i}`} className={`strip-item ${itemClass}`}></div>
-                );
-              })}
             </div>
             
-            {/* Голографическая линия-указатель */}
+            {/* Упрощенная голографическая линия */}
             <div className={`holographic-line ${spinMode ? 'spinning' : ''}`}>
               <div className="line-core"></div>
               <div className="line-glow"></div>
-              <div className="line-scan"></div>
             </div>
           </div>
 
@@ -152,13 +140,11 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                 if (isSpinning) return;
                 setSpinMode('stars');
                 setIsSpinning(true);
-                setShowWinBurst(false);
                 setTimeout(() => {
                   onOpenWithStars();
                   setIsSpinning(false);
-                  setShowWinBurst(true);
-                  setTimeout(() => setShowWinBurst(false), 1000);
-                }, 10000);
+                  setSpinMode(null);
+                }, 3000); // Уменьшаем время анимации
               }}
             >
               <div className="btn-content">
@@ -176,13 +162,11 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                 if (isSpinning) return;
                 setSpinMode('ton');
                 setIsSpinning(true);
-                setShowWinBurst(false);
                 setTimeout(() => {
                   onOpenWithTon();
                   setIsSpinning(false);
-                  setShowWinBurst(true);
-                  setTimeout(() => setShowWinBurst(false), 1000);
-                }, 10000);
+                  setSpinMode(null);
+                }, 3000); // Уменьшаем время анимации
               }}
             >
               <div className="btn-content">
