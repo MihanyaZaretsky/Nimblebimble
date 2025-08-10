@@ -155,7 +155,7 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                 setTimeout(() => {
                   onOpenWithStars();
                   setIsSpinning(false);
-                }, 3000);
+                }, 10000);
               }}
             >
               <div className="btn-content">
@@ -176,7 +176,7 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                 setTimeout(() => {
                   onOpenWithTon();
                   setIsSpinning(false);
-                }, 3000);
+                }, 10000);
               }}
             >
               <div className="btn-content">
