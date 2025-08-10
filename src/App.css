@@ -2119,11 +2119,7 @@ body.modal-open .tab-container {
 
 /* Убираем все сложные анимации и эффекты */
 .roulette-strip::before,
-.roulette-strip::after,
-.strip-item::before,
-.strip-item::after,
-.holographic-line::before,
-.holographic-line::after {
+.roulette-strip::after {
   display: none;
 }
 
