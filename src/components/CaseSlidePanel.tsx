@@ -153,7 +153,7 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                   if (rouletteStrip) {
                     rouletteStrip.classList.remove('spinning');
                   }
-                }, 3000); // Уменьшаем время анимации
+                }, 10000); // Возвращаем время анимации к 10 секундам
               }}
             >
               <div className="btn-content">
@@ -184,7 +184,7 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                   if (rouletteStrip) {
                     rouletteStrip.classList.remove('spinning');
                   }
-                }, 3000); // Уменьшаем время анимации
+                }, 10000); // Возвращаем время анимации к 10 секундам
               }}
             >
               <div className="btn-content">

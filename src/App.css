@@ -2071,7 +2071,7 @@ body.modal-open .tab-container {
 
 /* Анимация вращения */
 .roulette-strip.spinning .strip-inner {
-  animation: spin 3s ease-out;
+  animation: spin 10s linear infinite;
 }
 
 @keyframes spin {
