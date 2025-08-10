@@ -80,6 +80,36 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
     };
   }, [isOpen]);
 
+  // Добавляем эффект сканирования для слотов
+  useEffect(() => {
+    if (isSpinning) {
+      const rouletteStrip = document.querySelector('.roulette-strip');
+      const stripItems = document.querySelectorAll('.strip-item');
+      
+      if (rouletteStrip && stripItems.length > 0) {
+        // Добавляем класс scanning к слотам по очереди
+        let currentIndex = 0;
+        const scanInterval = setInterval(() => {
+          // Убираем предыдущий класс scanning
+          stripItems.forEach(item => item.classList.remove('scanning'));
+          
+          // Добавляем класс scanning к текущему слоту
+          if (stripItems[currentIndex]) {
+            stripItems[currentIndex].classList.add('scanning');
+          }
+          
+          currentIndex = (currentIndex + 1) % stripItems.length;
+        }, 500); // Каждые 500ms меняем слот
+        
+        // Очищаем интервал через 10 секунд
+        setTimeout(() => {
+          clearInterval(scanInterval);
+          stripItems.forEach(item => item.classList.remove('scanning'));
+        }, 10000);
+      }
+    }
+  }, [isSpinning]);
+
   if (!isOpen) return null;
 
   return (
@@ -109,15 +139,38 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
               })}
             </div>
             
-            {/* Упрощенная голографическая линия */}
+            {/* Улучшенная голографическая линия с HUD-рамкой */}
             <div className={`holographic-line ${spinMode ? 'spinning' : ''}`}>
-              <div className="line-core"></div>
+              {/* HUD-рамка */}
+              <div className="hud-frame">
+                <div className="hud-corner top-left"></div>
+                <div className="hud-corner top-right"></div>
+                <div className="hud-corner bottom-left"></div>
+                <div className="hud-corner bottom-right"></div>
+                <div className="hud-line horizontal top"></div>
+                <div className="hud-line horizontal bottom"></div>
+                <div className="hud-line vertical left"></div>
+                <div className="hud-line vertical right"></div>
+              </div>
+              
+              {/* Центральная линия с анимацией сканера */}
+              <div className="line-core">
+                <div className="scanner-beam"></div>
+                <div className="digital-noise"></div>
+              </div>
+              
+              {/* Внешнее свечение */}
               <div className="line-glow"></div>
+              
+              {/* Дополнительные эффекты */}
+              <div className="glitch-effect"></div>
+              <div className="hologram-particles"></div>
             </div>
           </div>
 
           <div className="case-slide-info">
-            <h3>{caseType}</h3>
+            <h3 className="cyberpunk-title">{caseType}</h3>
+            <p className="cyberpunk-subtitle">Достань свою награду из глубин мегаполиса</p>
             <p className="case-slide-description">Выберите способ оплаты для открытия кейса</p>
 
             {/* Баланс пользователя внутри панели */}
