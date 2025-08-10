@@ -97,9 +97,30 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
           {/* Рулетка всегда сверху, фиксированная ширина */}
           <div className={`roulette-strip ${isSpinning ? 'spinning' : ''}`}>
             <div className={`strip-inner ${spinMode ?? ''}`}>
-              {Array.from({ length: 24 }).map((_, i) => (
-                <div key={i} className={`strip-item ${i % 5 === 0 ? 'rare' : 'common'}`}></div>
-              ))}
+              {/* Первый набор элементов для создания бесконечного эффекта */}
+              {Array.from({ length: 60 }).map((_, i) => {
+                // Создаем более разнообразные элементы
+                let itemClass = 'common';
+                if (i % 7 === 0) itemClass = 'rare';
+                if (i % 15 === 0) itemClass = 'epic';
+                if (i % 25 === 0) itemClass = 'legendary';
+                
+                return (
+                  <div key={`first-${i}`} className={`strip-item ${itemClass}`}></div>
+                );
+              })}
+              {/* Дублируем элементы для бесконечного эффекта */}
+              {Array.from({ length: 60 }).map((_, i) => {
+                // Создаем более разнообразные элементы
+                let itemClass = 'common';
+                if (i % 7 === 0) itemClass = 'rare';
+                if (i % 15 === 0) itemClass = 'epic';
+                if (i % 25 === 0) itemClass = 'legendary';
+                
+                return (
+                  <div key={`second-${i}`} className={`strip-item ${itemClass}`}></div>
+                );
+              })}
             </div>
             <div className="roulette-marker">
               <span className="marker-top"></span>
@@ -135,7 +156,7 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                   onOpenWithStars();
                   setIsSpinning(false);
                   onClose();
-                }, 1800);
+                }, 3000);
               }}
             >
               <div className="btn-content">
@@ -157,7 +178,7 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                   onOpenWithTon();
                   setIsSpinning(false);
                   onClose();
-                }, 1800);
+                }, 3000);
               }}
             >
               <div className="btn-content">
