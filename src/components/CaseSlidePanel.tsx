@@ -28,6 +28,7 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
   const isTouchDevice = typeof window !== 'undefined' && (('ontouchstart' in window) || (navigator as any)?.maxTouchPoints > 0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [spinMode, setSpinMode] = useState<'stars' | 'ton' | null>(null);
+  const [showWinBurst, setShowWinBurst] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -126,6 +127,12 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
               <span className="marker-top"></span>
               <span className="marker-bottom"></span>
             </div>
+            {/* Голографическая линия-указатель */}
+            <div className={`holographic-line ${isSpinning ? 'spinning' : ''} ${showWinBurst ? 'win-burst' : ''}`}>
+              <div className="line-core"></div>
+              <div className="line-glow"></div>
+              <div className="line-scan"></div>
+            </div>
           </div>
 
           <div className="case-slide-info">
@@ -152,9 +159,12 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                 if (isSpinning) return;
                 setSpinMode('stars');
                 setIsSpinning(true);
+                setShowWinBurst(false);
                 setTimeout(() => {
                   onOpenWithStars();
                   setIsSpinning(false);
+                  setShowWinBurst(true);
+                  setTimeout(() => setShowWinBurst(false), 1000);
                 }, 10000);
               }}
             >
@@ -173,9 +183,12 @@ const CaseSlidePanel: React.FC<CaseSlidePanelProps> = ({
                 if (isSpinning) return;
                 setSpinMode('ton');
                 setIsSpinning(true);
+                setShowWinBurst(false);
                 setTimeout(() => {
                   onOpenWithTon();
                   setIsSpinning(false);
+                  setShowWinBurst(true);
+                  setTimeout(() => setShowWinBurst(false), 1000);
                 }, 10000);
               }}
             >

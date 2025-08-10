@@ -2161,6 +2161,189 @@ body.modal-open .tab-container {
   filter: drop-shadow(0 -2px 4px rgba(0,0,0,0.4));
 }
 
+/* Голографическая линия-указатель */
+.holographic-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.line-core {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, 
+    rgba(0, 255, 255, 0.9) 0%,
+    rgba(255, 0, 255, 0.9) 50%,
+    rgba(0, 255, 255, 0.9) 100%);
+  box-shadow: 
+    0 0 8px rgba(0, 255, 255, 0.8),
+    0 0 16px rgba(255, 0, 255, 0.6),
+    0 0 24px rgba(0, 255, 255, 0.4);
+  animation: holographicPulse 2s ease-in-out infinite;
+}
+
+.line-glow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: radial-gradient(circle at center,
+    rgba(0, 255, 255, 0.3) 0%,
+    rgba(255, 0, 255, 0.2) 50%,
+    transparent 100%);
+  filter: blur(1px);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.line-scan {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(0, 255, 255, 0.8) 45%,
+    rgba(255, 0, 255, 0.8) 55%,
+    transparent 100%);
+  opacity: 0;
+  animation: scanLine 0s ease-in-out;
+}
+
+/* Анимации для голографической линии */
+@keyframes holographicPulse {
+  0%, 100% {
+    opacity: 0.8;
+    box-shadow: 
+      0 0 8px rgba(0, 255, 255, 0.8),
+      0 0 16px rgba(255, 0, 255, 0.6),
+      0 0 24px rgba(0, 255, 255, 0.4);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 
+      0 0 12px rgba(0, 255, 255, 1),
+      0 0 20px rgba(255, 0, 255, 0.8),
+      0 0 30px rgba(0, 255, 255, 0.6);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scaleY(1.1);
+  }
+}
+
+@keyframes scanLine {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+/* Анимации для голографической линии во время вращения */
+.holographic-line.spinning .line-core {
+  animation: holographicPulse 0.5s ease-in-out infinite;
+}
+
+.holographic-line.spinning .line-glow {
+  animation: glowPulse 0.3s ease-in-out infinite;
+}
+
+/* Эффект светового всплеска при выигрыше */
+.holographic-line.win-burst .line-core {
+  animation: winBurst 0.5s ease-out;
+}
+
+.holographic-line.win-burst .line-glow {
+  animation: winGlowBurst 0.5s ease-out;
+}
+
+.holographic-line.win-burst .line-scan {
+  animation: laserScan 1s ease-out;
+}
+
+@keyframes winBurst {
+  0% {
+    opacity: 0.8;
+    box-shadow: 
+      0 0 8px rgba(0, 255, 255, 0.8),
+      0 0 16px rgba(255, 0, 255, 0.6),
+      0 0 24px rgba(0, 255, 255, 0.4);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 
+      0 0 20px rgba(0, 255, 255, 1),
+      0 0 40px rgba(255, 0, 255, 1),
+      0 0 60px rgba(0, 255, 255, 0.8),
+      0 0 80px rgba(255, 0, 255, 0.6);
+  }
+  100% {
+    opacity: 0.8;
+    box-shadow: 
+      0 0 8px rgba(0, 255, 255, 0.8),
+      0 0 16px rgba(255, 0, 255, 0.6),
+      0 0 24px rgba(0, 255, 255, 0.4);
+  }
+}
+
+@keyframes winGlowBurst {
+  0% {
+    opacity: 0.3;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.5);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes laserScan {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+  75% {
+    opacity: 1;
+    transform: translateY(50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
 .case-slide-actions {
   display: flex;
   flex-direction: column;
